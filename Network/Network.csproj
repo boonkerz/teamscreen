@@ -30,21 +30,37 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Peer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messages\System\KeepAliveMessage.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Messages\BaseMessage.cs" />
+    <Compile Include="Messages\System\RequestHostIntroducerRegistrationMessage.cs" />
+    <Compile Include="Messages\System\CustomMessageType.cs" />
+    <Compile Include="Utils\MessageHandler.cs" />
+    <Compile Include="ClientManager.cs" />
+    <Compile Include="HostManager.cs" />
+    <Compile Include="Messages\System\ResponseHostIntroducerRegistrationMessage.cs" />
+    <Compile Include="Messages\Connection\RequestHostConnectionMessage.cs" />
+    <Compile Include="Messages\Connection\CustomMessageType.cs" />
+    <Compile Include="Messages\System\RequestClientIntroducerRegistrationMessage.cs" />
+    <Compile Include="Messages\System\ResponseClientIntroducerRegistrationMessage.cs" />
+    <Compile Include="Messages\Connection\ResponseHostConnectionMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
       <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
       <Name>LiteNetLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{60E8D004-BAC1-46B7-94A5-1B1C85564B01}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Messages\" />
     <Folder Include="Messages\System\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Messages\Connection\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

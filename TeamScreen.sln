@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleHost", "ConsoleHost\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{20697887-EBA2-4A9F-A18F-D5824E738195}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{60E8D004-BAC1-46B7-94A5-1B1C85564B01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -43,5 +45,9 @@ Global
 		{20697887-EBA2-4A9F-A18F-D5824E738195}.Debug|x86.Build.0 = Debug|x86
 		{20697887-EBA2-4A9F-A18F-D5824E738195}.Release|x86.ActiveCfg = Release|x86
 		{20697887-EBA2-4A9F-A18F-D5824E738195}.Release|x86.Build.0 = Release|x86
+		{60E8D004-BAC1-46B7-94A5-1B1C85564B01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{60E8D004-BAC1-46B7-94A5-1B1C85564B01}.Debug|x86.Build.0 = Debug|Any CPU
+		{60E8D004-BAC1-46B7-94A5-1B1C85564B01}.Release|x86.ActiveCfg = Release|Any CPU
+		{60E8D004-BAC1-46B7-94A5-1B1C85564B01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

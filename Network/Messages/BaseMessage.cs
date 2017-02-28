@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using Network.Messages.System;
+
 namespace Network
 {
 	public abstract class BaseMessage : Message
 	{
-		/*
+		
 		protected BaseMessage(ushort type)
-			: base(NovaProtocol, type)
+			: base(type)
 		{
 		}
 
-		//public static readonly Protocol NovaProtocol = new Protocol(2, 1);
 
 		static BaseMessage()
 		{
-			NovaProtocol.Discover();
-		}*/
+		}
+
 	}
 }

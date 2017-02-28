@@ -2,59 +2,97 @@
 using System.Threading;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using Network;
+using Network.Messages.Connection;
+using Network.Messages.System;
 
 namespace Common
 {
 	public class Client
 	{
-		private const int ServerPort = 50010;
+		private class ClientListener : INetEventListener
+		{
+			private readonly MessageHandler _messageHandler;
+			public ClientManager _clientManager;
 
-		private NetManager _c2;
+			public ClientListener()
+			{
+				_messageHandler = new MessageHandler();
+			}
+
+			public void OnPeerConnected(NetPeer peer)
+			{
+				Console.WriteLine("[Client] connected to: {0}:{1}", peer.EndPoint.Host, peer.EndPoint.Port);
+
+			}
+
+			public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+			{
+				Console.WriteLine("[Client] disconnected: " + disconnectInfo.Reason);
+			}
+
+			public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
+			{
+				Console.WriteLine("[Client] error! " + socketErrorCode);
+			}
+
+			public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
+			{
+				Console.WriteLine("[Client] received data. Processing...");
+				Message msg = _messageHandler.decodeMessage(reader);
+
+				switch (msg.MessageType)
+				{
+					case (ushort)Network.Messages.System.CustomMessageType.ResponseClientIntroducerRegistration:
+						handleResponseClientIntroducerRegistration(peer, (Network.Messages.System.ResponseClientIntroducerRegistrationMessage)msg);
+						break;
+					case (ushort)Network.Messages.Connection.CustomMessageType.ResponseHostConnection:
+						handleResponseHostConnection(peer, (Network.Messages.Connection.ResponseHostConnectionMessage)msg);
+						break;
+				}
+
+			}
+			public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.ResponseHostConnectionMessage message)
+			{
+				Console.WriteLine("[Client] error! " + message.PasswordOk);
+				Console.WriteLine("[Client] error! " + message.HostFound);
+			}
+
+			public void handleResponseClientIntroducerRegistration(NetPeer peer, Network.Messages.System.ResponseClientIntroducerRegistrationMessage message)
+			{
+				this._clientManager.SystemId = message.Machine.SystemId;
+			}
+
+			public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
+			{
+
+			}
+
+			public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
+			{
+
+			}
+		}
+
+		private ClientListener _clientListener;
 
 		public void Run()
 		{
-			EventBasedNatPunchListener natPunchListener1 = new EventBasedNatPunchListener();
 
-			EventBasedNetListener netListener = new EventBasedNetListener();
+			_clientListener = new ClientListener();
 
-			netListener.PeerConnectedEvent += peer =>
+			ClientManager client = new ClientManager(_clientListener, "myapp1");
+			_clientListener._clientManager = client;
+			client.MergeEnabled = true;
+			client.PingInterval = 10000;
+			if (!client.Start())
 			{
-				Console.WriteLine("PeerConnected: " + peer.EndPoint.ToString());
-			};
+				Console.WriteLine("Client1 start failed");
+				return;
+			}
+			client.Connect("127.0.0.1", 9050);
+			client.sendMessage(new RequestClientIntroducerRegistrationMessage());
 
-			netListener.PeerDisconnectedEvent += (peer, disconnectInfo) =>
-			{
-				Console.WriteLine("PeerDisconnected: " + disconnectInfo.Reason);
-				if (disconnectInfo.AdditionalData.AvailableBytes > 0)
-				{
-					Console.WriteLine("Disconnect data: " + disconnectInfo.AdditionalData.GetInt());
-				}
-			};
-
-			netListener.NetworkReceiveEvent += (peer, reader) =>
-			{
-
-				Console.WriteLine("Recive Data" + reader.GetString(100));
-			};
-
-			natPunchListener1.NatIntroductionSuccess += (point, token) =>
-			{
-				Console.WriteLine("Success C2. Connecting to C1: {0}", point);
-				_c2.Connect(point);
-			};
-
-
-			_c2 = new NetManager(netListener, "gamekey");
-			_c2.NatPunchEnabled = true;
-			_c2.UnsyncedEvents = true;
-			_c2.NatPunchModule.Init(natPunchListener1);
-			_c2.Start();
-
-
-			_c2.NatPunchModule.SendNatIntroduceRequest(new NetEndPoint("::1", ServerPort), "token1");
-
-			// keep going until ESCAPE is pressed
-			Console.WriteLine("Press ESC to quit");
 
 			while (true)
 			{
@@ -67,23 +105,14 @@ namespace Common
 					}
 					if (key == ConsoleKey.A)
 					{
-						Console.WriteLine("C1 stopped");
-						_c2.DisconnectPeer(_c2.GetFirstPeer(), new byte[] { 1, 2, 3, 4 });
-						_c2.Stop();
+						client.sendMessage(new RequestHostConnectionMessage { ClientSystemId = client.SystemId, HostSystemId = "123456789", Password = "123456789" });
 					}
 				}
-
-				DateTime nowTime = DateTime.Now;
-
-
-				_c2.NatPunchModule.PollEvents();
-
-				_c2.PollEvents();
-
-				Thread.Sleep(5);
+				client.PollEvents();
+				Thread.Sleep(15);
 			}
 
-			_c2.Stop();
+			client.Stop();
 		}
 	}
 }
