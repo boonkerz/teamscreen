@@ -6,6 +6,8 @@ namespace Network.Messages.Connection
 		ProxyMessage = 100,
 		ProxyResponseMessage,
 		RequestHostConnection,
-		ResponseHostConnection
+		ResponseHostConnection,
+		RequestScreenshot,
+		ResponseScreenshot
 	}
 }

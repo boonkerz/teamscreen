@@ -45,6 +45,8 @@
     <Compile Include="Messages\System\RequestClientIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\System\ResponseClientIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\Connection\ResponseHostConnectionMessage.cs" />
+    <Compile Include="Messages\Connection\RequestScreenshotMessage.cs" />
+    <Compile Include="Messages\Connection\ResponseScreenshotMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">

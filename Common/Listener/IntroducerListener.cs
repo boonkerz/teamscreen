@@ -62,8 +62,32 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseHostConnection:
 					handleResponseHostConnection(peer, (Network.Messages.Connection.ResponseHostConnectionMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.RequestScreenshot:
+					handleRequestScreenshot(peer, (Network.Messages.Connection.RequestScreenshotMessage)msg);
+					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseScreenshot:
+					handleResponseScreenshot(peer, (Network.Messages.Connection.ResponseScreenshotMessage)msg);
+					break;
 			}
 
+		}
+
+		public void handleResponseScreenshot(NetPeer peer, Network.Messages.Connection.ResponseScreenshotMessage message)
+		{
+			NetPeer wpeer;
+			if (_clientPeers.TryGetValue(message.ClientSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.ReliableOrdered);
+			}
+		}
+
+		public void handleRequestScreenshot(NetPeer peer, Network.Messages.Connection.RequestScreenshotMessage message)
+		{
+			NetPeer wpeer;
+			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
 		}
 
 		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.ResponseHostConnectionMessage message)

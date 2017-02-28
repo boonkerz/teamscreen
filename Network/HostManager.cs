@@ -17,7 +17,7 @@ namespace Network
 
 		public void sendMessage(Message message)
 		{
-			base.SendToAll(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			base.SendToAll(_messageHandler.encodeMessage(message), SendOptions.ReliableOrdered);
 		}
 	}
 }
