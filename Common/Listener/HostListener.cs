@@ -18,6 +18,8 @@ namespace Common.Listener
 		public event EventHandler<ConnectedEventArgs> OnConnected;
 		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
 		public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
+		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
+		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 
 		public HostListener()
 		{
@@ -50,8 +52,25 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestScreenshot:
 					handleRequestScreenshot(peer, (Network.Messages.Connection.RequestScreenshotMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.MouseMove:
+					handleMouseMove(peer, (Network.Messages.Connection.MouseMoveMessage)msg);
+					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.MouseClick:
+					handleMouseClick(peer, (Network.Messages.Connection.MouseClickMessage)msg);
+					break;
 			}
 
+		}
+		public void handleMouseMove(NetPeer peer, Network.Messages.Connection.MouseMoveMessage message)
+		{
+			if (OnMouseMove != null)
+				OnMouseMove(this, new MouseMoveEventArgs { X = message.X, Y = message.Y });
+		}
+
+		public void handleMouseClick(NetPeer peer, Network.Messages.Connection.MouseClickMessage message)
+		{
+			if (OnMouseClick != null)
+				OnMouseClick(this, new MouseClickEventArgs { X = message.X, Y = message.Y });
 		}
 
 		public void handleRequestScreenshot(NetPeer peer, Network.Messages.Connection.RequestScreenshotMessage message)
@@ -71,6 +90,8 @@ namespace Common.Listener
 				rs.HostSystemId = message.HostSystemId;
 				rs.ClientSystemId = message.ClientSystemId;
 				rs.Image = pixBuf.SaveToBuffer("png");
+				rs.ScreenWidth = window.Screen.Width;
+				rs.ScreenHeight = window.Screen.Height;
 
 				this._hostManager.sendMessage(rs);
 			}

@@ -48,6 +48,8 @@
     <Compile Include="EventArgs\Network\ClientConnectedEventArgs.cs" />
     <Compile Include="EventArgs\Network\ScreenshotReceivedEventArgs.cs" />
     <Compile Include="EventArgs\Network\ScreenshotRequestEventArgs.cs" />
+    <Compile Include="EventArgs\Network\MouseMoveEventArgs.cs" />
+    <Compile Include="EventArgs\Network\MouseClickEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">

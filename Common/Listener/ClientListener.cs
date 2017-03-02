@@ -60,7 +60,11 @@ namespace Common.Listener
 		public void handleResponseScreenshotConnection(NetPeer peer, Network.Messages.Connection.ResponseScreenshotMessage message)
 		{
 			if (OnScreenshotReceived != null)
-				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs() { Image = message.Image });
+				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs() { 
+					Image = message.Image, 
+					ScreenWidth = message.ScreenWidth, 
+					ScreenHeight = message.ScreenHeight 
+				});
 		}
 
 		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.ResponseHostConnectionMessage message)

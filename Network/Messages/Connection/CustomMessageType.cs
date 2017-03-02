@@ -8,6 +8,10 @@ namespace Network.Messages.Connection
 		RequestHostConnection,
 		ResponseHostConnection,
 		RequestScreenshot,
-		ResponseScreenshot
+		ResponseScreenshot,
+		MouseMove,
+		MouseClick,
+		MouseScroll,
+		KeyPress
 	}
 }

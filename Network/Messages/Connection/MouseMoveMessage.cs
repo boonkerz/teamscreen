@@ -1,20 +1,17 @@
 ﻿using System;
 using LiteNetLib.Utils;
-using Model;
 
 namespace Network.Messages.Connection
 {
-	public class ResponseScreenshotMessage : BaseMessage
+	public class MouseMoveMessage: BaseMessage
 	{
-
 		public String HostSystemId { get; set; }
 		public String ClientSystemId { get; set; }
-		public byte[] Image { get; set; } 
-		public int ScreenWidth { get; set; }
-		public int ScreenHeight { get; set; }
+		public Double X { get; set; }
+		public Double Y { get; set; }
 
-		public ResponseScreenshotMessage()
-			: base((ushort)CustomMessageType.ResponseScreenshot)
+		public MouseMoveMessage()
+			: base((ushort)CustomMessageType.MouseMove)
 		{
 		}
 
@@ -23,9 +20,8 @@ namespace Network.Messages.Connection
 			base.WritePayload(message);
 			message.Put(HostSystemId);
 			message.Put(ClientSystemId);
-			message.Put(ScreenWidth);
-			message.Put(ScreenHeight);
-			message.Put(Image);
+			message.Put(X);
+			message.Put(Y);
 
 		}
 
@@ -34,11 +30,8 @@ namespace Network.Messages.Connection
 			base.ReadPayload(message);
 			HostSystemId = message.GetString(100);
 			ClientSystemId = message.GetString(100);
-			ScreenWidth = message.GetInt();
-			ScreenHeight = message.GetInt();
-			Image = message.GetBytes();
-
+			X = message.GetDouble();
+			Y = message.GetDouble();
 		}
-
 	}
 }

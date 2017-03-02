@@ -47,6 +47,10 @@
     <Compile Include="Messages\Connection\ResponseHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\RequestScreenshotMessage.cs" />
     <Compile Include="Messages\Connection\ResponseScreenshotMessage.cs" />
+    <Compile Include="Messages\Connection\MouseMoveMessage.cs" />
+    <Compile Include="Messages\Connection\KeyPressMessage.cs" />
+    <Compile Include="Messages\Connection\MouseScrollMessage.cs" />
+    <Compile Include="Messages\Connection\MouseClickMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">

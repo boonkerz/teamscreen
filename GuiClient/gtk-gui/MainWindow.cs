@@ -13,7 +13,7 @@ public partial class MainWindow
 
 	private global::Gtk.Button btnLogin;
 
-	private global::Gtk.Image drawingArea;
+	private global::Gtk.EventBox eventBox;
 
 	private global::Gtk.Label lblStatus;
 
@@ -67,11 +67,12 @@ public partial class MainWindow
 		w4.Expand = false;
 		w4.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.drawingArea = new global::Gtk.Image();
-		this.drawingArea.Name = "drawingArea";
-		this.vbox2.Add(this.drawingArea);
-		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.drawingArea]));
+		this.eventBox = new global::Gtk.EventBox();
+		this.eventBox.Name = "eventBox";
+		this.vbox2.Add(this.eventBox);
+		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.eventBox]));
 		w5.Position = 1;
+		w5.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.lblStatus = new global::Gtk.Label();
 		this.lblStatus.Name = "lblStatus";

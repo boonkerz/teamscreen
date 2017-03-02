@@ -1,14 +1,29 @@
 ﻿using System;
-using Common;
 using Common.EventArgs.Network;
-using Common.Instance;
 using Common.Thread;
+using Gdk;
 using Gtk;
 
 public partial class MainWindow : Gtk.Window
 {
 
 	public HostThread Manager { get { return Common.Instance.Host.Instance.Thread; } }
+
+	struct NativeStruct
+	{
+		EventType type;
+		IntPtr window;
+		sbyte send_event;
+		public uint time;
+		public double x;
+		public double y;
+		public IntPtr axes;
+		public uint state;
+		public uint button;
+		public IntPtr device;
+		public double x_root;
+		public double y_root;
+	}
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
@@ -24,6 +39,15 @@ public partial class MainWindow : Gtk.Window
 			{
 				this.lblStatus.Text = "Passwort Falsch Verbindung abgebrochen von: " + e.SystemId;
 			}
+		};
+		Manager.HostListener.OnMouseMove += (object sender, MouseMoveEventArgs e) =>
+		{
+			//System.Windows.Forms.Cursor.Position = new System.Drawing.Point((int)e.X, (int)e.Y);
+		};
+		Manager.HostListener.OnMouseClick += (object sender, MouseClickEventArgs e) =>
+		{
+			Gdk.Display.Default.WarpPointer(Gdk.Display.Default.DefaultScreen, (int)e.X, (int)e.Y);
+	
 		};
 		Manager.start();
 	}

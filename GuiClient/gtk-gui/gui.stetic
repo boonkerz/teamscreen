@@ -2,6 +2,7 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
+    <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
@@ -69,12 +70,16 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Image" id="drawingArea">
+          <widget class="Gtk.EventBox" id="eventBox">
             <property name="MemberName" />
+            <child>
+              <placeholder />
+            </child>
           </widget>
           <packing>
             <property name="Position">1</property>
             <property name="AutoSize">False</property>
+            <property name="Fill">False</property>
           </packing>
         </child>
         <child>
