@@ -70,7 +70,7 @@ namespace Common.Listener
 		public void handleMouseClick(NetPeer peer, Network.Messages.Connection.MouseClickMessage message)
 		{
 			if (OnMouseClick != null)
-				OnMouseClick(this, new MouseClickEventArgs { X = message.X, Y = message.Y });
+				OnMouseClick(this, new MouseClickEventArgs { X = message.X, Y = message.Y, Button = (MouseClickEventArgs.ButtonType)message.Button });
 		}
 
 		public void handleRequestScreenshot(NetPeer peer, Network.Messages.Connection.RequestScreenshotMessage message)

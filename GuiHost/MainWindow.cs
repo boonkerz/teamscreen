@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Common.EventArgs.Network;
 using Common.Thread;
 using Gdk;
@@ -8,6 +9,9 @@ public partial class MainWindow : Gtk.Window
 {
 
 	public HostThread Manager { get { return Common.Instance.Host.Instance.Thread; } }
+
+	public Driver.Interfaces.Mouse Mouse { get { return Driver.Manager.Instance.Mouse; } }
+	public Driver.Interfaces.Keyboard Keyboard { get { return Driver.Manager.Instance.Keyboard; } }
 
 	struct NativeStruct
 	{
@@ -42,12 +46,23 @@ public partial class MainWindow : Gtk.Window
 		};
 		Manager.HostListener.OnMouseMove += (object sender, MouseMoveEventArgs e) =>
 		{
-			//System.Windows.Forms.Cursor.Position = new System.Drawing.Point((int)e.X, (int)e.Y);
+			Mouse.move((int)e.X, (int)e.Y);
 		};
 		Manager.HostListener.OnMouseClick += (object sender, MouseClickEventArgs e) =>
 		{
-			Gdk.Display.Default.WarpPointer(Gdk.Display.Default.DefaultScreen, (int)e.X, (int)e.Y);
-	
+			if (e.Button == MouseClickEventArgs.ButtonType.Left)
+			{
+				Mouse.clickLeft((int)e.X, (int)e.Y);
+			}
+			if (e.Button == MouseClickEventArgs.ButtonType.Middle)
+			{
+				Mouse.clickMiddle((int)e.X, (int)e.Y);
+			}
+			if (e.Button == MouseClickEventArgs.ButtonType.Right)
+			{
+				Mouse.clickRight((int)e.X, (int)e.Y);
+			}
+
 		};
 		Manager.start();
 	}

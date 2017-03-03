@@ -63,7 +63,8 @@ namespace Common.Listener
 				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs() { 
 					Image = message.Image, 
 					ScreenWidth = message.ScreenWidth, 
-					ScreenHeight = message.ScreenHeight 
+					ScreenHeight = message.ScreenHeight,
+					SystemId = message.HostSystemId
 				});
 		}
 

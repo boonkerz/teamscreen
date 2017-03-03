@@ -13,8 +13,6 @@ public partial class MainWindow
 
 	private global::Gtk.Button btnLogin;
 
-	private global::Gtk.EventBox eventBox;
-
 	private global::Gtk.Label lblStatus;
 
 	protected virtual void Build()
@@ -67,29 +65,22 @@ public partial class MainWindow
 		w4.Expand = false;
 		w4.Fill = false;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.eventBox = new global::Gtk.EventBox();
-		this.eventBox.Name = "eventBox";
-		this.vbox2.Add(this.eventBox);
-		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.eventBox]));
-		w5.Position = 1;
-		w5.Fill = false;
-		// Container child vbox2.Gtk.Box+BoxChild
 		this.lblStatus = new global::Gtk.Label();
 		this.lblStatus.Name = "lblStatus";
 		this.lblStatus.LabelProp = global::Mono.Unix.Catalog.GetString("Status");
 		this.vbox2.Add(this.lblStatus);
-		global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.lblStatus]));
-		w6.PackType = ((global::Gtk.PackType)(1));
-		w6.Position = 2;
-		w6.Expand = false;
-		w6.Fill = false;
+		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.lblStatus]));
+		w5.PackType = ((global::Gtk.PackType)(1));
+		w5.Position = 2;
+		w5.Expand = false;
+		w5.Fill = false;
 		this.Add(this.vbox2);
 		if ((this.Child != null))
 		{
 			this.Child.ShowAll();
 		}
 		this.DefaultWidth = 404;
-		this.DefaultHeight = 300;
+		this.DefaultHeight = 165;
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
 		this.btnLogin.Clicked += new global::System.EventHandler(this.OnBtnLoginClicked);

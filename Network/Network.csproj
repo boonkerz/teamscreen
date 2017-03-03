@@ -51,6 +51,7 @@
     <Compile Include="Messages\Connection\KeyPressMessage.cs" />
     <Compile Include="Messages\Connection\MouseScrollMessage.cs" />
     <Compile Include="Messages\Connection\MouseClickMessage.cs" />
+    <Compile Include="Messages\System\RequestHostDisconnectMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">

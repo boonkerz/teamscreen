@@ -84,9 +84,16 @@
       <Name>LiteNetLib</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Driver\Driver.csproj">
+      <Project>{FC3DD536-3DFD-4800-9BD1-30F95B915536}</Project>
+      <Name>Driver</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scripte\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\QtSharp.0.0.2\build\net45\QtSharp.targets" Condition="Exists('..\packages\QtSharp.0.0.2\build\net45\QtSharp.targets')" />

@@ -9,6 +9,7 @@ namespace Network.Messages.System
 		RequestHostIntroducerRegistration,
 		ResponseHostIntroducerRegistration,
 		RequestClientIntroducerRegistration,
-		ResponseClientIntroducerRegistration
+		ResponseClientIntroducerRegistration,
+		RequestHostDisconnect
 	}
 }

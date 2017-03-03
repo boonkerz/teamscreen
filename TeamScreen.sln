@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiHost", "GuiHost\GuiHost.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiClient", "GuiClient\GuiClient.csproj", "{8747667E-35F9-4E6D-A89A-15A116511B82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver", "Driver\Driver.csproj", "{FC3DD536-3DFD-4800-9BD1-30F95B915536}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -57,5 +59,9 @@ Global
 		{8747667E-35F9-4E6D-A89A-15A116511B82}.Debug|x86.Build.0 = Debug|x86
 		{8747667E-35F9-4E6D-A89A-15A116511B82}.Release|x86.ActiveCfg = Release|x86
 		{8747667E-35F9-4E6D-A89A-15A116511B82}.Release|x86.Build.0 = Release|x86
+		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Debug|x86.Build.0 = Debug|Any CPU
+		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
