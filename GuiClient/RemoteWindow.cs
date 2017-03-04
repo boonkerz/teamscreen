@@ -57,7 +57,7 @@ namespace GuiClient
 		{
 			Manager.Manager.sendMessage(new RequestHostDisconnectMessage {  });
 			Manager.ClientListener.OnScreenshotReceived -= OnScreenshotReceive;
-			this.Dispose();
+			this.Destroy();
 		}
 
 		protected void OnDrawingAreaMotionNotifyEvent(object o, MotionNotifyEventArgs args)
