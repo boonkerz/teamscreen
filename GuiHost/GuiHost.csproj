@@ -43,15 +43,6 @@
     <Reference Include="Mono.Posix" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Drawing" />
-    <Reference Include="QtCoreSharp">
-      <HintPath>..\packages\QtSharp.0.0.2\lib\net45\QtCoreSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="QtGuiSharp">
-      <HintPath>..\packages\QtSharp.0.0.2\lib\net45\QtGuiSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="QtWidgetsSharp">
-      <HintPath>..\packages\QtSharp.0.0.2\lib\net45\QtWidgetsSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -90,11 +81,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="scripte\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\QtSharp.0.0.2\build\net45\QtSharp.targets" Condition="Exists('..\packages\QtSharp.0.0.2\build\net45\QtSharp.targets')" />
 </Project>

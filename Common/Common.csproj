@@ -33,6 +33,9 @@
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,6 +53,10 @@
     <Compile Include="EventArgs\Network\ScreenshotRequestEventArgs.cs" />
     <Compile Include="EventArgs\Network\MouseMoveEventArgs.cs" />
     <Compile Include="EventArgs\Network\MouseClickEventArgs.cs" />
+    <Compile Include="Config\Manager.cs" />
+    <Compile Include="Config\Host.cs" />
+    <Compile Include="Config\Client.cs" />
+    <Compile Include="EventArgs\Network\OnlineCheckReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
@@ -71,6 +78,10 @@
     <Folder Include="EventArgs\Network\" />
     <Folder Include="Thread\" />
     <Folder Include="Instance\" />
+    <Folder Include="Config\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

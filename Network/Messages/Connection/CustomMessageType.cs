@@ -12,6 +12,8 @@ namespace Network.Messages.Connection
 		MouseMove,
 		MouseClick,
 		MouseScroll,
-		KeyPress
+		KeyPress,
+		RequestCheckOnline,
+		ResponseCheckOnline
 	}
 }

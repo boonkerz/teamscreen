@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using Model;
@@ -35,7 +36,15 @@ namespace Common.Listener
 
 		public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
 		{
-			Console.WriteLine("[Server] Peer disconnected: " + peer.EndPoint + ", reason: " + disconnectInfo.Reason);
+			foreach (var item in _hostPeers.Where(kvp => kvp.Value == peer).ToList())
+			{
+				_hostPeers.Remove(item.Key);
+			}
+
+			foreach (var item in _clientPeers.Where(kvp => kvp.Value == peer).ToList())
+			{
+				_hostPeers.Remove(item.Key);
+			}
 		}
 
 		public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
@@ -74,8 +83,25 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseMove:
 					handleMouseMoveEvent(peer, (Network.Messages.Connection.MouseMoveMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.RequestCheckOnline:
+					handleCheckOnline(peer, (Network.Messages.Connection.RequestCheckOnlineMessage)msg);
+					break;
 			}
 
+		}
+
+		public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.RequestCheckOnlineMessage message)
+		{
+			List<Model.Peer> peers = message.Peers;
+			foreach (Model.Peer pr in peers)
+			{
+				if (_hostPeers.ContainsKey(pr.SystemId))
+				{
+					pr.isOnline = true;
+				}
+			}
+
+			peer.Send(_messageHandler.encodeMessage(new ResponseCheckOnlineMessage { Peers = peers }), SendOptions.Unreliable);
 		}
 
 		public void handleMouseClickEvent(NetPeer peer, Network.Messages.Connection.MouseClickMessage message)
@@ -140,9 +166,14 @@ namespace Common.Listener
 		public void handleRequestHostIntroducerRegistration(NetPeer peer, RequestHostIntroducerRegistrationMessage message)
 		{
 			Machine machine = new Machine();
-			machine.SystemId = new Random().Next(0, 999999999).ToString();
-
-			machine.SystemId = "123456789";
+			if (message.SystemId != null && message.SystemId != "")
+			{
+				machine.SystemId = message.SystemId;
+			}
+			else
+			{
+				machine.SystemId = new Random().Next(0, 999999999).ToString();
+			}
 
 			this._hostPeers.Add(machine.SystemId, peer);
 
@@ -156,8 +187,6 @@ namespace Common.Listener
 		{
 			Machine machine = new Machine();
 			machine.SystemId = new Random().Next(0, 999999999).ToString();
-
-			machine.SystemId = "987654321";
 
 			this._clientPeers.Add(machine.SystemId, peer);
 

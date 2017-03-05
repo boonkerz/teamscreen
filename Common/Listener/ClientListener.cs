@@ -17,6 +17,8 @@ namespace Common.Listener
 
 		public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
 
+		public event EventHandler<OnlineCheckReceivedEventArgs> OnOnlineCheckReceived;
+
 		public ClientListener()
 		{
 			_messageHandler = new MessageHandler();
@@ -54,9 +56,19 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseScreenshot:
 					handleResponseScreenshotConnection(peer, (Network.Messages.Connection.ResponseScreenshotMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCheckOnline:
+					handleCheckOnline(peer, (Network.Messages.Connection.ResponseCheckOnlineMessage)msg);
+					break;
 			}
 
 		}
+
+		public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.ResponseCheckOnlineMessage message)
+		{
+			if (OnOnlineCheckReceived != null)
+				OnOnlineCheckReceived(this, new OnlineCheckReceivedEventArgs() { Peers = message.Peers });
+		}
+
 		public void handleResponseScreenshotConnection(NetPeer peer, Network.Messages.Connection.ResponseScreenshotMessage message)
 		{
 			if (OnScreenshotReceived != null)

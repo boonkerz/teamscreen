@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Machine.cs" />
+    <Compile Include="Peer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="System\" />

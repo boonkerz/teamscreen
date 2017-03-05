@@ -11,6 +11,8 @@ public partial class MainWindow
 
 	private global::Gtk.Entry Password;
 
+	private global::Gtk.Button btnSave;
+
 	private global::Gtk.Label lblStatus;
 
 	protected virtual void Build()
@@ -32,7 +34,7 @@ public partial class MainWindow
 		this.SystemId = new global::Gtk.Entry();
 		this.SystemId.CanFocus = true;
 		this.SystemId.Name = "SystemId";
-		this.SystemId.IsEditable = true;
+		this.SystemId.IsEditable = false;
 		this.SystemId.InvisibleChar = '•';
 		this.hbox1.Add(this.SystemId);
 		global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.SystemId]));
@@ -46,20 +48,31 @@ public partial class MainWindow
 		this.hbox1.Add(this.Password);
 		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.Password]));
 		w2.Position = 1;
-		this.vbox1.Add(this.hbox1);
-		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hbox1]));
-		w3.Position = 0;
+		// Container child hbox1.Gtk.Box+BoxChild
+		this.btnSave = new global::Gtk.Button();
+		this.btnSave.CanFocus = true;
+		this.btnSave.Name = "btnSave";
+		this.btnSave.UseUnderline = true;
+		this.btnSave.Label = global::Mono.Unix.Catalog.GetString("Speichern");
+		this.hbox1.Add(this.btnSave);
+		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.btnSave]));
+		w3.Position = 2;
 		w3.Expand = false;
 		w3.Fill = false;
+		this.vbox1.Add(this.hbox1);
+		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hbox1]));
+		w4.Position = 0;
+		w4.Expand = false;
+		w4.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.lblStatus = new global::Gtk.Label();
 		this.lblStatus.Name = "lblStatus";
 		this.lblStatus.LabelProp = global::Mono.Unix.Catalog.GetString("Status");
 		this.vbox1.Add(this.lblStatus);
-		global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.lblStatus]));
-		w4.Position = 2;
-		w4.Expand = false;
-		w4.Fill = false;
+		global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.lblStatus]));
+		w5.Position = 2;
+		w5.Expand = false;
+		w5.Fill = false;
 		this.Add(this.vbox1);
 		if ((this.Child != null))
 		{
@@ -69,5 +82,6 @@ public partial class MainWindow
 		this.DefaultHeight = 163;
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
+		this.btnSave.Clicked += new global::System.EventHandler(this.OnBtnSaveClicked);
 	}
 }

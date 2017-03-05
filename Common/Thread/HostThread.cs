@@ -16,18 +16,36 @@ namespace Common.Thread
 
 		public HostListener HostListener { get; set; }
 		public HostManager Manager { get; set; }
+		public Config.Manager ConfigManager { get; set; }
 
 		public HostThread()
 		{
+			ConfigManager = new Config.Manager();
 			HostListener = new HostListener();
 
 			Manager = new HostManager(HostListener, "myapp1");
-			Manager.Password = "aA";
+			if (ConfigManager.HostConfig.Password == null || ConfigManager.HostConfig.Password == "")
+			{
+				Manager.Password = new Random().Next(0, 9999).ToString();
+			}
+			else
+			{
+				Manager.Password = ConfigManager.HostConfig.Password;
+			}
 			Manager.UnsyncedEvents = true;
 			HostListener._hostManager = Manager;
 			Manager.MergeEnabled = true;
 			Manager.PingInterval = 10000;
 			Manager.DisconnectTimeout = 20000;
+			HostListener.OnConnected += (object sender, ConnectedEventArgs e) =>
+			{
+				if (ConfigManager.HostConfig.SystemId == null || ConfigManager.HostConfig.SystemId == "")
+				{
+					ConfigManager.HostConfig.SystemId = e.SystemId;
+					ConfigManager.HostConfig.Password = Manager.Password;
+					ConfigManager.saveHostConfig();
+				}
+			};
 		}
 
 		public void start()
@@ -38,13 +56,20 @@ namespace Common.Thread
 			}
 			Manager.Connect("127.0.0.1", 9050);
 
-			Manager.sendMessage(new RequestHostIntroducerRegistrationMessage());
+			if (ConfigManager.HostConfig.SystemId == "")
+			{
+				Manager.sendMessage(new RequestHostIntroducerRegistrationMessage());
+			}
+			else
+			{
+				Manager.sendMessage(new RequestHostIntroducerRegistrationMessage { SystemId = ConfigManager.HostConfig.SystemId });
+			}
 
 		}
 
 		public void stop()
 		{
 			Manager.Stop();
-		}		
+		}
 	}
 }

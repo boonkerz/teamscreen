@@ -10,6 +10,8 @@ public partial class MainWindow : Gtk.Window
 
 	public HostThread Manager { get { return Common.Instance.Host.Instance.Thread; } }
 
+	protected Common.Config.Manager ConfigManager;
+
 	public Driver.Interfaces.Mouse Mouse { get { return Driver.Manager.Instance.Mouse; } }
 	public Driver.Interfaces.Keyboard Keyboard { get { return Driver.Manager.Instance.Keyboard; } }
 
@@ -32,6 +34,8 @@ public partial class MainWindow : Gtk.Window
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
 		Build();
+		ConfigManager = new Common.Config.Manager();
+
 		Manager.HostListener.OnConnected += new EventHandler<ConnectedEventArgs>(Network_OnConnected);
 		Manager.HostListener.OnClientConnected += (object sender, ClientConnectedEventArgs e) =>
 		{
@@ -77,5 +81,13 @@ public partial class MainWindow : Gtk.Window
 	{
 		this.SystemId.Text = e.SystemId;
 		this.Password.Text = Manager.Manager.Password;
+
+	}
+
+	protected void OnBtnSaveClicked(object sender, EventArgs e)
+	{
+		ConfigManager.HostConfig.Password = this.Password.Text;
+		ConfigManager.saveHostConfig();
+		Manager.Manager.Password = this.Password.Text;
 	}
 }
