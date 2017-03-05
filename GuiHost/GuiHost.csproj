@@ -70,14 +70,13 @@
       <Project>{EE97E80C-1685-4A8E-9463-DA714007761C}</Project>
       <Name>Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
-      <Name>LiteNetLib</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Driver\Driver.csproj">
       <Project>{FC3DD536-3DFD-4800-9BD1-30F95B915536}</Project>
       <Name>Driver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
+      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
+      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

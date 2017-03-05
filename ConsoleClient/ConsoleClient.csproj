@@ -40,13 +40,13 @@
       <Project>{62A99E23-9F56-4A77-9643-568E04D65BD5}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
-      <Name>LiteNetLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Network\Network.csproj">
       <Project>{EE97E80C-1685-4A8E-9463-DA714007761C}</Project>
       <Name>Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
+      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
+      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

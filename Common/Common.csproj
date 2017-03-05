@@ -59,10 +59,6 @@
     <Compile Include="EventArgs\Network\OnlineCheckReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\projekte\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
-      <Name>LiteNetLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{60E8D004-BAC1-46B7-94A5-1B1C85564B01}</Project>
       <Name>Model</Name>
@@ -70,6 +66,10 @@
     <ProjectReference Include="..\Network\Network.csproj">
       <Project>{EE97E80C-1685-4A8E-9463-DA714007761C}</Project>
       <Name>Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
+      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
+      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
