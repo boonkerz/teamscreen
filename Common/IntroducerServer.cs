@@ -20,6 +20,7 @@ namespace Common
 			_introduceListener = new IntroducerListener();
 			NetManager server = new NetManager(_introduceListener, 2, "myapp1");
 			server.UnsyncedEvents = true;
+			server.MergeEnabled = true;
 			server.PingInterval = 10000;
 			server.DisconnectTimeout = 20000;
 			if (!server.Start(9050))

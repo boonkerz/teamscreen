@@ -44,8 +44,42 @@ namespace Driver.Windows
 										Screen.PrimaryScreen.Bounds.Size,
 										CopyPixelOperation.SourceCopy);
 
-			image = Convert.FromBase64String(bmpScreenshot.ToString());
+			var stream = new System.IO.MemoryStream();
+			ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+
+			// Create an Encoder object based on the GUID
+			// for the Quality parameter category.
+			System.Drawing.Imaging.Encoder myEncoder =
+				System.Drawing.Imaging.Encoder.Quality;
+
+			// Create an EncoderParameters object.
+			// An EncoderParameters object has an array of EncoderParameter
+			// objects. In this case, there is only one
+			// EncoderParameter object in the array.
+			EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+			EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+			myEncoderParameters.Param[0] = myEncoderParameter;
+
+			bmpScreenshot.Save(stream, jpgEncoder, myEncoderParameters);
+
+			image = stream.ToArray();
 			return image;
+		}
+
+		private ImageCodecInfo GetEncoder(ImageFormat format)
+		{
+
+			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+			foreach (ImageCodecInfo codec in codecs)
+			{
+				if (codec.FormatID == format.Guid)
+				{
+					return codec;
+				}
+			}
+			return null;
 		}
 	}
 }

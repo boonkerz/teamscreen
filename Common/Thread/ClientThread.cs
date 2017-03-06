@@ -33,7 +33,7 @@ namespace Common
 			{
 				return;
 			}
-			Manager.Connect("5.9.78.130", 9050);
+			Manager.Connect("127.0.0.1", 9050);
 
 			Manager.sendMessage(new RequestClientIntroducerRegistrationMessage());
 

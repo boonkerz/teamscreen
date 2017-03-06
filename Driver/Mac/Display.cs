@@ -32,7 +32,7 @@ namespace Driver.Mac
 				pixBuf.GetFromDrawable(window, Gdk.Colormap.System, 0, 0, 0, 0,
 									   window.Screen.Width, window.Screen.Height);
 
-				image = pixBuf.SaveToBuffer("png");
+				image = pixBuf.SaveToBuffer("jpeg");
 			}
 
 			return image;
