@@ -76,25 +76,7 @@ namespace Common.Listener
 		public void handleRequestScreenshot(NetPeer peer, Network.Messages.Connection.RequestScreenshotMessage message)
 		{
 			if (OnScreenshotRequest != null)
-				OnScreenshotRequest(this, new ScreenshotRequestEventArgs());
-
-			Gdk.Window window = Gdk.Global.DefaultRootWindow;
-			if (window != null)
-			{
-				Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, false, 8,
-									   window.Screen.Width, window.Screen.Height);
-				pixBuf.GetFromDrawable(window, Gdk.Colormap.System, 0, 0, 0, 0,
-									   window.Screen.Width, window.Screen.Height);
-				
-				ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-				rs.HostSystemId = message.HostSystemId;
-				rs.ClientSystemId = message.ClientSystemId;
-				rs.Image = pixBuf.SaveToBuffer("png");
-				rs.ScreenWidth = window.Screen.Width;
-				rs.ScreenHeight = window.Screen.Height;
-
-				this._hostManager.sendMessage(rs);
-			}
+				OnScreenshotRequest(this, new ScreenshotRequestEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
 
 		}
 

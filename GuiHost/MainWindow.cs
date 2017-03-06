@@ -4,6 +4,7 @@ using Common.EventArgs.Network;
 using Common.Thread;
 using Gdk;
 using Gtk;
+using Network.Messages.Connection;
 
 public partial class MainWindow : Gtk.Window
 {
@@ -14,6 +15,7 @@ public partial class MainWindow : Gtk.Window
 
 	public Driver.Interfaces.Mouse Mouse { get { return Driver.Manager.Instance.Mouse; } }
 	public Driver.Interfaces.Keyboard Keyboard { get { return Driver.Manager.Instance.Keyboard; } }
+	public Driver.Interfaces.Display Display { get { return Driver.Manager.Instance.Display; } }
 
 	struct NativeStruct
 	{
@@ -67,6 +69,18 @@ public partial class MainWindow : Gtk.Window
 				Mouse.clickRight((int)e.X, (int)e.Y);
 			}
 
+		};
+		Manager.HostListener.OnScreenshotRequest += (object sender, ScreenshotRequestEventArgs e) =>
+		{
+			
+			ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
+			rs.HostSystemId = e.HostSystemId;
+			rs.ClientSystemId = e.ClientSystemId;
+			rs.Image = Display.makeScreenshot();
+			rs.ScreenWidth = Display.getScreenWidth();
+			rs.ScreenHeight = Display.getScreenHeight();
+
+			this.Manager.Manager.sendMessage(rs);
 		};
 		Manager.start();
 	}

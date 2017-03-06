@@ -48,7 +48,7 @@ namespace GuiClient
 				this.eventBox.SetSizeRequest(this.eventBox.Allocation.Width, (int)Math.Round(e.ScreenHeight * ratio));
 				pixbuf = pixbuf.ScaleSimple(this.eventBox.Allocation.Width, (int)Math.Round(e.ScreenHeight * ratio), Gdk.InterpType.Bilinear);
 				this.Image.Pixbuf = pixbuf;
-				Thread.Sleep(50);
+				Thread.Sleep(2000);
 				Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
 			}
 		}
