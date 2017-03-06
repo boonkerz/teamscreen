@@ -34,8 +34,7 @@ namespace Common.Thread
 			}
 			Manager.UnsyncedEvents = true;
 			HostListener._hostManager = Manager;
-			Manager.MergeEnabled = true;
-			Manager.ReliableResendTime = 500;
+			Manager.ReliableResendTime = 1000;
 			Manager.PingInterval = 10000;
 			Manager.DisconnectTimeout = 20000;
 			HostListener.OnConnected += (object sender, ConnectedEventArgs e) =>

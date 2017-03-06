@@ -22,7 +22,7 @@ namespace Common
 			Manager = new ClientManager(ClientListener, "myapp1");
 			Manager.UnsyncedEvents = true;
 			ClientListener._clientManager = Manager;
-			Manager.MergeEnabled = true;
+			Manager.ReliableResendTime = 1000;
 			Manager.PingInterval = 10000;
 			Manager.DisconnectTimeout = 20000;
 		}
