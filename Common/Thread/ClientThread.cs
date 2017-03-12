@@ -22,8 +22,8 @@ namespace Common
 			Manager = new ClientManager(ClientListener, "myapp1");
 			Manager.UnsyncedEvents = true;
 			ClientListener._clientManager = Manager;
-			Manager.PingInterval = 10000;
-			Manager.DisconnectTimeout = 20000;
+			//Manager.PingInterval = 10000;
+			//Manager.DisconnectTimeout = 20000;
 		}
 
 		public void start()

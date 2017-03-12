@@ -34,8 +34,8 @@ namespace Common.Thread
 			}
 			Manager.UnsyncedEvents = true;
 			HostListener._hostManager = Manager;
-			Manager.PingInterval = 10000;
-			Manager.DisconnectTimeout = 20000;
+			//Manager.PingInterval = 10000;
+			//Manager.DisconnectTimeout = 20000;
 			HostListener.OnConnected += (object sender, ConnectedEventArgs e) =>
 			{
 				if (ConfigManager.HostConfig.SystemId == null || ConfigManager.HostConfig.SystemId == "")

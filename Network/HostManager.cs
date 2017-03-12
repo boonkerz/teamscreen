@@ -10,7 +10,7 @@ namespace Network
 		public String SystemId { get; set; }
 		public String Password { get; set; }
 
-		public HostManager(INetEventListener listener, string connectKey) : base(listener, 1, connectKey)
+		public HostManager(INetEventListener listener, string connectKey) : base(listener, 12000, connectKey)
         {
 			_messageHandler = new MessageHandler();
 		}
