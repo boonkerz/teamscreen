@@ -10,12 +10,12 @@ namespace Driver.Windows
 		
 		public void Press(uint Key)
 		{
-			SendKeys.Send(KeyCodeToUnicode(Key));
+			Robot.KeyEvent(true, (int)Key);
 		}
 
 		public void Release(uint Key)
 		{
-			
+			Robot.KeyEvent(false, (int)Key);
 		}
 
 		public string KeyCodeToUnicode(uint key)

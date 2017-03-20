@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\Display.cs" />
     <Compile Include="Mac\Display.cs" />
     <Compile Include="Windows\Display.cs" />
+    <Compile Include="Windows\Robot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mac\" />
