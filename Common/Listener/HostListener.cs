@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Common.EventArgs.Network;
+using Common.EventArgs.Network.Host;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using Network;
@@ -17,6 +18,7 @@ namespace Common.Listener
 
 		public event EventHandler<ConnectedEventArgs> OnConnected;
 		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
+		public event EventHandler<ClientInitalizeConnectedEventArgs> OnClientInitalizeConnected;
 		public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
@@ -47,7 +49,10 @@ namespace Common.Listener
 					handleResponseHostIntroducerRegistration(peer, (Network.Messages.System.ResponseHostIntroducerRegistrationMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestHostConnection:
-					handleRequestHostConnection(peer, (Network.Messages.Connection.RequestHostConnectionMessage)msg);
+					handleRequestHostConnection(peer, (Network.Messages.Connection.Request.HostConnectionMessage)msg);
+					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.RequestInitalizeHostConnection:
+					handleRequestInitalizeHostConnection(peer, (Network.Messages.Connection.Request.InitalizeHostConnectionMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestScreenshot:
 					handleRequestScreenshot(peer, (Network.Messages.Connection.RequestScreenshotMessage)msg);
@@ -61,6 +66,13 @@ namespace Common.Listener
 			}
 
 		}
+
+		public void handleRequestInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Request.InitalizeHostConnectionMessage message)
+		{
+			if (OnClientInitalizeConnected != null)
+				OnClientInitalizeConnected(this, new ClientInitalizeConnectedEventArgs { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, ClientPublicKey = message.ClientPublicKey });
+		}
+
 		public void handleMouseMove(NetPeer peer, Network.Messages.Connection.MouseMoveMessage message)
 		{
 			if (OnMouseMove != null)
@@ -87,13 +99,14 @@ namespace Common.Listener
 				OnConnected(this, new ConnectedEventArgs() { SystemId = message.Machine.SystemId });
 		}
 
-		public void handleRequestHostConnection(NetPeer peer, Network.Messages.Connection.RequestHostConnectionMessage message)
+		public void handleRequestHostConnection(NetPeer peer, Network.Messages.Connection.Request.HostConnectionMessage message)
 		{
-			ResponseHostConnectionMessage res = new ResponseHostConnectionMessage();
+			var res = new Network.Messages.Connection.Response.HostConnectionMessage();
 			res.HostSystemId = message.HostSystemId;
 			res.ClientSystemId = message.ClientSystemId;
 			res.PasswordOk = false;
-			if (this._hostManager.Password == message.Password)
+			var decrypt = _hostManager.Decode(message.ClientSystemId, message.Password);
+			if (this._hostManager.Password == decrypt)
 			{
 				res.PasswordOk = true;
 			}

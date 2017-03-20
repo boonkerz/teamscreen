@@ -16,9 +16,7 @@ public partial class MainWindow : Gtk.Window
 
 	protected Timer OnlineTimer;
 
-	Gtk.TreeIter iterOnline;
-	Gtk.TreeIter iterOffline;
-	Gtk.TreeStore peerStore;
+	Gtk.ListStore peerStore;
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
@@ -28,6 +26,19 @@ public partial class MainWindow : Gtk.Window
 
 		ConfigManager = new Common.Config.Manager();
 
+		Manager.ClientListener.OnHostInitalizeConnected += (object sender, Common.EventArgs.Network.Client.HostInitalizeConnectedEventArgs e) =>
+		{
+			Manager.Manager.SaveHostPublicKey(e.HostSystemId, e.HostPublicKey);
+
+			Network.Messages.Connection.Request.HostConnectionMessage ms = new Network.Messages.Connection.Request.HostConnectionMessage();
+			ms.HostSystemId = e.HostSystemId;
+			ms.ClientSystemId = e.ClientSystemId;
+			ms.Password = Manager.Manager.Encode(e.HostSystemId, this.txtHostPassword.Text);
+
+			Manager.Manager.sendMessage(ms);
+
+
+		};
 		Manager.ClientListener.OnClientConnected += (object sender, ClientConnectedEventArgs e) =>
 		{
 			if (e.PasswordOk)
@@ -55,7 +66,13 @@ public partial class MainWindow : Gtk.Window
 
 	protected void OnBtnLoginClicked(object sender, EventArgs e)
 	{
-		Manager.Manager.sendMessage(new RequestHostConnectionMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.txtHostSystemId.Text, Password = this.txtHostPassword.Text });
+		var pair = Manager.Manager.CreateNewKeyPairKey(this.txtHostSystemId.Text);
+		Manager.Manager.sendMessage(
+			new Network.Messages.Connection.Request.InitalizeHostConnectionMessage 
+					{ 	ClientSystemId = Manager.Manager.SystemId, 
+						HostSystemId = this.txtHostSystemId.Text,
+						ClientPublicKey = pair.PublicKey }
+		);
 	}
 
 	private void CheckOnlineStatus(System.Object o)
@@ -65,30 +82,35 @@ public partial class MainWindow : Gtk.Window
 
 	private void onlineCheckReceived(object sender, OnlineCheckReceivedEventArgs e)
 	{
-		
-		buildStore();
+		Model.Peer peerObj;
+		bool found;
 		foreach (var peer in e.Peers)
 		{
-			if (peer.isOnline)
+			found = false;
+			peerStore.Foreach((TreeModel model, TreePath path, TreeIter iter) =>
 			{
-				this.peerStore.AppendValues(iterOnline, peer.SystemId, peer.Name);
-			}
-			else
+				peerObj = (Model.Peer)model.GetValue(iter, 0);
+				if (peerObj.SystemId == peer.SystemId)
+				{
+					peerObj.isOnline = peer.isOnline;
+					found = true;
+				}
+				return found;
+			});
+			if (!found)
 			{
-				this.peerStore.AppendValues(iterOffline, peer.SystemId, peer.Name);
+				peerStore.AppendValues(peer);
 			}
 		}
-
-		treePeers.Model = peerStore;
+		peerNodes.QueueDraw();
 	}
 
 	protected void buildTreeView()
 	{
 		Gtk.TreeViewColumn idColumn = new Gtk.TreeViewColumn();
-		idColumn.Title = "Id";
+		idColumn.Title = "SystemId";
 
 		Gtk.CellRendererText idColumnCell = new Gtk.CellRendererText();
-
 		idColumn.PackStart(idColumnCell, true);
 
 		Gtk.TreeViewColumn nameColumn = new Gtk.TreeViewColumn();
@@ -97,29 +119,71 @@ public partial class MainWindow : Gtk.Window
 		Gtk.CellRendererText nameColumnCell = new Gtk.CellRendererText();
 		nameColumn.PackStart(nameColumnCell, true);
 
-		treePeers.AppendColumn(idColumn);
-		treePeers.AppendColumn(nameColumn);
+		idColumn.SetCellDataFunc(idColumnCell, new Gtk.TreeCellDataFunc(RenderIdColumn));
+		nameColumn.SetCellDataFunc(nameColumnCell, new Gtk.TreeCellDataFunc(RenderNameColumn));
 
-		idColumn.AddAttribute(idColumnCell, "text", 0);
-		nameColumn.AddAttribute(nameColumnCell, "text", 1);
+		peerNodes.AppendColumn(idColumn);
+		peerNodes.AppendColumn(nameColumn);
 
-		peerStore = new Gtk.TreeStore(typeof(string), typeof(string));
 
-		buildStore();
+		peerStore = new Gtk.ListStore(typeof(Model.Peer));
+		var configPeers = ConfigManager.ClientConfig.Peers;
+		foreach (Model.Peer pe in configPeers)
+		{
+			peerStore.AppendValues(pe);
+		}
 
-		treePeers.Model = peerStore;
+		peerNodes.Model = peerStore;
+
+		peerNodes.NodeSelection.Changed += (sender, e) =>
+		{
+			Gtk.TreeIter selected;
+			peerNodes.Selection.GetSelected(out selected);
+			Model.Peer peer = (Model.Peer)peerStore.GetValue(selected, 0);
+			this.txtHostSystemId.Text = peer.SystemId;
+			this.txtHostPassword.Text = peer.Password;
+		};
+
 	}
 
-	protected void buildStore()
+	private void RenderIdColumn(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
-		this.peerStore.Clear();
-		iterOnline = peerStore.AppendValues("Online");
-		iterOffline = peerStore.AppendValues("Offline");
+		Model.Peer peer = (Model.Peer)model.GetValue(iter, 0);
+		if (peer.isOnline)
+		{
+			(cell as Gtk.CellRendererText).Foreground = "darkgreen";
+		}
+		else
+		{
+			(cell as Gtk.CellRendererText).Foreground = "red";
+		}
+		(cell as Gtk.CellRendererText).Text = peer.SystemId;
+	}
+
+	private void RenderNameColumn(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		Model.Peer peer = (Model.Peer)model.GetValue(iter, 0);
+		if (peer.isOnline)
+		{
+			(cell as Gtk.CellRendererText).Foreground = "darkgreen";
+		}
+		else
+		{
+			(cell as Gtk.CellRendererText).Foreground = "red";
+		}
+		(cell as Gtk.CellRendererText).Text = peer.Name;
 	}
 
 	protected void OnBtnAddClicked(object sender, EventArgs e)
 	{
-		ConfigManager.ClientConfig.Peers.Add(new Model.Peer { SystemId = this.txtId.Text, Name = this.txtName.Text });
+		ConfigManager.ClientConfig.Peers.Add(new Model.Peer { SystemId = this.txtId.Text, Name = this.txtName.Text, Password = this.txtPassword.Text });
 		ConfigManager.saveClientConfig();
+
+		var configPeers = ConfigManager.ClientConfig.Peers;
+		peerStore.Clear();
+		foreach (Model.Peer pe in configPeers)
+		{
+			peerStore.AppendValues(pe);
+		}
 	}
 }

@@ -1,23 +1,15 @@
-﻿using System;
+using System;
+using System.Security.Cryptography;
 using LiteNetLib;
+using Network.Utils;
 
 namespace Network
 {
-	public sealed class HostManager : NetManager
+	public sealed class HostManager : BaseManager
 	{
 
-		MessageHandler _messageHandler;
-		public String SystemId { get; set; }
-		public String Password { get; set; }
-
-		public HostManager(INetEventListener listener, string connectKey) : base(listener, 12000, connectKey)
+		public HostManager(INetEventListener listener, string connectKey) : base(listener, connectKey)
         {
-			_messageHandler = new MessageHandler();
-		}
-
-		public void sendMessage(Message message)
-		{
-			base.SendToAll(_messageHandler.encodeMessage(message), SendOptions.ReliableOrdered);
 		}
 	}
 }

@@ -14,6 +14,8 @@ namespace Network.Messages.Connection
 		MouseScroll,
 		KeyPress,
 		RequestCheckOnline,
-		ResponseCheckOnline
+		ResponseCheckOnline,
+		RequestInitalizeHostConnection,
+		ResponseInitalizeHostConnection
 	}
 }

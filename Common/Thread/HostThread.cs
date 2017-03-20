@@ -23,7 +23,7 @@ namespace Common.Thread
 			ConfigManager = new Config.Manager();
 			HostListener = new HostListener();
 
-			Manager = new HostManager(HostListener, "myapp1");
+			Manager = new HostManager(HostListener, "teamscreen");
 			if (ConfigManager.HostConfig.Password == null || ConfigManager.HostConfig.Password == "")
 			{
 				Manager.Password = new Random().Next(0, 9999).ToString();
@@ -32,10 +32,8 @@ namespace Common.Thread
 			{
 				Manager.Password = ConfigManager.HostConfig.Password;
 			}
-			Manager.UnsyncedEvents = true;
 			HostListener._hostManager = Manager;
-			//Manager.PingInterval = 10000;
-			//Manager.DisconnectTimeout = 20000;
+
 			HostListener.OnConnected += (object sender, ConnectedEventArgs e) =>
 			{
 				if (ConfigManager.HostConfig.SystemId == null || ConfigManager.HostConfig.SystemId == "")

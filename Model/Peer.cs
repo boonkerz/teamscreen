@@ -7,6 +7,7 @@ namespace Model
 	{
 		public String SystemId { get; set; }
 		public String Name { get; set; }
+		public String Password { get; set; }
 		public Boolean isOnline { get; set; }
 
 		public Peer() {

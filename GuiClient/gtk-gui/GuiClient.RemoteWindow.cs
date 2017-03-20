@@ -47,6 +47,7 @@ namespace GuiClient
 			this.vbox1.Add(this.eventBox);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.eventBox]));
 			w3.Position = 1;
+			w3.Fill = false;
 			this.Add(this.vbox1);
 			if ((this.Child != null))
 			{

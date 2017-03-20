@@ -2,21 +2,19 @@
 using LiteNetLib.Utils;
 using Model;
 
-namespace Network.Messages.Connection
+namespace Network.Messages.Connection.Response
 {
-	public class ResponseHostConnectionMessage : BaseMessage
+	public class InitalizeHostConnectionMessage : BaseMessage
 	{
 
 		public String HostSystemId { get; set; }
 		public String ClientSystemId { get; set; }
-		public String Password { get; set; }
-		public bool PasswordOk { get; set; }
+		public String PublicKey { get; set; }
 		public bool HostFound { get; set; }
 
-		public ResponseHostConnectionMessage()
-			: base((ushort)CustomMessageType.ResponseHostConnection)
+		public InitalizeHostConnectionMessage()
+			: base((ushort)CustomMessageType.ResponseInitalizeHostConnection)
 		{
-			HostFound = true;
 		}
 
 		public override void WritePayload(NetDataWriter message)
@@ -24,8 +22,7 @@ namespace Network.Messages.Connection
 			base.WritePayload(message);
 			message.Put(HostSystemId);
 			message.Put(ClientSystemId);
-			message.Put(Password);
-			message.Put(PasswordOk);
+			message.Put(PublicKey);
 			message.Put(HostFound);
 		}
 
@@ -34,8 +31,7 @@ namespace Network.Messages.Connection
 			base.ReadPayload(message);
 			HostSystemId = message.GetString(100);
 			ClientSystemId = message.GetString(100);
-			Password = message.GetString(100);
-			PasswordOk = message.GetBool();
+			PublicKey = message.GetString(250);
 			HostFound = message.GetBool();
 		}
 

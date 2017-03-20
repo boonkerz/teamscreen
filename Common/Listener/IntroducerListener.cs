@@ -66,10 +66,10 @@ namespace Common.Listener
 					handleRequestClientIntroducerRegistration(peer, (RequestClientIntroducerRegistrationMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestHostConnection:
-					handleRequestHostConnection(peer, (Network.Messages.Connection.RequestHostConnectionMessage)msg);
+					handleRequestHostConnection(peer, (Network.Messages.Connection.Request.HostConnectionMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseHostConnection:
-					handleResponseHostConnection(peer, (Network.Messages.Connection.ResponseHostConnectionMessage)msg);
+					handleResponseHostConnection(peer, (Network.Messages.Connection.Response.HostConnectionMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestScreenshot:
 					handleRequestScreenshot(peer, (Network.Messages.Connection.RequestScreenshotMessage)msg);
@@ -86,8 +86,37 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestCheckOnline:
 					handleCheckOnline(peer, (Network.Messages.Connection.RequestCheckOnlineMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.RequestInitalizeHostConnection:
+					handleRequestInitalizeHostConnection(peer, (Network.Messages.Connection.Request.InitalizeHostConnectionMessage)msg);
+					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseInitalizeHostConnection:
+					handleResponseInitalizeHostConnection(peer, (Network.Messages.Connection.Response.InitalizeHostConnectionMessage)msg);
+					break;
 			}
 
+		}
+
+		public void handleResponseInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Response.InitalizeHostConnectionMessage message)
+		{
+			NetPeer wpeer;
+			if (_clientPeers.TryGetValue(message.ClientSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
+		}
+
+		public void handleRequestInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Request.InitalizeHostConnectionMessage message)
+		{
+			NetPeer wpeer;
+			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
+			else
+			{
+				Network.Messages.Connection.Response.InitalizeHostConnectionMessage messageNew = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
+				messageNew.HostFound = false;
+			}
 		}
 
 		public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.RequestCheckOnlineMessage message)
@@ -140,7 +169,7 @@ namespace Common.Listener
 			}
 		}
 
-		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.ResponseHostConnectionMessage message)
+		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.Response.HostConnectionMessage message)
 		{
 			NetPeer wpeer;
 			if (_clientPeers.TryGetValue(message.ClientSystemId, out wpeer))
@@ -149,18 +178,14 @@ namespace Common.Listener
 			}
 		}
 
-		public void handleRequestHostConnection(NetPeer peer, Network.Messages.Connection.RequestHostConnectionMessage message)
+		public void handleRequestHostConnection(NetPeer peer, Network.Messages.Connection.Request.HostConnectionMessage message)
 		{
 			NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
 			{
 				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
 			}
-			else
-			{
-				ResponseHostConnectionMessage messageNew = new ResponseHostConnectionMessage();
-				messageNew.HostFound = false;
-			}
+
 		}
 
 		public void handleRequestHostIntroducerRegistration(NetPeer peer, RequestHostIntroducerRegistrationMessage message)

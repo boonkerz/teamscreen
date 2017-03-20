@@ -28,6 +28,7 @@ namespace GuiClient
 			this.SystemId = systemId;
 			this.eventBox.MotionNotifyEvent += OnDrawingAreaMotionNotifyEvent;
 			this.eventBox.KeyPressEvent += OnKeyPressEvent;
+			this.eventBox.KeyReleaseEvent += OnKeyReleaseEvent;
 			this.eventBox.ButtonPressEvent += OnButtonPressEvent;
 
 			Image = new Gtk.Image();
@@ -48,7 +49,7 @@ namespace GuiClient
 				this.eventBox.SetSizeRequest(this.eventBox.Allocation.Width, (int)Math.Round(e.ScreenHeight * ratio));
 				pixbuf = pixbuf.ScaleSimple(this.eventBox.Allocation.Width, (int)Math.Round(e.ScreenHeight * ratio), Gdk.InterpType.Bilinear);
 				this.Image.Pixbuf = pixbuf;
-				Thread.Sleep(500);
+				Thread.Sleep(100);
 				Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
 			}
 		}
@@ -66,6 +67,11 @@ namespace GuiClient
 		}
 
 		protected void OnKeyPressEvent(object o, KeyPressEventArgs args)
+		{
+
+		}
+
+		protected void OnKeyReleaseEvent(object o, KeyReleaseEventArgs args)
 		{
 
 		}

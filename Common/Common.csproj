@@ -42,7 +42,6 @@
     <Compile Include="Listener\HostListener.cs" />
     <Compile Include="Listener\IntroducerListener.cs" />
     <Compile Include="EventArgs\Network\ConnectedEventArgs.cs" />
-    <Compile Include="IntroducerServer.cs" />
     <Compile Include="Thread\HostThread.cs" />
     <Compile Include="Instance\Host.cs" />
     <Compile Include="Thread\ClientThread.cs" />
@@ -57,6 +56,10 @@
     <Compile Include="Config\Host.cs" />
     <Compile Include="Config\Client.cs" />
     <Compile Include="EventArgs\Network\OnlineCheckReceivedEventArgs.cs" />
+    <Compile Include="Thread\IntroducerThread.cs" />
+    <Compile Include="Instance\Introducer.cs" />
+    <Compile Include="EventArgs\Network\Host\ClientInitalizeConnectedEventArgs.cs" />
+    <Compile Include="EventArgs\Network\Client\HostInitalizeConnectedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -79,6 +82,8 @@
     <Folder Include="Thread\" />
     <Folder Include="Instance\" />
     <Folder Include="Config\" />
+    <Folder Include="EventArgs\Network\Host\" />
+    <Folder Include="EventArgs\Network\Client\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

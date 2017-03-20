@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.EventArgs.Network;
+using Common.EventArgs.Network.Client;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using Network;
@@ -14,10 +15,9 @@ namespace Common.Listener
 		public event EventHandler<ConnectedEventArgs> OnConnected;
 
 		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
-
 		public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
-
 		public event EventHandler<OnlineCheckReceivedEventArgs> OnOnlineCheckReceived;
+		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;
 
 		public ClientListener()
 		{
@@ -51,7 +51,7 @@ namespace Common.Listener
 					handleResponseClientIntroducerRegistration(peer, (Network.Messages.System.ResponseClientIntroducerRegistrationMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseHostConnection:
-					handleResponseHostConnection(peer, (Network.Messages.Connection.ResponseHostConnectionMessage)msg);
+					handleResponseHostConnection(peer, (Network.Messages.Connection.Response.HostConnectionMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseScreenshot:
 					handleResponseScreenshotConnection(peer, (Network.Messages.Connection.ResponseScreenshotMessage)msg);
@@ -59,8 +59,18 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCheckOnline:
 					handleCheckOnline(peer, (Network.Messages.Connection.ResponseCheckOnlineMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseInitalizeHostConnection:
+					handleResponseInitalizeHostConnection(peer, (Network.Messages.Connection.Response.InitalizeHostConnectionMessage)msg);
+					break;
+
 			}
 
+		}
+
+		public void handleResponseInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Response.InitalizeHostConnectionMessage message)
+		{
+			if (OnHostInitalizeConnected != null)
+				OnHostInitalizeConnected(this, new HostInitalizeConnectedEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, HostPublicKey = message.PublicKey });
 		}
 
 		public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.ResponseCheckOnlineMessage message)
@@ -80,7 +90,7 @@ namespace Common.Listener
 				});
 		}
 
-		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.ResponseHostConnectionMessage message)
+		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.Response.HostConnectionMessage message)
 		{
 			if (OnClientConnected != null)
 				OnClientConnected(this, new ClientConnectedEventArgs() { SystemId = message.HostSystemId, PasswordOk = message.PasswordOk });

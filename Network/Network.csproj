@@ -40,11 +40,9 @@
     <Compile Include="ClientManager.cs" />
     <Compile Include="HostManager.cs" />
     <Compile Include="Messages\System\ResponseHostIntroducerRegistrationMessage.cs" />
-    <Compile Include="Messages\Connection\RequestHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\CustomMessageType.cs" />
     <Compile Include="Messages\System\RequestClientIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\System\ResponseClientIntroducerRegistrationMessage.cs" />
-    <Compile Include="Messages\Connection\ResponseHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\RequestScreenshotMessage.cs" />
     <Compile Include="Messages\Connection\ResponseScreenshotMessage.cs" />
     <Compile Include="Messages\Connection\MouseMoveMessage.cs" />
@@ -54,6 +52,13 @@
     <Compile Include="Messages\System\RequestHostDisconnectMessage.cs" />
     <Compile Include="Messages\Connection\RequestCheckOnlineMessage.cs" />
     <Compile Include="Messages\Connection\ResponseCheckOnlineMessage.cs" />
+    <Compile Include="IntroducerManager.cs" />
+    <Compile Include="Messages\Connection\Request\InitalizeHostConnectionMessage.cs" />
+    <Compile Include="Messages\Connection\Response\InitalizeHostConnectionMessage.cs" />
+    <Compile Include="Utils\PublicPrivateKey.cs" />
+    <Compile Include="Messages\Connection\Request\HostConnectionMessage.cs" />
+    <Compile Include="Messages\Connection\Response\HostConnectionMessage.cs" />
+    <Compile Include="BaseManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -70,6 +75,8 @@
     <Folder Include="Messages\System\" />
     <Folder Include="Utils\" />
     <Folder Include="Messages\Connection\" />
+    <Folder Include="Messages\Connection\Request\" />
+    <Folder Include="Messages\Connection\Response\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
