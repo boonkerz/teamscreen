@@ -14,9 +14,11 @@ namespace Common
 		
 		public ClientListener ClientListener { get; set; }
 		public ClientManager Manager { get; set; }
+		public Config.Manager ConfigManager { get; set; }
 
 		public ClientThread()
 		{
+			ConfigManager = new Config.Manager();
 			ClientListener = new ClientListener();
 
 			Manager = new ClientManager(ClientListener, "teamscreen");
@@ -29,7 +31,7 @@ namespace Common
 			{
 				return;
 			}
-			Manager.Connect("127.0.0.1", 9050);
+			Manager.Connect(ConfigManager.ClientConfig.ServerName, ConfigManager.ClientConfig.ServerPort);
 
 			Manager.sendMessage(new RequestClientIntroducerRegistrationMessage());
 

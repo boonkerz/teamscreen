@@ -51,7 +51,7 @@ namespace Common.Thread
 			{
 				return;
 			}
-			Manager.Connect("127.0.0.1", 9050);
+			Manager.Connect(ConfigManager.HostConfig.ServerName, ConfigManager.HostConfig.ServerPort);
 
 			if (ConfigManager.HostConfig.SystemId == "")
 			{
