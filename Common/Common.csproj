@@ -60,6 +60,8 @@
     <Compile Include="Instance\Introducer.cs" />
     <Compile Include="EventArgs\Network\Host\ClientInitalizeConnectedEventArgs.cs" />
     <Compile Include="EventArgs\Network\Client\HostInitalizeConnectedEventArgs.cs" />
+    <Compile Include="EventArgs\Network\KeyPressEventArgs.cs" />
+    <Compile Include="EventArgs\Network\KeyReleaseEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

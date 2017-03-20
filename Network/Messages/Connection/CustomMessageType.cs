@@ -13,6 +13,7 @@ namespace Network.Messages.Connection
 		MouseClick,
 		MouseScroll,
 		KeyPress,
+		KeyRelease,
 		RequestCheckOnline,
 		ResponseCheckOnline,
 		RequestInitalizeHostConnection,

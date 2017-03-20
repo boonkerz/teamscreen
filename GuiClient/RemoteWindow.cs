@@ -23,7 +23,7 @@ namespace GuiClient
 			this.Build();
 
 			this.eventBox.AddEvents((int)
-			(EventMask.AllEventsMask));
+			EventMask.AllEventsMask);
 
 			this.SystemId = systemId;
 			this.eventBox.MotionNotifyEvent += OnDrawingAreaMotionNotifyEvent;
@@ -31,11 +31,13 @@ namespace GuiClient
 			this.eventBox.KeyReleaseEvent += OnKeyReleaseEvent;
 			this.eventBox.ButtonPressEvent += OnButtonPressEvent;
 
+
 			Image = new Gtk.Image();
 			Image.Show();
 			this.eventBox.Add(Image);
-
+			this.eventBox.Realize();
 			Manager.ClientListener.OnScreenshotReceived += OnScreenshotReceive;
+			this.eventBox.GrabFocus();
 
 			Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
 		}
@@ -66,18 +68,19 @@ namespace GuiClient
 			Manager.Manager.sendMessage(new MouseMoveMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (args.Event.X / ratio), Y = (args.Event.Y / ratio) });
 		}
 
-		protected void OnKeyPressEvent(object o, KeyPressEventArgs args)
+		protected void OnKeyPressEvent(object o, Gtk.KeyPressEventArgs args)
 		{
-
+			Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.KeyPressMessage { Key = args.Event.KeyValue, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
 		}
 
-		protected void OnKeyReleaseEvent(object o, KeyReleaseEventArgs args)
+		protected void OnKeyReleaseEvent(object o, Gtk.KeyReleaseEventArgs args)
 		{
-
+			Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.KeyReleaseMessage { Key = args.Event.KeyValue, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
 		}
 
 		protected void OnButtonPressEvent(object o, ButtonPressEventArgs args)
 		{
+			this.eventBox.GrabFocus();
 			if (args.Event.Button == 1)
 			{
 				Manager.Manager.sendMessage(new MouseClickMessage { Button = MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (args.Event.X / ratio), Y = (args.Event.Y / ratio) });

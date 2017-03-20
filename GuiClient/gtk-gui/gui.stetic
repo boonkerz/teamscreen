@@ -241,6 +241,7 @@
         <child>
           <widget class="Gtk.EventBox" id="eventBox">
             <property name="MemberName" />
+            <property name="CanFocus">True</property>
             <child>
               <placeholder />
             </child>

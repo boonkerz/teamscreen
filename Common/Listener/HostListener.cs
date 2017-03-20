@@ -22,6 +22,8 @@ namespace Common.Listener
 		public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
+		public event EventHandler<KeyPressEventArgs> OnKeyPress;
+		public event EventHandler<KeyReleaseEventArgs> OnKeyRelease;
 
 		public HostListener()
 		{
@@ -63,8 +65,25 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseClick:
 					handleMouseClick(peer, (Network.Messages.Connection.MouseClickMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.KeyPress:
+					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyPressMessage)msg);
+					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.KeyRelease:
+					handleKeyRelease(peer, (Network.Messages.Connection.OneWay.KeyReleaseMessage)msg);
+					break;
 			}
 
+		}
+		public void handleKeyRelease(NetPeer peer, Network.Messages.Connection.OneWay.KeyReleaseMessage message)
+		{
+			if (OnKeyRelease != null)
+				OnKeyRelease(this, new KeyReleaseEventArgs { Key = message.Key });
+		}
+
+		public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyPressMessage message)
+		{
+			if (OnKeyPress != null)
+				OnKeyPress(this, new KeyPressEventArgs { Key = message.Key });
 		}
 
 		public void handleRequestInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Request.InitalizeHostConnectionMessage message)

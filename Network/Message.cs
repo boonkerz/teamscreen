@@ -7,6 +7,7 @@ namespace Network
 	{
 		public ushort MessageType { get; private set; }
 
+
 		protected Message(ushort messageType)
 		{
 			MessageType = messageType;

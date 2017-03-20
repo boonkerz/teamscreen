@@ -43,6 +43,7 @@ namespace GuiClient
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.eventBox = new global::Gtk.EventBox();
+			this.eventBox.CanFocus = true;
 			this.eventBox.Name = "eventBox";
 			this.vbox1.Add(this.eventBox);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.eventBox]));

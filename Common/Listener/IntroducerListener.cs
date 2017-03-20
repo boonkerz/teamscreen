@@ -92,8 +92,32 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseInitalizeHostConnection:
 					handleResponseInitalizeHostConnection(peer, (Network.Messages.Connection.Response.InitalizeHostConnectionMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.KeyPress:
+					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyPressMessage)msg);
+					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.KeyRelease:
+					handleKeyRelease(peer, (Network.Messages.Connection.OneWay.KeyReleaseMessage)msg);
+					break;
 			}
 
+		}
+
+		public void handleKeyRelease(NetPeer peer, Network.Messages.Connection.OneWay.KeyReleaseMessage message)
+		{
+			NetPeer wpeer;
+			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
+		}
+
+		public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyPressMessage message)
+		{
+			NetPeer wpeer;
+			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
 		}
 
 		public void handleResponseInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Response.InitalizeHostConnectionMessage message)

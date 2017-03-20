@@ -68,6 +68,14 @@ public partial class MainWindow : Gtk.Window
 		{
 			Mouse.move((int)e.X, (int)e.Y);
 		};
+		Manager.HostListener.OnKeyPress += (object sender, Common.EventArgs.Network.KeyPressEventArgs e) =>
+		{
+			Keyboard.Press(e.Key);
+		};
+		Manager.HostListener.OnKeyRelease += (object sender, Common.EventArgs.Network.KeyReleaseEventArgs e) =>
+		{
+			Keyboard.Release(e.Key);
+		};
 		Manager.HostListener.OnMouseClick += (object sender, MouseClickEventArgs e) =>
 		{
 			if (e.Button == MouseClickEventArgs.ButtonType.Left)
