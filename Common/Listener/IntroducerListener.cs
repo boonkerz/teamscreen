@@ -224,6 +224,10 @@ namespace Common.Listener
 				machine.SystemId = new Random().Next(0, 999999999).ToString();
 			}
 
+			if (this._hostPeers.ContainsKey(machine.SystemId))
+			{
+				this._hostPeers.Remove(machine.SystemId);
+			}
 			this._hostPeers.Add(machine.SystemId, peer);
 
 			ResponseHostIntroducerRegistrationMessage res = new ResponseHostIntroducerRegistrationMessage();
@@ -237,6 +241,10 @@ namespace Common.Listener
 			Machine machine = new Machine();
 			machine.SystemId = new Random().Next(0, 999999999).ToString();
 
+			if (this._hostPeers.ContainsKey(machine.SystemId))
+			{
+				this._clientPeers.Remove(machine.SystemId);
+			}
 			this._clientPeers.Add(machine.SystemId, peer);
 
 			ResponseClientIntroducerRegistrationMessage res = new ResponseClientIntroducerRegistrationMessage();
