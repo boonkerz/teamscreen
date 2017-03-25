@@ -46,12 +46,15 @@
     <Compile Include="Mac\Display.cs" />
     <Compile Include="Windows\Display.cs" />
     <Compile Include="Windows\Robot.cs" />
+    <Compile Include="Windows\dfmirage\Interop.cs" />
+    <Compile Include="Windows\dfmirage\Display.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mac\" />
     <Folder Include="Windows\" />
     <Folder Include="Linux\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Windows\dfmirage\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

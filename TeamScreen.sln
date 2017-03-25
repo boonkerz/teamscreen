@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver", "Driver\Driver.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetLib", "vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj", "{B0A014E4-0392-4E35-AA42-8FB5A40417E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacGuiClient", "MacGuiClient\MacGuiClient.csproj", "{BB925BF1-2EE7-49BB-91BD-82D0499F49FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -55,5 +57,9 @@ Global
 		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Debug|x86.Build.0 = Debug|Any CPU
 		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Release|x86.Build.0 = Release|Any CPU
+		{BB925BF1-2EE7-49BB-91BD-82D0499F49FC}.Debug|x86.ActiveCfg = Debug|x86
+		{BB925BF1-2EE7-49BB-91BD-82D0499F49FC}.Debug|x86.Build.0 = Debug|x86
+		{BB925BF1-2EE7-49BB-91BD-82D0499F49FC}.Release|x86.ActiveCfg = Release|x86
+		{BB925BF1-2EE7-49BB-91BD-82D0499F49FC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal
