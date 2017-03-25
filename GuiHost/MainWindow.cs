@@ -94,15 +94,7 @@ public partial class MainWindow : Gtk.Window
 		};
 		Manager.HostListener.OnScreenshotRequest += (object sender, ScreenshotRequestEventArgs e) =>
 		{
-			
-			ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-			rs.HostSystemId = e.HostSystemId;
-			rs.ClientSystemId = e.ClientSystemId;
-			rs.Image = Display.makeScreenshot();
-			rs.ScreenWidth = Display.getScreenWidth();
-			rs.ScreenHeight = Display.getScreenHeight();
-
-			this.Manager.Manager.sendMessage(rs);
+		    Display.RequestScreenshot(e, this.Manager.Manager);
 		};
 		Manager.start();
 	}

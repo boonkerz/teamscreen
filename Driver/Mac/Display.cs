@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Common.EventArgs.Network;
+using Network;
+using Network.Messages.Connection;
+using System;
 namespace Driver.Mac
 {
 	public class Display : Driver.Interfaces.Display
@@ -21,21 +24,27 @@ namespace Driver.Mac
 			return window.Screen.Width;
 		}
 
-		public byte[] makeScreenshot()
-		{
-			byte[] image = new byte[] { };
+		public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
+        {
+            ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
+            rs.HostSystemId = e.HostSystemId;
+            rs.ClientSystemId = e.ClientSystemId;
+            rs.ScreenWidth = this.getScreenWidth();
+            rs.ScreenHeight = this.getScreenHeight();
 
-			if (window != null)
-			{
-				Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, false, 8,
-									   window.Screen.Width, window.Screen.Height);
-				pixBuf.GetFromDrawable(window, Gdk.Colormap.System, 0, 0, 0, 0,
-									   window.Screen.Width, window.Screen.Height);
+            byte[] image = new byte[] { };
 
-				image = pixBuf.SaveToBuffer("jpeg");
-			}
+            if (window != null)
+            {
+                Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, false, 8,
+                                       window.Screen.Width, window.Screen.Height);
+                pixBuf.GetFromDrawable(window, Gdk.Colormap.System, 0, 0, 0, 0,
+                                       window.Screen.Width, window.Screen.Height);
 
-			return image;
-		}
-	}
+                rs.Image = pixBuf.SaveToBuffer("jpeg");
+            }
+
+            hm.sendMessage(rs);
+        }
+    }
 }

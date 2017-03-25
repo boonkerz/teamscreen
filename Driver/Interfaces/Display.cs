@@ -1,13 +1,3 @@
-﻿using System;
-namespace Driver.Interfaces
-{
-	public interface Display
-	{
-
-		byte[] makeScreenshot();
-
-		int getScreenWidth();
-
-		int getScreenHeight();
-	}
-}
+﻿using Common.EventArgs.Network;
+using Network;
+using System;namespace Driver.Interfaces{	public interface Display	{		void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm);	}}
