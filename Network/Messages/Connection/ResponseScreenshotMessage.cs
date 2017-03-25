@@ -36,7 +36,7 @@ namespace Network.Messages.Connection
 			ClientSystemId = message.GetString(100);
 			ScreenWidth = message.GetInt();
 			ScreenHeight = message.GetInt();
-			Image = message.GetBytes();
+			Image = message.GetRemainingBytes();
 
 		}
 

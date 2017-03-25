@@ -359,8 +359,6 @@ namespace Driver.Windows.DfMirage
 				deviceIndex++;
 			}
 
-			Debug.Assert(_registryKey != null);
-
 			_registryKey.SetValue("Attach.ToDesktop", 0);
 			_registryKey.Close();
 
@@ -430,7 +428,6 @@ namespace Driver.Windows.DfMirage
 				format = PixelFormat.Format32bppArgb;
 			else
 			{
-				Debug.Fail("Unknown pixel format");
 				throw new Exception("Unknown pixel format");
 			}
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Driver.Windows.DfMirage;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -8,11 +9,15 @@ namespace Driver.Windows
 	public class Display : Driver.Interfaces.Display
 	{
 
-		Rectangle bounds;
+        System.Drawing.Rectangle bounds;
+        DesktopMirror dfmirage;
 
-		public Display()
+
+        public Display()
 		{
-			bounds = Screen.GetBounds(Point.Empty);
+			bounds = Screen.GetBounds(System.Drawing.Point.Empty);
+            dfmirage = new DesktopMirror();
+            Console.WriteLine(dfmirage.DriverExists());
 		}
 
 		public int getScreenHeight()
