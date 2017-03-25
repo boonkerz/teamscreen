@@ -57,8 +57,7 @@ namespace Driver.Windows.Simple
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
             rs.HostSystemId = e.HostSystemId;
             rs.ClientSystemId = e.ClientSystemId;
-            rs.ScreenWidth = this.getScreenWidth();
-            rs.ScreenHeight = this.getScreenHeight();
+            rs.Bounds = new System.Drawing.Rectangle(0, 0, this.getScreenWidth(), this.getScreenHeight());
             rs.Image = stream.ToArray();           
 
             hm.sendMessage(rs);

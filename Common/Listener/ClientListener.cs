@@ -84,8 +84,7 @@ namespace Common.Listener
 			if (OnScreenshotReceived != null)
 				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs() { 
 					Image = message.Image, 
-					ScreenWidth = message.ScreenWidth, 
-					ScreenHeight = message.ScreenHeight,
+					Bounds = message.Bounds,
 					SystemId = message.HostSystemId
 				});
 		}

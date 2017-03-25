@@ -29,9 +29,8 @@ namespace Driver.Mac
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
             rs.HostSystemId = e.HostSystemId;
             rs.ClientSystemId = e.ClientSystemId;
-            rs.ScreenWidth = this.getScreenWidth();
-            rs.ScreenHeight = this.getScreenHeight();
-
+            rs.Bounds = new System.Drawing.Rectangle(0, 0, this.getScreenWidth(), this.getScreenHeight());
+      
             byte[] image = new byte[] { };
 
             if (window != null)

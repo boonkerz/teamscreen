@@ -1,6 +1,7 @@
 ﻿using System;
 using LiteNetLib.Utils;
 using Model;
+using System.Drawing;
 
 namespace Network.Messages.Connection
 {
@@ -10,10 +11,9 @@ namespace Network.Messages.Connection
 		public String HostSystemId { get; set; }
 		public String ClientSystemId { get; set; }
 		public byte[] Image { get; set; } 
-		public int ScreenWidth { get; set; }
-		public int ScreenHeight { get; set; }
+		public Rectangle Bounds { get; set; }
 
-		public ResponseScreenshotMessage()
+        public ResponseScreenshotMessage()
 			: base((ushort)CustomMessageType.ResponseScreenshot)
 		{
 		}
@@ -23,9 +23,11 @@ namespace Network.Messages.Connection
 			base.WritePayload(message);
 			message.Put(HostSystemId);
 			message.Put(ClientSystemId);
-			message.Put(ScreenWidth);
-			message.Put(ScreenHeight);
-			message.Put(Image);
+			message.Put(Bounds.X);
+            message.Put(Bounds.Y);
+            message.Put(Bounds.Width);
+            message.Put(Bounds.Height);
+            message.Put(Image);
 
 		}
 
@@ -34,9 +36,8 @@ namespace Network.Messages.Connection
 			base.ReadPayload(message);
 			HostSystemId = message.GetString(100);
 			ClientSystemId = message.GetString(100);
-			ScreenWidth = message.GetInt();
-			ScreenHeight = message.GetInt();
-			Image = message.GetRemainingBytes();
+            Bounds = new Rectangle(message.GetInt(), message.GetInt(), message.GetInt(), message.GetInt());
+ 			Image = message.GetRemainingBytes();
 
 		}
 
