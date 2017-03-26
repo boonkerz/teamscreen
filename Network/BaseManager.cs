@@ -56,10 +56,10 @@ namespace Network
 			pair.PrivateKey = rsa.ToXmlString(true);
 			pair.PublicKey = rsa.ToXmlString(false);
 
-			if (_myKeys.Contains(HostSystemId))
-			{
-				_myKeys.Remove(HostSystemId);
-			}
+            if(_myKeys.ContainsKey(HostSystemId))
+            {
+                _myKeys.Remove(HostSystemId);
+            }
 			this._myKeys.Add(HostSystemId, pair);
 			return pair;
 		}
