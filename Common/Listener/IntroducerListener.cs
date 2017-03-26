@@ -98,6 +98,9 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.KeyRelease:
 					handleKeyRelease(peer, (Network.Messages.Connection.OneWay.KeyReleaseMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseEmptyScreenshot:
+					handleEmptyResponseScreenshot(peer, (Network.Messages.Connection.ResponseEmptyScreenshotMessage)msg);
+					break;
 			}
 
 		}
@@ -172,6 +175,15 @@ namespace Common.Listener
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
 			{
 				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
+		}
+
+		public void handleEmptyResponseScreenshot(NetPeer peer, Network.Messages.Connection.ResponseEmptyScreenshotMessage message)
+		{
+			NetPeer wpeer;
+			if (_clientPeers.TryGetValue(message.ClientSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.ReliableOrdered);
 			}
 		}
 

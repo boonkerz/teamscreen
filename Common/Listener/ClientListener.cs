@@ -62,9 +62,22 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseInitalizeHostConnection:
 					handleResponseInitalizeHostConnection(peer, (Network.Messages.Connection.Response.InitalizeHostConnectionMessage)msg);
 					break;
+				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseEmptyScreenshot:
+					handleEmptyResponseScreenshot(peer, (Network.Messages.Connection.ResponseEmptyScreenshotMessage)msg);
+					break;
 
 			}
 
+		}
+
+		public void handleEmptyResponseScreenshot(NetPeer peer, Network.Messages.Connection.ResponseEmptyScreenshotMessage message)
+		{
+			if (OnScreenshotReceived != null)
+				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs()
+				{
+					Nothing = true,
+					SystemId = message.HostSystemId
+				});
 		}
 
 		public void handleResponseInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Response.InitalizeHostConnectionMessage message)
@@ -81,9 +94,11 @@ namespace Common.Listener
 
 		public void handleResponseScreenshotConnection(NetPeer peer, Network.Messages.Connection.ResponseScreenshotMessage message)
 		{
-			if (OnScreenshotReceived != null)
-				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs() { 
-					Image = message.Image, 
+		if (OnScreenshotReceived != null)
+			OnScreenshotReceived(this, new ScreenshotReceivedEventArgs()
+			{
+				Image = message.Image,
+					Nothing = false,
 					Bounds = message.Bounds,
 					SystemId = message.HostSystemId
 				});
