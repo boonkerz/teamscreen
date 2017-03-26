@@ -194,7 +194,7 @@ namespace Driver.Windows.DfMirage
 
 			driverInstanceName = device.DeviceName;
 
-			_registryKey = Registry.LocalMachine.OpenSubKey(driverRegistryPath, true);
+			/*_registryKey = Registry.LocalMachine.OpenSubKey(driverRegistryPath, true);
 			if (_registryKey != null)
 				_registryKey = _registryKey.CreateSubKey(driverMiniportName);
 			else
@@ -207,7 +207,7 @@ namespace Driver.Windows.DfMirage
 
 			//			_registryKey.SetValue("Cap.DfbBackingMode", 0);
 			_registryKey.SetValue("Screen.ForcedBpp", 24);
-			_registryKey.SetValue("Attach.ToDesktop", 1);
+			_registryKey.SetValue("Attach.ToDesktop", 1);*/
 
 			#region This was CommitDisplayChanges
 

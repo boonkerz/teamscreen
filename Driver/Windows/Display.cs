@@ -17,8 +17,9 @@ namespace Driver.Windows
 
         public Display()
 		{
-			
-		}
+            DfMirage = new DfMirage.Display();
+            Simple = new Simple.Display();
+        }
 
         public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
         {
@@ -28,7 +29,7 @@ namespace Driver.Windows
             }
             else
             {
-                DfMirage.RequestScreenshot(e, hm);
+                Simple.RequestScreenshot(e, hm);
             }
         }
 

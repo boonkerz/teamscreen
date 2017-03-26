@@ -18,10 +18,10 @@ namespace Driver.Windows.DfMirage
         DesktopMirror MirrorDriver;
 
         private List<System.Drawing.Rectangle> DesktopChanges { get; set; }
-        Display()
+        public Display()
         {
             MirrorDriver = new DesktopMirror();
-
+            DesktopChanges = new List<System.Drawing.Rectangle>();
             MirrorDriver.DesktopChange += new EventHandler<DesktopMirror.DesktopChangeEventArgs>(MirrorDriver_DesktopChange);
         }
 
@@ -39,10 +39,12 @@ namespace Driver.Windows.DfMirage
 
         public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
         {
+
             var stream = new System.IO.MemoryStream();
 
             if (MirrorDriver.State != DesktopMirror.MirrorState.Running)
             {
+                stream = new System.IO.MemoryStream();
                 // Most likely first time
                 // Start the mirror driver
                 MirrorDriver.Load();
@@ -80,6 +82,7 @@ namespace Driver.Windows.DfMirage
 
                 for (int i = 0; i < regions.Count; i++)
                 {
+                    
                     if (regions[i].IsEmpty) continue;
 
                     Bitmap regionShot = null;
@@ -92,6 +95,7 @@ namespace Driver.Windows.DfMirage
                     {
 
                     }
+                    stream = new System.IO.MemoryStream();
 
                     regionShot.Save(stream, ImageFormat.Png);
 
@@ -113,18 +117,27 @@ namespace Driver.Windows.DfMirage
         /// <returns></returns>
         public IList<System.Drawing.Rectangle> GetOptimizedRectangleRegions()
         {
+
             var desktopChangesCopy = new List<System.Drawing.Rectangle>(DesktopChanges);
+            var desktopChangesCopyFound = new List<System.Drawing.Rectangle>();
             DesktopChanges.Clear();
 
             desktopChangesCopy.ForEach((x) => desktopChangesCopy.ForEach((y) =>
             {
                 if (x != y && x.Contains(y))
                 {
-                    desktopChangesCopy.Remove(y);
+                    desktopChangesCopyFound.Add(y);
                 }
             }));
 
+            desktopChangesCopyFound.ForEach((y) =>
+            {
+                desktopChangesCopy.Remove(y);
+            });
+            
+
             return desktopChangesCopy;
         }
+
     }
 }
