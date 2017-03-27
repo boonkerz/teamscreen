@@ -56,7 +56,15 @@ namespace WindowsGuiClient
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-
+			var pair = Manager.Manager.CreateNewKeyPairKey(this.txtName.Text);
+			Manager.Manager.sendMessage(
+				new Network.Messages.Connection.Request.InitalizeHostConnectionMessage
+				{
+					ClientSystemId = Manager.Manager.SystemId,
+					HostSystemId = this.txtName.Text,
+					ClientPublicKey = pair.PublicKey
+				}
+			);
         }
     }
 }

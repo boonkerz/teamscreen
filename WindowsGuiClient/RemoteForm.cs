@@ -34,9 +34,15 @@ namespace WindowsGuiClient
 
         protected void OnScreenshotReceive(object sender, ScreenshotReceivedEventArgs e)
         {
+			if (e.Nothing)
+			{
+				Thread.Sleep(100);
+				Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
+				return;
+			}
+
             if (e.SystemId == this.SystemId)
             {
-
                 using (var stream = new MemoryStream(e.Image))
                 {
                     Image image = Image.FromStream(stream);
@@ -52,7 +58,7 @@ namespace WindowsGuiClient
                     drawingArea1.Draw(image, e.Bounds);
                 }
 
-                Thread.Sleep(200);
+                Thread.Sleep(100);
                 Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
             }
         }
