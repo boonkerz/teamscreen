@@ -33,12 +33,17 @@
             // 
             // drawingArea1
             // 
-            this.drawingArea1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.drawingArea1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.drawingArea1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.drawingArea1.Location = new System.Drawing.Point(0, 0);
             this.drawingArea1.Name = "drawingArea1";
             this.drawingArea1.Size = new System.Drawing.Size(654, 270);
             this.drawingArea1.TabIndex = 0;
             this.drawingArea1.Text = "drawingArea1";
+            this.drawingArea1.Click += new System.EventHandler(this.drawingArea1_Click);
+            this.drawingArea1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseClick);
+            this.drawingArea1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseMove_1);
             // 
             // RemoteForm
             // 

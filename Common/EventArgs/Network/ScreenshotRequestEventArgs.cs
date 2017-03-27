@@ -6,5 +6,6 @@ namespace Common.EventArgs.Network
 	{
 		public String HostSystemId { get; set; }
 		public String ClientSystemId { get; set; }
+        public Boolean Fullscreen { get; set; }
 	}
 }

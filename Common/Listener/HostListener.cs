@@ -60,10 +60,10 @@ namespace Common.Listener
 					handleRequestScreenshot(peer, (Network.Messages.Connection.RequestScreenshotMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseMove:
-					handleMouseMove(peer, (Network.Messages.Connection.MouseMoveMessage)msg);
+					handleMouseMove(peer, (Network.Messages.Connection.OneWay.MouseMoveMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseClick:
-					handleMouseClick(peer, (Network.Messages.Connection.MouseClickMessage)msg);
+					handleMouseClick(peer, (Network.Messages.Connection.OneWay.MouseClickMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.KeyPress:
 					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyPressMessage)msg);
@@ -92,13 +92,13 @@ namespace Common.Listener
 				OnClientInitalizeConnected(this, new ClientInitalizeConnectedEventArgs { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, ClientPublicKey = message.ClientPublicKey });
 		}
 
-		public void handleMouseMove(NetPeer peer, Network.Messages.Connection.MouseMoveMessage message)
+		public void handleMouseMove(NetPeer peer, Network.Messages.Connection.OneWay.MouseMoveMessage message)
 		{
 			if (OnMouseMove != null)
 				OnMouseMove(this, new MouseMoveEventArgs { X = message.X, Y = message.Y });
 		}
 
-		public void handleMouseClick(NetPeer peer, Network.Messages.Connection.MouseClickMessage message)
+		public void handleMouseClick(NetPeer peer, Network.Messages.Connection.OneWay.MouseClickMessage message)
 		{
 			if (OnMouseClick != null)
 				OnMouseClick(this, new MouseClickEventArgs { X = message.X, Y = message.Y, Button = (MouseClickEventArgs.ButtonType)message.Button });
@@ -107,7 +107,7 @@ namespace Common.Listener
 		public void handleRequestScreenshot(NetPeer peer, Network.Messages.Connection.RequestScreenshotMessage message)
 		{
 			if (OnScreenshotRequest != null)
-				OnScreenshotRequest(this, new ScreenshotRequestEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
+				OnScreenshotRequest(this, new ScreenshotRequestEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, Fullscreen = message.Fullscreen });
 
 		}
 

@@ -32,7 +32,7 @@ namespace Driver.Windows.Simple
             return bounds.Width;
         }
 
-        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
+        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
         {
             byte[] image = new byte[] { };
 
@@ -57,7 +57,7 @@ namespace Driver.Windows.Simple
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
             rs.HostSystemId = e.HostSystemId;
             rs.ClientSystemId = e.ClientSystemId;
-            rs.Bounds = new System.Drawing.Rectangle(0, 0, this.getScreenWidth(), this.getScreenHeight());
+            rs.Bounds = Screen.PrimaryScreen.Bounds;
             rs.Image = stream.ToArray();           
 
             hm.sendMessage(rs);

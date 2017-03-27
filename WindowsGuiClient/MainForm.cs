@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,6 +21,7 @@ namespace WindowsGuiClient
 
         public MainForm()
         {
+            
             InitializeComponent();
 
             ConfigManager = new Common.Config.Manager();
@@ -37,22 +39,34 @@ namespace WindowsGuiClient
 
 
             };
-            Manager.ClientListener.OnClientConnected += (object sender, ClientConnectedEventArgs e) =>
-            {
-                if (e.PasswordOk)
-                {
-                    this.lblStatus.Text = "Passwort Ok Verbunden mit: " + e.SystemId;
-                    RemoteForm rm = new RemoteForm(e.SystemId);
-                    rm.Show();
-                }
-                else
-                {
-                    this.lblStatus.Text = "Passwort Falsch Verbindung abgebrochen von: " + e.SystemId;
-                }
-            };
+            Manager.ClientListener.OnClientConnected += OnClientConnected;
 
             Manager.start();
         }
+
+        private async void OpenAForm(object sender, EventArgs e)
+        {
+            RemoteForm rm = new RemoteForm((string)sender);
+            rm.setManager(Manager);
+            rm.Show();
+        }
+
+        private void OnClientConnected(object sender, ClientConnectedEventArgs e)
+        {
+            if (e.PasswordOk)
+            {
+
+                this.Invoke(new EventHandler(OpenAForm), e.SystemId);
+
+                this.lblStatus.Text = "Passwort Ok Verbunden mit: " + e.SystemId;
+             
+            }
+            else
+            {
+                this.lblStatus.Text = "Passwort Falsch Verbindung abgebrochen von: " + e.SystemId;
+            }
+        }
+        
 
         private void btnLogin_Click(object sender, EventArgs e)
         {

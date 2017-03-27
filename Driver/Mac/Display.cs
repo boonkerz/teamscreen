@@ -24,7 +24,7 @@ namespace Driver.Mac
 			return window.Screen.Width;
 		}
 
-		public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
+		public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
         {
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
             rs.HostSystemId = e.HostSystemId;

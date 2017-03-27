@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{639B97CE-8D88-456E-AC2A-F3301147ED53}</ProjectGuid>
+    <ProjectGuid>{02DE87E8-261C-420B-B1F2-D109EF984711}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WindowsGuiClient</RootNamespace>
-    <AssemblyName>WindowsGuiClient</AssemblyName>
+    <RootNamespace>WindowsGuiHost</RootNamespace>
+    <AssemblyName>WindowsGuiHost</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,12 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DrawingArea.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\DrawingArea.Designer.cs">
-      <DependentUpon>DrawingArea.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,12 +54,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RemoteForm.Designer.cs">
-      <DependentUpon>RemoteForm.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -79,9 +67,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RemoteForm.resx">
-      <DependentUpon>RemoteForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -111,10 +96,6 @@
     <ProjectReference Include="..\Network\Network.csproj">
       <Project>{ee97e80c-1685-4a8e-9463-da714007761c}</Project>
       <Name>Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
-      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

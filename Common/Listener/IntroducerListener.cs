@@ -78,10 +78,10 @@ namespace Common.Listener
 					handleResponseScreenshot(peer, (Network.Messages.Connection.ResponseScreenshotMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseClick:
-					handleMouseClickEvent(peer, (Network.Messages.Connection.MouseClickMessage)msg);
+					handleMouseClickEvent(peer, (Network.Messages.Connection.OneWay.MouseClickMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseMove:
-					handleMouseMoveEvent(peer, (Network.Messages.Connection.MouseMoveMessage)msg);
+					handleMouseMoveEvent(peer, (Network.Messages.Connection.OneWay.MouseMoveMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestCheckOnline:
 					handleCheckOnline(peer, (Network.Messages.Connection.RequestCheckOnlineMessage)msg);
@@ -160,7 +160,7 @@ namespace Common.Listener
 			peer.Send(_messageHandler.encodeMessage(new ResponseCheckOnlineMessage { Peers = peers }), SendOptions.Unreliable);
 		}
 
-		public void handleMouseClickEvent(NetPeer peer, Network.Messages.Connection.MouseClickMessage message)
+		public void handleMouseClickEvent(NetPeer peer, Network.Messages.Connection.OneWay.MouseClickMessage message)
 		{
 			NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
@@ -169,7 +169,7 @@ namespace Common.Listener
 			}
 		}
 
-		public void handleMouseMoveEvent(NetPeer peer, Network.Messages.Connection.MouseMoveMessage message)
+		public void handleMouseMoveEvent(NetPeer peer, Network.Messages.Connection.OneWay.MouseMoveMessage message)
 		{
 			NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))

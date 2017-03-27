@@ -21,15 +21,15 @@ namespace Driver.Windows
             Simple = new Simple.Display();
         }
 
-        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
+        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
         {
             if (DfMirage.DoesMirrorDriverExist())
             {
-                DfMirage.RequestScreenshot(e, hm);
+                DfMirage.RequestScreenshot(e, hm, fullscreen);
             }
             else
             {
-                Simple.RequestScreenshot(e, hm);
+                Simple.RequestScreenshot(e, hm, fullscreen);
             }
         }
 

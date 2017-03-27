@@ -1,17 +1,25 @@
 ﻿using System;
 using LiteNetLib.Utils;
 
-namespace Network.Messages.Connection
+namespace Network.Messages.Connection.OneWay
 {
-	public class MouseMoveMessage: BaseMessage
+	public class MouseClickMessage: BaseMessage
 	{
+		public enum ButtonType : int
+		{
+			Left = 1,
+			Middle = 2,
+			Right = 3
+		}
+
 		public String HostSystemId { get; set; }
 		public String ClientSystemId { get; set; }
 		public Double X { get; set; }
 		public Double Y { get; set; }
+		public ButtonType Button { get; set; }
 
-		public MouseMoveMessage()
-			: base((ushort)CustomMessageType.MouseMove)
+		public MouseClickMessage()
+			: base((ushort)CustomMessageType.MouseClick)
 		{
 		}
 
@@ -22,7 +30,7 @@ namespace Network.Messages.Connection
 			message.Put(ClientSystemId);
 			message.Put(X);
 			message.Put(Y);
-
+			message.Put((int)this.Button);
 		}
 
 		public override void ReadPayload(NetDataReader message)
@@ -32,6 +40,7 @@ namespace Network.Messages.Connection
 			ClientSystemId = message.GetString(100);
 			X = message.GetDouble();
 			Y = message.GetDouble();
+			Button = (ButtonType)message.GetInt();
 		}
 	}
 }

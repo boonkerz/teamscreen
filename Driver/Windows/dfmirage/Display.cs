@@ -37,7 +37,7 @@ namespace Driver.Windows.DfMirage
             return MirrorDriver.DriverExists();
         }
 
-        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm)
+        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
         {
 
             var stream = new System.IO.MemoryStream();
@@ -77,6 +77,23 @@ namespace Driver.Windows.DfMirage
                     rs.ClientSystemId = e.ClientSystemId;
 
                     hm.sendMessage(rs);
+                    return;
+                }
+
+                if(fullscreen)
+                {
+                    MirrorDriver.Stop();
+                    MirrorDriver.Start();
+                    screenshot.Save(stream, ImageFormat.Png);
+                    this.DesktopChanges.Clear();
+                    ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
+                    rs.HostSystemId = e.HostSystemId;
+                    rs.ClientSystemId = e.ClientSystemId;
+                    rs.Bounds = Screen.PrimaryScreen.Bounds;
+                    rs.Image = stream.ToArray();
+
+                    hm.sendMessage(rs);
+
                     return;
                 }
 
