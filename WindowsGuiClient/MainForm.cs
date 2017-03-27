@@ -42,8 +42,8 @@ namespace WindowsGuiClient
                 if (e.PasswordOk)
                 {
                     this.lblStatus.Text = "Passwort Ok Verbunden mit: " + e.SystemId;
-                   // RemoteWindow rm = new RemoteWindow(e.SystemId);
-                   // rm.Show();
+                    RemoteForm rm = new RemoteForm(e.SystemId);
+                    rm.Show();
                 }
                 else
                 {
