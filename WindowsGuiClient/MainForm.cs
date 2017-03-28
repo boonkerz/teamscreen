@@ -56,7 +56,7 @@ namespace WindowsGuiClient
             if (e.PasswordOk)
             {
 
-                this.Invoke(new EventHandler(OpenAForm), e.SystemId);
+				this.Invoke(new EventHandler(OpenAForm), e.SystemId, EventArgs.Empty);
 
                 this.lblStatus.Text = "Passwort Ok Verbunden mit: " + e.SystemId;
              

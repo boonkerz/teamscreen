@@ -14,8 +14,8 @@ namespace Network.Messages.Connection.OneWay
 
 		public String HostSystemId { get; set; }
 		public String ClientSystemId { get; set; }
-		public Double X { get; set; }
-		public Double Y { get; set; }
+		public int X { get; set; }
+		public int Y { get; set; }
 		public ButtonType Button { get; set; }
 
 		public MouseClickMessage()
@@ -38,8 +38,8 @@ namespace Network.Messages.Connection.OneWay
 			base.ReadPayload(message);
 			HostSystemId = message.GetString(100);
 			ClientSystemId = message.GetString(100);
-			X = message.GetDouble();
-			Y = message.GetDouble();
+			X = message.GetInt();
+			Y = message.GetInt();
 			Button = (ButtonType)message.GetInt();
 		}
 	}
