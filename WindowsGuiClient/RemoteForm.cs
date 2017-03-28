@@ -80,12 +80,17 @@ namespace WindowsGuiClient
                 {
                     Image image = Image.FromStream(stream);
 
-                    /*var gfx = drawingArea1.CreateGraphics();
-                    gfx.DrawLine(pen, new Point(e.Bounds.X, e.Bounds.Y), new Point(e.Bounds.X + e.Bounds.Width, e.Bounds.Y));
-                    gfx.DrawLine(pen, new Point(e.Bounds.X + e.Bounds.Width, e.Bounds.Y), new Point(e.Bounds.X + e.Bounds.Width, e.Bounds.Y + e.Bounds.Y));
-                    gfx.DrawLine(pen, new Point(e.Bounds.X + e.Bounds.Width, e.Bounds.Y + e.Bounds.Y), new Point(e.Bounds.X, e.Bounds.Y + e.Bounds.Y));
-                    gfx.DrawLine(pen, new Point(e.Bounds.X, e.Bounds.Y + e.Bounds.Y), new Point(e.Bounds.X, e.Bounds.Y));
-                    gfx.Dispose();*/
+					int x = (int)((float)e.Bounds.X * Ratio);
+					int y = (int)((float)e.Bounds.Y * Ratio);
+					int width = (int)((float)e.Bounds.Width * Ratio);
+					int height = (int)((float)e.Bounds.Height * Ratio);
+
+                    var gfx = drawingArea1.CreateGraphics();
+                    gfx.DrawLine(pen, new Point(x, y), new Point(x + width, y));
+					gfx.DrawLine(pen, new Point(x + width, y), new Point(x + width, y + y));
+                    gfx.DrawLine(pen, new Point(x + width, y + y), new Point(x, y + y));
+                    gfx.DrawLine(pen, new Point(x, y + y), new Point(x, y));
+                    gfx.Dispose();
 
                     if (this.drawingArea1.InvokeRequired)
                     {
@@ -101,7 +106,7 @@ namespace WindowsGuiClient
                 }
 
                 Thread.Sleep(100);
-                Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
+				Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId, Fullscreen = true });
             }
         }
 
@@ -128,7 +133,7 @@ namespace WindowsGuiClient
 
         private void drawingArea1_MouseClick(object sender, MouseEventArgs e)
         {
-            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage{ ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (e.X / Ratio), Y = (e.Y / Ratio) });
+			Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage{ Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
         }
     }
 }
