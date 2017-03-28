@@ -22,6 +22,8 @@ namespace WindowsGuiHost
         public Driver.Interfaces.Keyboard Keyboard { get { return Driver.Manager.Instance.Keyboard; } }
         public Driver.Interfaces.Display Display { get { return Driver.Manager.Instance.Display; } }
 
+        delegate void SetSystemIdAndPasswordCallback(String SystemId, String Password);
+
         public MainForm()
         {
             InitializeComponent();
@@ -88,10 +90,23 @@ namespace WindowsGuiHost
             Manager.start();
         }
 
+        protected void SetSystemIdAndPassword(String SystemId, String Password)
+        {
+            this.txtSystemId.Text = SystemId;
+            this.txtPassword.Text = Password;
+        }
+
         void Network_OnConnected(object sender, ConnectedEventArgs e)
         {
-            this.txtSystemId.Text = e.SystemId;
-            this.txtPassword.Text = Manager.Manager.Password;
+            if (this.txtSystemId.InvokeRequired)
+            {
+                SetSystemIdAndPasswordCallback d = new SetSystemIdAndPasswordCallback(SetSystemIdAndPassword);
+                this.Invoke(d, new object[] { e.SystemId, Manager.Manager.Password });
+            }
+            else
+            {
+                SetSystemIdAndPassword(e.SystemId, Manager.Manager.Password);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)

@@ -193,8 +193,8 @@ namespace Driver.Windows.DfMirage
 			if (!deviceFound) return false;
 
 			driverInstanceName = device.DeviceName;
-
-			/*_registryKey = Registry.LocalMachine.OpenSubKey(driverRegistryPath, true);
+            /*
+			_registryKey = Registry.LocalMachine.OpenSubKey(driverRegistryPath, true);
 			if (_registryKey != null)
 				_registryKey = _registryKey.CreateSubKey(driverMiniportName);
 			else
@@ -207,8 +207,8 @@ namespace Driver.Windows.DfMirage
 
 			//			_registryKey.SetValue("Cap.DfbBackingMode", 0);
 			_registryKey.SetValue("Screen.ForcedBpp", 24);
-			_registryKey.SetValue("Attach.ToDesktop", 1);*/
-
+			_registryKey.SetValue("Attach.ToDesktop", 1);
+*/
 			#region This was CommitDisplayChanges
 
 			SafeChangeDisplaySettingsEx(device.DeviceName, ref deviceMode, IntPtr.Zero, CDS_UPDATEREGISTRY, IntPtr.Zero);
@@ -254,7 +254,7 @@ namespace Driver.Windows.DfMirage
 		/// <summary>
 		/// Driver buffer polling interval, in msec.
 		/// </summary>
-		private const int PollInterval = 100;
+		private const int PollInterval = 500;
 
 		private void pollingThreadProc()
 		{
@@ -276,9 +276,11 @@ namespace Driver.Windows.DfMirage
 						if (currentChange >= ChangesBuffer.MAXCHANGES_BUF)
 							currentChange = 0;
 
-						if (DesktopChange != null)
-							DesktopChange(this,
-										  new DesktopChangeEventArgs(buffer.pointrect[currentChange].rect, (OperationType)buffer.pointrect[currentChange].type));
+                        if (DesktopChange != null)
+                        {
+                            DesktopChange(this,
+                                          new DesktopChangeEventArgs(buffer.pointrect[currentChange].rect, (OperationType)buffer.pointrect[currentChange].type));
+                        }
 					}
 
 					oldCounter = buffer.counter;
