@@ -21,7 +21,22 @@ namespace Driver.Mac
 
 		}
 
-		public void clickLeft(int x, int y)
+        public void ClickDownLeft(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClickDownMiddle(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClickDownRight(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClickLeft(int x, int y)
 		{
 			info.Arguments = "c:" + x + "," + y;
 
@@ -29,7 +44,7 @@ namespace Driver.Mac
 			p.WaitForExit();
 		}
 
-		public void clickMiddle(int x, int y)
+		public void ClickMiddle(int x, int y)
 		{
 			info.Arguments = "mc:" + x + "," + y;
 
@@ -37,7 +52,7 @@ namespace Driver.Mac
 			p.WaitForExit();
 		}
 
-		public void clickRight(int x, int y)
+		public void ClickRight(int x, int y)
 		{
 			info.Arguments = "rc:" + x + "," + y;
 
@@ -45,7 +60,37 @@ namespace Driver.Mac
 			p.WaitForExit();
 		}
 
-		public void move(int x, int y)
+        public void ClickUpLeft(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClickUpMiddle(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClickUpRight(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DoubleClickLeft(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DoubleClickMiddle(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DoubleClickRight(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Move(int x, int y)
 		{
 			System.Windows.Forms.Cursor.Position = new System.Drawing.Point(x, y);
 		}

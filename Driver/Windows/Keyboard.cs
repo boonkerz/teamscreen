@@ -8,14 +8,14 @@ namespace Driver.Windows
 	public class Keyboard : Driver.Interfaces.Keyboard
 	{
 		
-		public void Press(uint Key)
+		public void Down(uint Key)
 		{
-			Robot.KeyEvent(true, (int)Key);
+			Robot.keyDown((int)Key);
 		}
 
-		public void Release(uint Key)
+		public void Up(uint Key)
 		{
-			Robot.KeyEvent(false, (int)Key);
+			Robot.keyUp((int)Key);
 		}
 
 		public string KeyCodeToUnicode(uint key)

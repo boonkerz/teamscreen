@@ -92,11 +92,8 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseInitalizeHostConnection:
 					handleResponseInitalizeHostConnection(peer, (Network.Messages.Connection.Response.InitalizeHostConnectionMessage)msg);
 					break;
-				case (ushort)Network.Messages.Connection.CustomMessageType.KeyPress:
-					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyPressMessage)msg);
-					break;
-				case (ushort)Network.Messages.Connection.CustomMessageType.KeyRelease:
-					handleKeyRelease(peer, (Network.Messages.Connection.OneWay.KeyReleaseMessage)msg);
+				case (ushort)Network.Messages.Connection.CustomMessageType.Key:
+					handleKey(peer, (Network.Messages.Connection.OneWay.KeyMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseEmptyScreenshot:
 					handleEmptyResponseScreenshot(peer, (Network.Messages.Connection.ResponseEmptyScreenshotMessage)msg);
@@ -105,16 +102,7 @@ namespace Common.Listener
 
 		}
 
-		public void handleKeyRelease(NetPeer peer, Network.Messages.Connection.OneWay.KeyReleaseMessage message)
-		{
-			NetPeer wpeer;
-			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
-			{
-				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
-			}
-		}
-
-		public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyPressMessage message)
+		public void handleKey(NetPeer peer, Network.Messages.Connection.OneWay.KeyMessage message)
 		{
 			NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))

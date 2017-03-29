@@ -24,6 +24,8 @@ namespace WindowsGuiHost
 
         delegate void SetSystemIdAndPasswordCallback(String SystemId, String Password);
 
+
+
         public MainForm()
         {
             InitializeComponent();
@@ -57,29 +59,86 @@ namespace WindowsGuiHost
             };
             Manager.HostListener.OnMouseMove += (object sender, MouseMoveEventArgs e) =>
             {
-                Mouse.move((int)e.X, (int)e.Y);
+                Mouse.Move((int)e.X, (int)e.Y);
             };
-            Manager.HostListener.OnKeyPress += (object sender, Common.EventArgs.Network.KeyPressEventArgs e) =>
+            Manager.HostListener.OnKey += (object sender, Common.EventArgs.Network.KeyEventArgs e) =>
             {
-                Keyboard.Press(e.Key);
-            };
-            Manager.HostListener.OnKeyRelease += (object sender, Common.EventArgs.Network.KeyReleaseEventArgs e) =>
-            {
-                Keyboard.Release(e.Key);
+                if(e.Mode == Network.Messages.Connection.OneWay.KeyMessage.KeyMode.Down)
+                {
+                    Keyboard.Down(e.Key);
+                }
+                else
+                {
+                    Keyboard.Up(e.Key);
+                }
+                
             };
             Manager.HostListener.OnMouseClick += (object sender, MouseClickEventArgs e) =>
             {
-                if (e.Button == MouseClickEventArgs.ButtonType.Left)
+                if(e.DoubleClick)
                 {
-                    Mouse.clickLeft((int)e.X, (int)e.Y);
+                    switch (e.Button)
+                    {
+                        case MouseClickEventArgs.ButtonType.Left:
+                            Mouse.DoubleClickLeft((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Middle:
+                            Mouse.DoubleClickMiddle((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Right:
+                            Mouse.DoubleClickRight((int)e.X, (int)e.Y);
+                            break;
+                    }
+
+                    return;
                 }
-                if (e.Button == MouseClickEventArgs.ButtonType.Middle)
+                if (e.Down)
                 {
-                    Mouse.clickMiddle((int)e.X, (int)e.Y);
+                    switch (e.Button)
+                    {
+                        case MouseClickEventArgs.ButtonType.Left:
+                            Mouse.ClickDownLeft((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Middle:
+                            Mouse.ClickDownMiddle((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Right:
+                            Mouse.ClickDownRight((int)e.X, (int)e.Y);
+                            break;
+                    }
+
+                    return;
                 }
-                if (e.Button == MouseClickEventArgs.ButtonType.Right)
+                if (e.Up)
                 {
-                    Mouse.clickRight((int)e.X, (int)e.Y);
+                    switch (e.Button)
+                    {
+                        case MouseClickEventArgs.ButtonType.Left:
+                            Mouse.ClickUpLeft((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Middle:
+                            Mouse.ClickUpMiddle((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Right:
+                            Mouse.ClickUpRight((int)e.X, (int)e.Y);
+                            break;
+                    }
+
+                    return;
+                }
+
+
+                switch (e.Button)
+                {
+                    case MouseClickEventArgs.ButtonType.Left:
+                        Mouse.ClickLeft((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Middle:
+                        Mouse.ClickMiddle((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Right:
+                        Mouse.ClickRight((int)e.X, (int)e.Y);
+                        break;
                 }
 
             };

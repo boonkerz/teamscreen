@@ -10,12 +10,12 @@ namespace Driver.Windows
 	/// </summary>
 	public static class Robot
 	{
-		/*
+		
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte vk, byte scan, int flags, IntPtr extrainfo);
         private const int KEYEVENTF_KEYDOWN = 0x0000;
         private const int KEYEVENTF_KEYUP = 0x0002;
-        */
+        
 
 		[DllImport("user32.dll")]
 		private static extern void mouse_event(
@@ -45,6 +45,7 @@ namespace Driver.Windows
 			{
 				string sCode = "";
 				KeyCode localKeyCode = keysym.toVKCode(key);
+                
 				if (localKeyCode != null)
 				{
 					sCode = keysym.vkToString(localKeyCode.key);
@@ -103,16 +104,16 @@ namespace Driver.Windows
 				Console.WriteLine(ex.ToString());
 			}
 		}
-		/*
-        public static void keyPress(int keycode)
+		
+        public static void keyDown(int keycode)
         {
-            keybd_event(MapKeyCode(keycode), 0, KEYEVENTF_KEYDOWN, IntPtr.Zero);
+            keybd_event((byte)keycode, (byte)keycode, KEYEVENTF_KEYDOWN, IntPtr.Zero);
         }
-        public static void keyRelease(int keycode)
+        public static void keyUp(int keycode)
         {
-            keybd_event(MapKeyCode(keycode), 0, KEYEVENTF_KEYUP, IntPtr.Zero);
+            keybd_event((byte)keycode, (byte)keycode, KEYEVENTF_KEYUP, IntPtr.Zero);
         }
-        */
+        
 
 		/// <summary>
 		/// Moves the mouse pointer to the specified location, and/or presses the specified mouse buttons.

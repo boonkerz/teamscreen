@@ -22,8 +22,7 @@ namespace Common.Listener
 		public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
-		public event EventHandler<KeyPressEventArgs> OnKeyPress;
-		public event EventHandler<KeyReleaseEventArgs> OnKeyRelease;
+		public event EventHandler<KeyEventArgs> OnKey;
 
 		public HostListener()
 		{
@@ -65,25 +64,17 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseClick:
 					handleMouseClick(peer, (Network.Messages.Connection.OneWay.MouseClickMessage)msg);
 					break;
-				case (ushort)Network.Messages.Connection.CustomMessageType.KeyPress:
-					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyPressMessage)msg);
-					break;
-				case (ushort)Network.Messages.Connection.CustomMessageType.KeyRelease:
-					handleKeyRelease(peer, (Network.Messages.Connection.OneWay.KeyReleaseMessage)msg);
+				case (ushort)Network.Messages.Connection.CustomMessageType.Key:
+					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyMessage)msg);
 					break;
 			}
 
 		}
-		public void handleKeyRelease(NetPeer peer, Network.Messages.Connection.OneWay.KeyReleaseMessage message)
-		{
-			if (OnKeyRelease != null)
-				OnKeyRelease(this, new KeyReleaseEventArgs { Key = message.Key });
-		}
 
-		public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyPressMessage message)
+		public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyMessage message)
 		{
-			if (OnKeyPress != null)
-				OnKeyPress(this, new KeyPressEventArgs { Key = message.Key });
+			if (OnKey != null)
+				OnKey(this, new KeyEventArgs { Key = message.Key, Alt = message.Alt, Control = message.Control, Shift = message.Shift, Mode = message.Mode });
 		}
 
 		public void handleRequestInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Request.InitalizeHostConnectionMessage message)
@@ -101,7 +92,7 @@ namespace Common.Listener
 		public void handleMouseClick(NetPeer peer, Network.Messages.Connection.OneWay.MouseClickMessage message)
 		{
 			if (OnMouseClick != null)
-				OnMouseClick(this, new MouseClickEventArgs { X = message.X, Y = message.Y, Button = (MouseClickEventArgs.ButtonType)message.Button });
+				OnMouseClick(this, new MouseClickEventArgs { Down = message.Down, Up = message.Up, DoubleClick = message.DoubleClick, X = message.X, Y = message.Y, Button = (MouseClickEventArgs.ButtonType)message.Button });
 		}
 
 		public void handleRequestScreenshot(NetPeer peer, Network.Messages.Connection.RequestScreenshotMessage message)

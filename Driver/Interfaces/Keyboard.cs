@@ -3,7 +3,7 @@ namespace Driver.Interfaces
 {
 	public interface Keyboard
 	{
-		void Press(uint Key);
-		void Release(uint Key);
+		void Down(uint Key);
+		void Up(uint Key);
 	}
 }

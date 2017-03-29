@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -60,8 +60,7 @@
     <Compile Include="Instance\Introducer.cs" />
     <Compile Include="EventArgs\Network\Host\ClientInitalizeConnectedEventArgs.cs" />
     <Compile Include="EventArgs\Network\Client\HostInitalizeConnectedEventArgs.cs" />
-    <Compile Include="EventArgs\Network\KeyPressEventArgs.cs" />
-    <Compile Include="EventArgs\Network\KeyReleaseEventArgs.cs" />
+    <Compile Include="EventArgs\Network\KeyEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -77,16 +76,7 @@
       <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Listener\" />
-    <Folder Include="EventArgs\" />
-    <Folder Include="EventArgs\Network\" />
-    <Folder Include="Thread\" />
-    <Folder Include="Instance\" />
-    <Folder Include="Config\" />
-    <Folder Include="EventArgs\Network\Host\" />
-    <Folder Include="EventArgs\Network\Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

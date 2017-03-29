@@ -42,8 +42,14 @@
             this.drawingArea1.TabIndex = 0;
             this.drawingArea1.Text = "drawingArea1";
             this.drawingArea1.Click += new System.EventHandler(this.drawingArea1_Click);
+            this.drawingArea1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.drawingArea1_KeyDown);
+            this.drawingArea1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.drawingArea1_KeyPress);
+            this.drawingArea1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.drawingArea1_KeyUp);
             this.drawingArea1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseClick);
+            this.drawingArea1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseDoubleClick);
+            this.drawingArea1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseDown);
             this.drawingArea1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseMove_1);
+            this.drawingArea1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseUp);
             // 
             // RemoteForm
             // 

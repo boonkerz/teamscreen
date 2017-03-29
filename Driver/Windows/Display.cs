@@ -25,7 +25,7 @@ namespace Driver.Windows
         {
             if (DfMirage.DoesMirrorDriverExist())
             {
-                Simple.RequestScreenshot(e, hm, fullscreen);
+                DfMirage.RequestScreenshot(e, hm, fullscreen);
             }
             else
             {

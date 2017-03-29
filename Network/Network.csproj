@@ -60,8 +60,7 @@
     <Compile Include="Messages\Connection\Request\HostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\Response\HostConnectionMessage.cs" />
     <Compile Include="BaseManager.cs" />
-    <Compile Include="Messages\Connection\OneWay\KeyPressMessage.cs" />
-    <Compile Include="Messages\Connection\OneWay\KeyReleaseMessage.cs" />
+    <Compile Include="Messages\Connection\OneWay\KeyMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
