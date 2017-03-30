@@ -7,40 +7,22 @@ using Network;
 
 namespace Common.Listener
 {
-	public class ClientListener : INetEventListener
+	public class ClientListener : BaseListener
 	{
 		private readonly MessageHandler _messageHandler;
 		public ClientManager _clientManager;
 
 		public event EventHandler<ConnectedEventArgs> OnConnected;
-
 		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
 		public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
-		public event EventHandler<OnlineCheckReceivedEventArgs> OnOnlineCheckReceived;
 		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;
-
-		public ClientListener()
+        
+        public ClientListener()
 		{
 			_messageHandler = new MessageHandler();
 		}
 
-		public void OnPeerConnected(NetPeer peer)
-		{
-			Console.WriteLine("[Client] connected to: {0}:{1}", peer.EndPoint.Host, peer.EndPoint.Port);
-
-		}
-
-		public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
-		{
-			Console.WriteLine("[Client] disconnected: " + disconnectInfo.Reason);
-		}
-
-		public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
-		{
-			Console.WriteLine("[Client] error! " + socketErrorCode);
-		}
-
-		public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
+        public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
 			Console.WriteLine("[Client] received data. Processing...");
 			Message msg = _messageHandler.decodeMessage(reader);
@@ -55,9 +37,6 @@ namespace Common.Listener
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseScreenshot:
 					handleResponseScreenshotConnection(peer, (Network.Messages.Connection.ResponseScreenshotMessage)msg);
-					break;
-				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCheckOnline:
-					handleCheckOnline(peer, (Network.Messages.Connection.ResponseCheckOnlineMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseInitalizeHostConnection:
 					handleResponseInitalizeHostConnection(peer, (Network.Messages.Connection.Response.InitalizeHostConnectionMessage)msg);
@@ -86,12 +65,6 @@ namespace Common.Listener
 				OnHostInitalizeConnected(this, new HostInitalizeConnectedEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, HostPublicKey = message.PublicKey });
 		}
 
-		public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.ResponseCheckOnlineMessage message)
-		{
-			if (OnOnlineCheckReceived != null)
-				OnOnlineCheckReceived(this, new OnlineCheckReceivedEventArgs() { Peers = message.Peers });
-		}
-
 		public void handleResponseScreenshotConnection(NetPeer peer, Network.Messages.Connection.ResponseScreenshotMessage message)
 		{
 		if (OnScreenshotReceived != null)
@@ -115,14 +88,5 @@ namespace Common.Listener
 			this._clientManager.SystemId = message.Machine.SystemId;
 		}
 
-		public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
-		{
-
-		}
-
-		public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
-		{
-
-		}
 	}
 }

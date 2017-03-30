@@ -24,11 +24,16 @@ namespace WindowsGuiHost
 
         delegate void SetSystemIdAndPasswordCallback(String SystemId, String Password);
 
+        protected System.Timers.Timer connectionStatus;
 
 
         public MainForm()
         {
             InitializeComponent();
+
+            connectionStatus = new System.Timers.Timer(1000);
+            connectionStatus.Elapsed += Connection_Elapsed;
+
             ConfigManager = new Common.Config.Manager();
 
             Manager.HostListener.OnConnected += new EventHandler<ConnectedEventArgs>(Network_OnConnected);
@@ -146,7 +151,36 @@ namespace WindowsGuiHost
             {
                 Display.RequestScreenshot(e, this.Manager.Manager, e.Fullscreen);
             };
+
+
+            Manager.HostListener.onPeerConnected += HostListener_onPeerConnected;
+            Manager.HostListener.onPeerDisconnected += HostListener_onPeerDisconnected;
+            Manager.HostListener.onNetworkError += HostListener_onNetworkError;
+
             Manager.start();
+        }
+
+        private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Manager.Reconnect();
+        }
+
+        private void HostListener_onNetworkError(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Network Error";
+            connectionStatus.Start();
+        }
+
+        private void HostListener_onPeerDisconnected(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Introducer Disconnected";
+            connectionStatus.Start();
+        }
+
+        private void HostListener_onPeerConnected(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Introducer Connected";
+            connectionStatus.Stop();
         }
 
         protected void SetSystemIdAndPassword(String SystemId, String Password)

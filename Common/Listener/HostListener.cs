@@ -11,8 +11,8 @@ using Network.Messages.Connection;
 
 namespace Common.Listener
 {
-	public class HostListener : INetEventListener
-	{
+	public class HostListener : BaseListener
+    {
 		private readonly MessageHandler _messageHandler;
 		public HostManager _hostManager;
 
@@ -24,24 +24,13 @@ namespace Common.Listener
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 		public event EventHandler<KeyEventArgs> OnKey;
 
-		public HostListener()
+
+        public HostListener()
 		{
 			_messageHandler = new MessageHandler();
 		}
 
-		public void OnPeerConnected(NetPeer peer)
-		{
-		}
-
-		public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
-		{
-		}
-
-		public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
-		{
-		}
-
-		public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
+        public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
 			Message msg = _messageHandler.decodeMessage(reader);
 			switch (msg.MessageType)
@@ -125,14 +114,5 @@ namespace Common.Listener
 				OnClientConnected(this, new ClientConnectedEventArgs() { SystemId = res.ClientSystemId, PasswordOk = res.PasswordOk });
 		}
 
-		public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
-		{
-
-		}
-
-		public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
-		{
-
-		}
 	}
 }

@@ -19,10 +19,15 @@ namespace WindowsGuiClient
 
         protected Common.Config.Manager ConfigManager;
 
+        protected System.Timers.Timer connectionStatus;
+
         public MainForm()
         {
             
             InitializeComponent();
+
+            connectionStatus = new System.Timers.Timer(1000);
+            connectionStatus.Elapsed += Connection_Elapsed;
 
             ConfigManager = new Common.Config.Manager();
 
@@ -41,7 +46,35 @@ namespace WindowsGuiClient
             };
             Manager.ClientListener.OnClientConnected += OnClientConnected;
 
-            Manager.start();
+            Manager.ClientListener.onNetworkError += ClientListener_onNetworkError;
+            Manager.ClientListener.onPeerConnected += ClientListener_onPeerConnected;
+            Manager.ClientListener.onPeerDisconnected += ClientListener_onPeerDisconnected;
+
+            Manager.Start();
+
+        }
+
+        private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Manager.Reconnect();
+        }
+
+        private void ClientListener_onPeerDisconnected(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Introducer Disconnected";
+            connectionStatus.Start();
+        }
+
+        private void ClientListener_onPeerConnected(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Introducer Connected";
+            connectionStatus.Stop();
+        }
+
+        private void ClientListener_onNetworkError(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Network Error";
+            connectionStatus.Start();
         }
 
         private async void OpenAForm(object sender, EventArgs e)

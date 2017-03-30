@@ -25,7 +25,7 @@ namespace Common
 			ClientListener._clientManager = Manager;
 		}
 
-		public void start()
+		public void Start()
 		{
 			if (!Manager.Start())
 			{
@@ -37,7 +37,14 @@ namespace Common
 
 		}
 
-		public void stop()
+        public void Reconnect()
+        {
+            Manager.Connect(ConfigManager.ClientConfig.ServerName, ConfigManager.ClientConfig.ServerPort);
+
+            Manager.sendMessage(new RequestClientIntroducerRegistrationMessage());
+        }
+
+		public void Stop()
 		{
 			Manager.Stop();
 		}

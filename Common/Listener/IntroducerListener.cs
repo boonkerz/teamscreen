@@ -10,8 +10,8 @@ using Network.Messages.System;
 
 namespace Common.Listener
 {
-	public class IntroducerListener : INetEventListener
-	{
+	public class IntroducerListener : BaseListener
+    {
 		public NetManager Server;
 		private readonly MessageHandler _messageHandler;
 		private readonly Dictionary<string, NetPeer> _hostPeers = new Dictionary<string, NetPeer>();
@@ -24,7 +24,7 @@ namespace Common.Listener
 
 		}
 
-		public void OnPeerConnected(NetPeer peer)
+		public override void OnPeerConnected(NetPeer peer)
 		{
 			Console.WriteLine("[Server] Peer connected: " + peer.EndPoint);
 			var peers = Server.GetPeers();
@@ -34,7 +34,7 @@ namespace Common.Listener
 			}
 		}
 
-		public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+        public override void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
 		{
 			foreach (var item in _hostPeers.Where(kvp => kvp.Value == peer).ToList())
 			{
@@ -47,12 +47,7 @@ namespace Common.Listener
 			}
 		}
 
-		public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
-		{
-			Console.WriteLine("[Server] error: " + socketErrorCode);
-		}
-
-		public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
+        public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
 			Console.WriteLine("[Server] received data. Processing...");
 			Message msg = _messageHandler.decodeMessage(reader);
@@ -82,9 +77,6 @@ namespace Common.Listener
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.MouseMove:
 					handleMouseMoveEvent(peer, (Network.Messages.Connection.OneWay.MouseMoveMessage)msg);
-					break;
-				case (ushort)Network.Messages.Connection.CustomMessageType.RequestCheckOnline:
-					handleCheckOnline(peer, (Network.Messages.Connection.RequestCheckOnlineMessage)msg);
 					break;
 				case (ushort)Network.Messages.Connection.CustomMessageType.RequestInitalizeHostConnection:
 					handleRequestInitalizeHostConnection(peer, (Network.Messages.Connection.Request.InitalizeHostConnectionMessage)msg);
@@ -132,20 +124,6 @@ namespace Common.Listener
 				Network.Messages.Connection.Response.InitalizeHostConnectionMessage messageNew = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
 				messageNew.HostFound = false;
 			}
-		}
-
-		public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.RequestCheckOnlineMessage message)
-		{
-			List<Model.Peer> peers = message.Peers;
-			foreach (Model.Peer pr in peers)
-			{
-				if (_hostPeers.ContainsKey(pr.SystemId))
-				{
-					pr.isOnline = true;
-				}
-			}
-
-			peer.Send(_messageHandler.encodeMessage(new ResponseCheckOnlineMessage { Peers = peers }), SendOptions.Unreliable);
 		}
 
 		public void handleMouseClickEvent(NetPeer peer, Network.Messages.Connection.OneWay.MouseClickMessage message)
@@ -241,7 +219,7 @@ namespace Common.Listener
 			Machine machine = new Machine();
 			machine.SystemId = new Random().Next(0, 999999999).ToString();
 
-			if (this._hostPeers.ContainsKey(machine.SystemId))
+			if (this._clientPeers.ContainsKey(machine.SystemId))
 			{
 				this._clientPeers.Remove(machine.SystemId);
 			}
@@ -250,17 +228,6 @@ namespace Common.Listener
 			ResponseClientIntroducerRegistrationMessage res = new ResponseClientIntroducerRegistrationMessage();
 			res.Machine = machine;
 			peer.Send(_messageHandler.encodeMessage(res), SendOptions.Unreliable);
-
-		}
-
-
-		public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
-		{
-			Console.WriteLine("[Server] ReceiveUnconnected: {0}", reader.GetString(100));
-		}
-
-		public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
-		{
 
 		}
 	}
