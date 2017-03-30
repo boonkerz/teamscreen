@@ -14,30 +14,21 @@ using System.Timers;
 namespace Driver.Windows.DfMirage
 {
 
-    class Display
+    class Display : BaseDisplay
     {
         DesktopMirror MirrorDriver;
 
         private List<System.Drawing.Rectangle> DesktopChanges { get; set; }
-
-        protected System.Timers.Timer refreshThread;
-
-        protected HostManager hm;
-
-        protected ScreenshotRequestEventArgs e;
-
-        protected bool fullscreen;
-
+      
         public Display()
         {
             MirrorDriver = new DesktopMirror();
             DesktopChanges = new List<System.Drawing.Rectangle>();
             MirrorDriver.DesktopChange += new EventHandler<DesktopMirror.DesktopChangeEventArgs>(MirrorDriver_DesktopChange);
-            refreshThread = new System.Timers.Timer(200);
-            refreshThread.Elapsed += SendThread_Tick;
+            
         }
 
-        private void SendThread_Tick(object sender, EventArgs e)
+        public override void SendScreenshot(Boolean fullscreen)
         {
             var stream = new System.IO.MemoryStream();
 
@@ -55,12 +46,15 @@ namespace Driver.Windows.DfMirage
                 screenshot.Save(stream, ImageFormat.Png);
 
                 ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-                rs.HostSystemId = this.e.HostSystemId;
-                rs.ClientSystemId = this.e.ClientSystemId;
                 rs.Bounds = Screen.PrimaryScreen.Bounds;
+                rs.HostSystemId = HostManager.SystemId;
                 rs.Image = stream.ToArray();
 
-                hm.sendMessage(rs);
+                foreach (var ID in ConnectedClients)
+                {
+                    rs.ClientSystemId = ID;
+                    HostManager.sendMessage(rs);
+                }
             }
             else if (MirrorDriver.State == DesktopMirror.MirrorState.Running)
             {
@@ -69,16 +63,6 @@ namespace Driver.Windows.DfMirage
 
                 Bitmap screenshot = MirrorDriver.GetScreen();
 
-                if (regions.Count == 0)
-                {
-                    ResponseEmptyScreenshotMessage rs = new ResponseEmptyScreenshotMessage();
-                    rs.HostSystemId = this.e.HostSystemId;
-                    rs.ClientSystemId = this.e.ClientSystemId;
-
-                    hm.sendMessage(rs);
-                    return;
-                }
-
                 if (fullscreen)
                 {
                     MirrorDriver.Stop();
@@ -86,14 +70,16 @@ namespace Driver.Windows.DfMirage
                     screenshot.Save(stream, ImageFormat.Png);
                     this.DesktopChanges.Clear();
                     ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-                    rs.HostSystemId = this.e.HostSystemId;
-                    rs.ClientSystemId = this.e.ClientSystemId;
+                    rs.Fullscreen = true;
                     rs.Bounds = Screen.PrimaryScreen.Bounds;
+                    rs.HostSystemId = HostManager.SystemId;
                     rs.Image = stream.ToArray();
 
-                    hm.sendMessage(rs);
-                    this.fullscreen = false;
-                    return;
+                    foreach (var ID in ConnectedClients)
+                    {
+                        rs.ClientSystemId = ID;
+                        HostManager.sendMessage(rs);
+                    }
                 }
 
                 for (int i = 0; i < regions.Count; i++)
@@ -116,12 +102,15 @@ namespace Driver.Windows.DfMirage
                     regionShot.Save(stream, ImageFormat.Png);
 
                     ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-                    rs.HostSystemId = this.e.HostSystemId;
-                    rs.ClientSystemId = this.e.ClientSystemId;
                     rs.Bounds = regions[i];
+                    rs.HostSystemId = HostManager.SystemId;
                     rs.Image = stream.ToArray();
 
-                    hm.sendMessage(rs);
+                    foreach (var ID in ConnectedClients)
+                    {
+                        rs.ClientSystemId = ID;
+                        HostManager.sendMessage(rs);
+                    }
                 }
 
 
@@ -140,17 +129,7 @@ namespace Driver.Windows.DfMirage
             return MirrorDriver.DriverExists();
         }
 
-        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
-        {
-
-            this.e = e;
-            this.hm = hm;
-            this.fullscreen = fullscreen;
-            this.refreshThread.Start();
-            return;
-                        
-            
-        }
+       
         /// <summary>
         /// Combines intersecting rectangles to reduce redundant sends.
         /// </summary>

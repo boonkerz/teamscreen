@@ -9,5 +9,6 @@ namespace Common.EventArgs.Network
 		public Rectangle Bounds { get; set; }
 		public String SystemId { get; set; }
 		public Boolean Nothing { get; set; }
-	}
+        public Boolean Fullscreen { get; set; }
+    }
 }

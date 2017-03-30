@@ -50,7 +50,7 @@ namespace WindowsGuiClient
 
         protected void OnScreenshotReceive(object sender, ScreenshotReceivedEventArgs e)
         {
-            if (Bounds.IsEmpty)
+            if (e.Fullscreen)
             {
                 Bounds = e.Bounds;
             }
@@ -69,8 +69,7 @@ namespace WindowsGuiClient
 
             if (e.Nothing)
 			{
-        		//Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
-				return;
+        		return;
 			}
 
             if (e.SystemId == this.SystemId)
@@ -103,8 +102,6 @@ namespace WindowsGuiClient
                     
                     
                 }
-
-				//Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
             }
         }
 

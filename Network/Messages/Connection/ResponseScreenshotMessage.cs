@@ -12,6 +12,7 @@ namespace Network.Messages.Connection
 		public String ClientSystemId { get; set; }
 		public byte[] Image { get; set; } 
 		public Rectangle Bounds { get; set; }
+        public Boolean Fullscreen { get; set; }
 
         public ResponseScreenshotMessage()
 			: base((ushort)CustomMessageType.ResponseScreenshot)
@@ -27,6 +28,7 @@ namespace Network.Messages.Connection
             message.Put(Bounds.Y);
             message.Put(Bounds.Width);
             message.Put(Bounds.Height);
+            message.Put(Fullscreen);
             message.Put(Image);
 
 		}
@@ -37,6 +39,7 @@ namespace Network.Messages.Connection
 			HostSystemId = message.GetString(100);
 			ClientSystemId = message.GetString(100);
             Bounds = new Rectangle(message.GetInt(), message.GetInt(), message.GetInt(), message.GetInt());
+            Fullscreen = message.GetBool();
  			Image = message.GetRemainingBytes();
 
 		}

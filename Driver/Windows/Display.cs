@@ -8,30 +8,34 @@ using Common.EventArgs.Network;
 
 namespace Driver.Windows
 {
-	public class Display : Driver.Interfaces.Display
-	{
+	public class Display: Interfaces.Display
+    {
         
-        Simple.Display Simple;
-        DfMirage.Display DfMirage;
-
+        Interfaces.BaseDisplay Driver;
 
         public Display()
 		{
-            DfMirage = new DfMirage.Display();
-            Simple = new Simple.Display();
-        }
-
-        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
-        {
+            Windows.DfMirage.Display DfMirage = new DfMirage.Display();
             if (DfMirage.DoesMirrorDriverExist())
             {
-                DfMirage.RequestScreenshot(e, hm, fullscreen);
+                Driver = DfMirage;
             }
             else
             {
-                Simple.RequestScreenshot(e, hm, fullscreen);
+                Driver = new Simple.Display();
             }
+            
         }
 
-	}
+        public void RequestScreenshot(ScreenshotRequestEventArgs e, Boolean fullscreen)
+        {
+            
+            Driver.RequestScreenshot(e, fullscreen);
+        }
+
+        public void SetManager(HostManager hostManager)
+        {
+            Driver.SetManager(hostManager);
+        }
+    }
 }

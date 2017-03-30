@@ -149,10 +149,11 @@ namespace WindowsGuiHost
             };
             Manager.HostListener.OnScreenshotRequest += (object sender, ScreenshotRequestEventArgs e) =>
             {
-                Display.RequestScreenshot(e, this.Manager.Manager, e.Fullscreen);
+                Display.RequestScreenshot(e, e.Fullscreen);
             };
 
 
+            Display.SetManager(Manager.Manager);
             Manager.HostListener.onPeerConnected += HostListener_onPeerConnected;
             Manager.HostListener.onPeerDisconnected += HostListener_onPeerDisconnected;
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;

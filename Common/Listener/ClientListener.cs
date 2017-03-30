@@ -73,7 +73,8 @@ namespace Common.Listener
 				Image = message.Image,
 					Nothing = false,
 					Bounds = message.Bounds,
-					SystemId = message.HostSystemId
+					SystemId = message.HostSystemId,
+                    Fullscreen = message.Fullscreen
 				});
 		}
 

@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Driver.Windows.Simple
 {
-    class Display
+    class Display : BaseDisplay
     {
         System.Drawing.Rectangle bounds;
 
@@ -32,7 +32,7 @@ namespace Driver.Windows.Simple
             return bounds.Width;
         }
 
-        public void RequestScreenshot(ScreenshotRequestEventArgs e, HostManager hm, Boolean fullscreen)
+        public override void SendScreenshot(Boolean fullscreen)
         {
             byte[] image = new byte[] { };
 
@@ -55,12 +55,16 @@ namespace Driver.Windows.Simple
             bmpScreenshot.Save(stream, ImageFormat.Png);
 
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-            rs.HostSystemId = e.HostSystemId;
-            rs.ClientSystemId = e.ClientSystemId;
             rs.Bounds = Screen.PrimaryScreen.Bounds;
-            rs.Image = stream.ToArray();           
-
-            hm.sendMessage(rs);
+            rs.Fullscreen = true;
+            rs.HostSystemId = HostManager.SystemId;
+            rs.Image = stream.ToArray();
+            
+            foreach(var ID in ConnectedClients)
+            {
+                rs.ClientSystemId = ID;
+                HostManager.sendMessage(rs);
+            }
         }
     }
 }

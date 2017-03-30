@@ -42,16 +42,16 @@ namespace Driver
 
 		public Driver.Interfaces.Mouse Mouse { get; private set; }
 		public Driver.Interfaces.Keyboard Keyboard { get; private set; }
-		public Driver.Interfaces.Display Display { get; private set; }
+		public Interfaces.Display Display { get; private set; }
 
 		private Manager()
 		{
-			detectOsSystem();
+            detectOsSystem();
 			if (operating_system == OS.Mac)
 			{
 				Mouse = new Driver.Mac.Mouse();
 				Keyboard = new Driver.Mac.Keyboard();
-				Display = new Driver.Mac.Display();
+				Display = new Driver.Windows.Display();
 			}
 			else if (operating_system == OS.Windows)
 			{
