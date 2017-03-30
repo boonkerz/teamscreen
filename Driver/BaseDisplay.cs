@@ -26,7 +26,7 @@ namespace Driver
 
         private void RefreshThread_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            this.SendScreenshot(false);
+            this.SendScreenshot(true);
         }
 
         public void SetManager(HostManager hostManager)

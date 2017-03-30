@@ -48,6 +48,7 @@ namespace Driver.Windows.DfMirage
                 ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
                 rs.Bounds = Screen.PrimaryScreen.Bounds;
                 rs.HostSystemId = HostManager.SystemId;
+                rs.Fullscreen = true;
                 rs.Image = stream.ToArray();
 
                 foreach (var ID in ConnectedClients)
