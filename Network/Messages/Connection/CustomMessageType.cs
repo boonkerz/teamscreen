@@ -17,6 +17,8 @@ namespace Network.Messages.Connection
 		RequestCheckOnline,
 		ResponseCheckOnline,
 		RequestInitalizeHostConnection,
-		ResponseInitalizeHostConnection
-	}
+		ResponseInitalizeHostConnection,
+        RequestCloseHostConnection,
+        ResponseCloseHostConnection,
+    }
 }

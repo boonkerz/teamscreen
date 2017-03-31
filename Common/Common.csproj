@@ -38,6 +38,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventArgs\Network\Client\HostCloseEventArgs.cs" />
+    <Compile Include="EventArgs\Network\Host\ClientCloseEventArgs.cs" />
     <Compile Include="Listener\BaseListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Listener\HostListener.cs" />

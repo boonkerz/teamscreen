@@ -27,6 +27,7 @@ namespace WindowsGuiClient
 
         delegate void SetDrawingAreaHeightCallback(int Height);
         delegate void DrawImageCallback(Image Image, Rectangle Bounds);
+        delegate void CloseRemoteWindowCallback();
 
         public RemoteForm(String RemoteId)
         {
@@ -44,7 +45,24 @@ namespace WindowsGuiClient
 
         protected void drawImage(Image image, Rectangle bounds)
         {
-            drawingArea1.Draw(image, bounds); ;
+            var gfx = drawingArea1.CreateGraphics();
+
+            int x = (int)((float)bounds.X * Ratio);
+            int y = (int)((float)bounds.Y * Ratio);
+            int width = (int)((float)bounds.Width * Ratio);
+            int height = (int)((float)bounds.Height * Ratio);
+
+            gfx.DrawLine(pen, new Point(x, y), new Point(x + width, y));
+            gfx.DrawLine(pen, new Point(x + width, y), new Point(x + width, y + y));
+            gfx.DrawLine(pen, new Point(x + width, y + y), new Point(x, y + y));
+            gfx.DrawLine(pen, new Point(x, y + y), new Point(x, y));
+            gfx.Dispose();
+            drawingArea1.Draw(image, bounds);
+        }
+
+        protected void CloseRemoteWindow()
+        {
+            this.Close();
         }
 
 
@@ -78,19 +96,7 @@ namespace WindowsGuiClient
                 {
                     Image image = Image.FromStream(stream);
 
-					int x = (int)((float)e.Bounds.X * Ratio);
-					int y = (int)((float)e.Bounds.Y * Ratio);
-					int width = (int)((float)e.Bounds.Width * Ratio);
-					int height = (int)((float)e.Bounds.Height * Ratio);
-
-                    var gfx = drawingArea1.CreateGraphics();
-                    gfx.DrawLine(pen, new Point(x, y), new Point(x + width, y));
-					gfx.DrawLine(pen, new Point(x + width, y), new Point(x + width, y + y));
-                    gfx.DrawLine(pen, new Point(x + width, y + y), new Point(x, y + y));
-                    gfx.DrawLine(pen, new Point(x, y + y), new Point(x, y));
-                    gfx.Dispose();
-
-                    if (this.drawingArea1.InvokeRequired)
+					if (this.drawingArea1.InvokeRequired)
                     {
                         DrawImageCallback d = new DrawImageCallback(drawImage);
                         this.Invoke(d, new object[] { image, e.Bounds });
@@ -110,11 +116,23 @@ namespace WindowsGuiClient
             this.Manager = manager;
 
             Manager.ClientListener.OnScreenshotReceived += OnScreenshotReceive;
+            Manager.ClientListener.OnHostClose += ClientListener_OnHostClose;
 
             Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId, Fullscreen = true });
         }
 
-      
+        private void ClientListener_OnHostClose(object sender, Common.EventArgs.Network.Client.HostCloseEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                CloseRemoteWindowCallback d = new CloseRemoteWindowCallback(CloseRemoteWindow);
+                this.Invoke(d);
+            }
+            else
+            {
+                CloseRemoteWindow();
+            }
+        }
 
         private void drawingArea1_Click(object sender, EventArgs e)
         {
@@ -206,6 +224,16 @@ namespace WindowsGuiClient
                     Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
+        }
+
+        private void RemoteForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
         }
     }
 }

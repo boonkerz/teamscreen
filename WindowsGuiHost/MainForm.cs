@@ -147,18 +147,29 @@ namespace WindowsGuiHost
                 }
 
             };
-            Manager.HostListener.OnScreenshotRequest += (object sender, ScreenshotRequestEventArgs e) =>
-            {
-                Display.RequestScreenshot(e, e.Fullscreen);
-            };
-
-
+            Manager.HostListener.OnScreenshotRequest += HostListener_OnScreenshotRequest;
+            Manager.HostListener.OnClientClose += HostListener_OnClientClose;
             Display.SetManager(Manager.Manager);
             Manager.HostListener.onPeerConnected += HostListener_onPeerConnected;
             Manager.HostListener.onPeerDisconnected += HostListener_onPeerDisconnected;
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;
 
             Manager.start();
+        }
+
+        private void HostListener_OnScreenshotRequest(object sender, ScreenshotRequestEventArgs e)
+        {
+            Display.RequestScreenshot(e, e.Fullscreen);
+        }
+
+        private void HostListener_OnClientClose(object sender, Common.EventArgs.Network.Host.ClientCloseEventArgs e)
+        {
+            Display.RemoveClient(e.ClientSystemId);
+            Network.Messages.Connection.Response.CloseHostConnectionMessage rs = new Network.Messages.Connection.Response.CloseHostConnectionMessage();
+            rs.HostSystemId = Manager.Manager.SystemId;
+            rs.ClientSystemId = e.ClientSystemId;
+
+            Manager.Manager.sendMessage(rs);
         }
 
         private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

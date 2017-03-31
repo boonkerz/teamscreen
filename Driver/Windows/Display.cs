@@ -27,6 +27,11 @@ namespace Driver.Windows
             
         }
 
+        public void RemoveClient(string clientSystemId)
+        {
+            Driver.RemoveClient(clientSystemId);
+        }
+
         public void RequestScreenshot(ScreenshotRequestEventArgs e, Boolean fullscreen)
         {
             

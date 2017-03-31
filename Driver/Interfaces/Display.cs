@@ -13,5 +13,7 @@ namespace Driver.Interfaces
         void RequestScreenshot(ScreenshotRequestEventArgs e, Boolean fullscreen);
 
         void SetManager(HostManager hostManager);
+
+        void RemoveClient(string clientSystemId);
     }
 }

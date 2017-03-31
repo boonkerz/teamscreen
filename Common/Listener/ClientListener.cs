@@ -14,7 +14,8 @@ namespace Common.Listener
 
 		public event EventHandler<ConnectedEventArgs> OnConnected;
 		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
-		public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
+        public event EventHandler<HostCloseEventArgs> OnHostClose;
+        public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
 		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;
         
         public ClientListener()
@@ -44,12 +45,21 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseEmptyScreenshot:
 					handleEmptyResponseScreenshot(peer, (Network.Messages.Connection.ResponseEmptyScreenshotMessage)msg);
 					break;
+                case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCloseHostConnection:
+                    handleResponseCloseHostConnection(peer, (Network.Messages.Connection.Response.CloseHostConnectionMessage)msg);
+                    break;
 
-			}
+            }
 
 		}
 
-		public void handleEmptyResponseScreenshot(NetPeer peer, Network.Messages.Connection.ResponseEmptyScreenshotMessage message)
+        public void handleResponseCloseHostConnection(NetPeer peer, Network.Messages.Connection.Response.CloseHostConnectionMessage message)
+        {
+            if (OnHostClose != null)
+                OnHostClose(this, new HostCloseEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
+        }
+
+        public void handleEmptyResponseScreenshot(NetPeer peer, Network.Messages.Connection.ResponseEmptyScreenshotMessage message)
 		{
 			if (OnScreenshotReceived != null)
 				OnScreenshotReceived(this, new ScreenshotReceivedEventArgs()

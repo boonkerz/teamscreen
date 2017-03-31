@@ -90,11 +90,35 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.ResponseEmptyScreenshot:
 					handleEmptyResponseScreenshot(peer, (Network.Messages.Connection.ResponseEmptyScreenshotMessage)msg);
 					break;
-			}
+                case (ushort)Network.Messages.Connection.CustomMessageType.RequestCloseHostConnection:
+                    handleRequestClientHost(peer, (Network.Messages.Connection.Request.CloseHostConnectionMessage)msg);
+                    break;
+                case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCloseHostConnection:
+                    handleResponseHostClient(peer, (Network.Messages.Connection.Response.CloseHostConnectionMessage)msg);
+                    break;
+            }
 
-		}
+        }
 
-		public void handleKey(NetPeer peer, Network.Messages.Connection.OneWay.KeyMessage message)
+        public void handleRequestClientHost(NetPeer peer, BaseMessage message)
+        {
+            NetPeer wpeer;
+            if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
+            {
+                wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+            }
+        }
+
+        public void handleResponseHostClient(NetPeer peer, BaseMessage message)
+        {
+            NetPeer wpeer;
+            if (_clientPeers.TryGetValue(message.ClientSystemId, out wpeer))
+            {
+                wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+            }
+        }
+
+        public void handleKey(NetPeer peer, Network.Messages.Connection.OneWay.KeyMessage message)
 		{
 			NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))

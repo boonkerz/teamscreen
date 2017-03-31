@@ -19,7 +19,8 @@ namespace Common.Listener
 		public event EventHandler<ConnectedEventArgs> OnConnected;
 		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
 		public event EventHandler<ClientInitalizeConnectedEventArgs> OnClientInitalizeConnected;
-		public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
+        public event EventHandler<ClientCloseEventArgs> OnClientClose;
+        public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 		public event EventHandler<KeyEventArgs> OnKey;
@@ -56,11 +57,22 @@ namespace Common.Listener
 				case (ushort)Network.Messages.Connection.CustomMessageType.Key:
 					handleKeyPress(peer, (Network.Messages.Connection.OneWay.KeyMessage)msg);
 					break;
-			}
+                case (ushort)Network.Messages.Connection.CustomMessageType.RequestCloseHostConnection:
+                    handleRequestClientCloseConnection(peer, (Network.Messages.Connection.Request.CloseHostConnectionMessage)msg);
+                    break;
 
-		}
+            }
 
-		public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyMessage message)
+        }
+
+        public void handleRequestClientCloseConnection(NetPeer peer, Network.Messages.Connection.Request.CloseHostConnectionMessage message)
+        {
+            if (OnClientClose != null)
+                OnClientClose(this, new ClientCloseEventArgs { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
+        }
+
+
+        public void handleKeyPress(NetPeer peer, Network.Messages.Connection.OneWay.KeyMessage message)
 		{
 			if (OnKey != null)
 				OnKey(this, new KeyEventArgs { Key = message.Key, Alt = message.Alt, Control = message.Control, Shift = message.Shift, Mode = message.Mode });

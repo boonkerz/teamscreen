@@ -36,7 +36,10 @@ namespace Driver
 
         public virtual void RequestScreenshot(ScreenshotRequestEventArgs e, bool fullscreen)
         {
-            this.ConnectedClients.Add(e.ClientSystemId);
+            if (!this.ConnectedClients.Contains(e.ClientSystemId))
+            {
+                this.ConnectedClients.Add(e.ClientSystemId);
+            }
 
             refreshThread.Start();
         }
@@ -45,6 +48,10 @@ namespace Driver
         {
             
         }
-        
+
+        public void RemoveClient(string clientSystemId)
+        {
+            this.ConnectedClients.Remove(clientSystemId);
+        }
     }
 }

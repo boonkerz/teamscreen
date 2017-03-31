@@ -22,7 +22,6 @@ namespace Network.Messages.Connection.Request
 			message.Put(HostSystemId);
 			message.Put(ClientSystemId);
 			message.Put(ClientPublicKey);
-			Console.Write(ClientPublicKey.Length);
 		}
 
 		public override void ReadPayload(NetDataReader message)
