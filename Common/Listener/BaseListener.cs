@@ -14,6 +14,7 @@ namespace Common.Listener
         public event EventHandler onPeerConnected;
         public event EventHandler onPeerDisconnected;
         public event EventHandler onNetworkError;
+        public event EventHandler<NetDataReader> OnReceive;
 
         public virtual void OnPeerConnected(NetPeer peer)
         {
@@ -35,7 +36,8 @@ namespace Common.Listener
 
         public virtual void OnNetworkReceive(NetPeer peer, NetDataReader reader)
         {
-           
+            if (OnReceive != null)
+                OnReceive(this, reader);
         }
 
         public virtual void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)

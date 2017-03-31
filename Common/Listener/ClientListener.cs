@@ -13,7 +13,7 @@ namespace Common.Listener
 		public ClientManager _clientManager;
 
 		public event EventHandler<ConnectedEventArgs> OnConnected;
-		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
+        public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
         public event EventHandler<HostCloseEventArgs> OnHostClose;
         public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
 		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;
@@ -25,7 +25,7 @@ namespace Common.Listener
 
         public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
-			Console.WriteLine("[Client] received data. Processing...");
+            base.OnNetworkReceive(peer, reader);
 			Message msg = _messageHandler.decodeMessage(reader);
 
 			switch (msg.MessageType)

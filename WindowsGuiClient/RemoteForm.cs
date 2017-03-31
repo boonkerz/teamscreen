@@ -27,6 +27,7 @@ namespace WindowsGuiClient
 
         delegate void SetDrawingAreaHeightCallback(int Height);
         delegate void DrawImageCallback(Image Image, Rectangle Bounds);
+        delegate void setTransferedCallback(String text);
         delegate void CloseRemoteWindowCallback();
 
         public RemoteForm(String RemoteId)
@@ -45,19 +46,24 @@ namespace WindowsGuiClient
 
         protected void drawImage(Image image, Rectangle bounds)
         {
-            var gfx = drawingArea1.CreateGraphics();
 
-            int x = (int)((float)bounds.X * Ratio);
-            int y = (int)((float)bounds.Y * Ratio);
-            int width = (int)((float)bounds.Width * Ratio);
-            int height = (int)((float)bounds.Height * Ratio);
+            if (!drawingArea1.IsDisposed && !drawingArea1.Disposing)
+            {
+                drawingArea1.Draw(image, bounds);
+                
+                var gfx = drawingArea1.CreateGraphics();
 
-            gfx.DrawLine(pen, new Point(x, y), new Point(x + width, y));
-            gfx.DrawLine(pen, new Point(x + width, y), new Point(x + width, y + y));
-            gfx.DrawLine(pen, new Point(x + width, y + y), new Point(x, y + y));
-            gfx.DrawLine(pen, new Point(x, y + y), new Point(x, y));
-            gfx.Dispose();
-            drawingArea1.Draw(image, bounds);
+                int x = (int)((float)bounds.X * Ratio);
+                int y = (int)((float)bounds.Y * Ratio);
+                int width = (int)((float)bounds.Width * Ratio);
+                int height = (int)((float)bounds.Height * Ratio);
+
+                gfx.DrawLine(pen, new Point(x, y), new Point(x + width, y));
+                gfx.DrawLine(pen, new Point(x + width, y), new Point(x + width, y + y));
+                gfx.DrawLine(pen, new Point(x + width, y + y), new Point(x, y + y));
+                gfx.DrawLine(pen, new Point(x, y + y), new Point(x, y));
+                gfx.Dispose();
+            }
         }
 
         protected void CloseRemoteWindow()
@@ -111,14 +117,38 @@ namespace WindowsGuiClient
             }
         }
 
-        internal void setManager(ClientThread manager)
+        public void setManager(ClientThread manager)
         {
             this.Manager = manager;
+        }
 
+        public void Start()
+        {
             Manager.ClientListener.OnScreenshotReceived += OnScreenshotReceive;
             Manager.ClientListener.OnHostClose += ClientListener_OnHostClose;
+            Manager.ClientListener.OnReceive += ClientListener_OnReceive;
 
             Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId, Fullscreen = true });
+
+        }
+
+        protected void setTransfered(String text)
+        {
+            this.lblTransfered.Text = text;
+        }
+
+        private void ClientListener_OnReceive(object sender, LiteNetLib.Utils.NetDataReader e)
+        {
+            if (this.InvokeRequired)
+            {
+                setTransferedCallback d = new setTransferedCallback(setTransfered);
+                this.Invoke(d, new object[] { "Rx: " + e.AvailableBytes });
+            }
+            else
+            {
+                setTransfered("Rx: " + e.AvailableBytes);
+            }
+            
         }
 
         private void ClientListener_OnHostClose(object sender, Common.EventArgs.Network.Client.HostCloseEventArgs e)
