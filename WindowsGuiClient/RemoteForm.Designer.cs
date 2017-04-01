@@ -40,7 +40,7 @@
             // 
             this.drawingArea1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.drawingArea1.Location = new System.Drawing.Point(0, 67);
-            this.drawingArea1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.drawingArea1.Margin = new System.Windows.Forms.Padding(6);
             this.drawingArea1.Name = "drawingArea1";
             this.drawingArea1.Size = new System.Drawing.Size(1308, 452);
             this.drawingArea1.TabIndex = 0;
@@ -62,7 +62,7 @@
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1308, 56);
             this.panel1.TabIndex = 1;
@@ -70,27 +70,28 @@
             // lblTransfered
             // 
             this.lblTransfered.AutoSize = true;
-            this.lblTransfered.Location = new System.Drawing.Point(1082, 17);
+            this.lblTransfered.Location = new System.Drawing.Point(1190, 16);
             this.lblTransfered.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblTransfered.Name = "lblTransfered";
-            this.lblTransfered.Size = new System.Drawing.Size(198, 25);
+            this.lblTransfered.Size = new System.Drawing.Size(103, 25);
             this.lblTransfered.TabIndex = 2;
-            this.lblTransfered.Text = "Rx 120kb Tx 300kb";
+            this.lblTransfered.Text = "Rx 120kb";
             // 
             // btnFileTransfer
             // 
-            this.btnFileTransfer.Location = new System.Drawing.Point(550, 6);
-            this.btnFileTransfer.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnFileTransfer.Location = new System.Drawing.Point(920, 6);
+            this.btnFileTransfer.Margin = new System.Windows.Forms.Padding(6);
             this.btnFileTransfer.Name = "btnFileTransfer";
             this.btnFileTransfer.Size = new System.Drawing.Size(150, 44);
             this.btnFileTransfer.TabIndex = 1;
             this.btnFileTransfer.Text = "File Transfer";
             this.btnFileTransfer.UseVisualStyleBackColor = true;
+            this.btnFileTransfer.Click += new System.EventHandler(this.btnFileTransfer_Click);
             // 
             // btnClose
             // 
             this.btnClose.Location = new System.Drawing.Point(24, 6);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(6);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(150, 44);
             this.btnClose.TabIndex = 0;
@@ -105,7 +106,7 @@
             this.ClientSize = new System.Drawing.Size(1308, 519);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.drawingArea1);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "RemoteForm";
             this.Text = "RemoteForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RemoteForm_FormClosing);

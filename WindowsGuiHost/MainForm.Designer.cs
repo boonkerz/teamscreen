@@ -40,23 +40,26 @@
             // 
             // txtSystemId
             // 
-            this.txtSystemId.Location = new System.Drawing.Point(56, 12);
+            this.txtSystemId.Location = new System.Drawing.Point(114, 30);
+            this.txtSystemId.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txtSystemId.Name = "txtSystemId";
-            this.txtSystemId.Size = new System.Drawing.Size(100, 20);
+            this.txtSystemId.Size = new System.Drawing.Size(196, 31);
             this.txtSystemId.TabIndex = 0;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(211, 12);
+            this.txtPassword.Location = new System.Drawing.Point(460, 30);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.Size = new System.Drawing.Size(196, 31);
             this.txtPassword.TabIndex = 1;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(317, 10);
+            this.btnSave.Location = new System.Drawing.Point(700, 23);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(150, 44);
             this.btnSave.TabIndex = 2;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -64,49 +67,54 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 74);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 155);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(404, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(878, 30);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // lblStatus
             // 
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(39, 17);
+            this.lblStatus.Size = new System.Drawing.Size(73, 25);
             this.lblStatus.Text = "Status";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 17);
+            this.label1.Location = new System.Drawing.Point(30, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(16, 13);
+            this.label1.Size = new System.Drawing.Size(29, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Id";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(162, 17);
+            this.label2.Location = new System.Drawing.Point(342, 33);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.Size = new System.Drawing.Size(106, 25);
             this.label2.TabIndex = 4;
             this.label2.Text = "Password";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 96);
+            this.ClientSize = new System.Drawing.Size(878, 185);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtSystemId);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "MainForm";
             this.Text = "TeamScreen Server";
             this.statusStrip1.ResumeLayout(false);

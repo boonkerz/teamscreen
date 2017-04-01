@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using ByteSizeLib;
+using Common;
 using Common.EventArgs.Network;
 using Network.Messages.Connection;
 using System;
@@ -139,10 +140,11 @@ namespace WindowsGuiClient
 
         private void ClientListener_OnReceive(object sender, LiteNetLib.Utils.NetDataReader e)
         {
+            
             if (this.InvokeRequired)
             {
                 setTransferedCallback d = new setTransferedCallback(setTransfered);
-                this.Invoke(d, new object[] { "Rx: " + e.AvailableBytes });
+                this.Invoke(d, new object[] { "Rx: " + ByteSize.FromBytes(e.AvailableBytes).ToString() });
             }
             else
             {
@@ -264,6 +266,11 @@ namespace WindowsGuiClient
         private void RemoteForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
+        }
+
+        private void btnFileTransfer_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
