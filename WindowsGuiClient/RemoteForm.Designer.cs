@@ -70,7 +70,7 @@
             // lblTransfered
             // 
             this.lblTransfered.AutoSize = true;
-            this.lblTransfered.Location = new System.Drawing.Point(1190, 16);
+            this.lblTransfered.Location = new System.Drawing.Point(690, 16);
             this.lblTransfered.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblTransfered.Name = "lblTransfered";
             this.lblTransfered.Size = new System.Drawing.Size(103, 25);
@@ -79,7 +79,7 @@
             // 
             // btnFileTransfer
             // 
-            this.btnFileTransfer.Location = new System.Drawing.Point(920, 6);
+            this.btnFileTransfer.Location = new System.Drawing.Point(528, 6);
             this.btnFileTransfer.Margin = new System.Windows.Forms.Padding(6);
             this.btnFileTransfer.Name = "btnFileTransfer";
             this.btnFileTransfer.Size = new System.Drawing.Size(150, 44);

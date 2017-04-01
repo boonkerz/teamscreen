@@ -144,11 +144,14 @@ namespace WindowsGuiClient
             if (this.InvokeRequired)
             {
                 setTransferedCallback d = new setTransferedCallback(setTransfered);
-                this.Invoke(d, new object[] { "Rx: " + ByteSize.FromBytes(e.AvailableBytes).ToString() });
+                if (!this.IsDisposed && !this.Disposing)
+                {
+                    this.Invoke(d, new object[] { "Rx: " + ByteSize.FromBytes(e.AvailableBytes).ToString() });
+                }
             }
             else
             {
-                setTransfered("Rx: " + e.AvailableBytes);
+                setTransfered("Rx: " + ByteSize.FromBytes(e.AvailableBytes));
             }
             
         }
@@ -270,7 +273,9 @@ namespace WindowsGuiClient
 
         private void btnFileTransfer_Click(object sender, EventArgs e)
         {
-
+            FileManager fm = new FileManager();
+            fm.setManager(this.Manager);
+            fm.Show();
         }
     }
 }
