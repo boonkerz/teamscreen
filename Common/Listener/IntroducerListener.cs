@@ -48,7 +48,7 @@ namespace Common.Listener
 			}
 		}
 
-        public override void OnNetworkReceive(NetPeer peer, Network.Utils.NetDataReader reader)
+        public void OnNetworkReceive(NetPeer peer, Network.Utils.NetDataReader reader)
 		{
 			Console.WriteLine("[Server] received data. Processing...");
 			Message msg = _messageHandler.decodeMessage(reader);
