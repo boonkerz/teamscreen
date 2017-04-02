@@ -50,7 +50,7 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(74, 58);
-            this.txtName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtName.Margin = new System.Windows.Forms.Padding(6);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(196, 31);
             this.txtName.TabIndex = 0;
@@ -58,7 +58,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(404, 58);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(6);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(196, 31);
             this.txtPassword.TabIndex = 1;
@@ -66,7 +66,7 @@
             // btnLogin
             // 
             this.btnLogin.Location = new System.Drawing.Point(616, 54);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(6);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(200, 44);
             this.btnLogin.TabIndex = 2;
@@ -154,9 +154,9 @@
             this.name,
             this.id,
             this.status});
-            this.listMyHosts.Location = new System.Drawing.Point(12, 98);
+            this.listMyHosts.Location = new System.Drawing.Point(12, 107);
             this.listMyHosts.Name = "listMyHosts";
-            this.listMyHosts.Size = new System.Drawing.Size(824, 310);
+            this.listMyHosts.Size = new System.Drawing.Size(824, 301);
             this.listMyHosts.TabIndex = 7;
             this.listMyHosts.UseCompatibleStateImageBehavior = false;
             this.listMyHosts.View = System.Windows.Forms.View.Details;
@@ -164,12 +164,12 @@
             // name
             // 
             this.name.Text = "Name";
-            this.name.Width = 206;
+            this.name.Width = 128;
             // 
             // id
             // 
             this.id.Text = "Id";
-            this.id.Width = 242;
+            this.id.Width = 124;
             // 
             // status
             // 
@@ -190,7 +190,7 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtName);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainForm";
             this.Text = "TeamScreen Client";
             this.statusStrip1.ResumeLayout(false);

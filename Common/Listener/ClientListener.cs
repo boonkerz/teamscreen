@@ -17,7 +17,8 @@ namespace Common.Listener
         public event EventHandler<HostCloseEventArgs> OnHostClose;
         public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
 		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;
-        
+        public event EventHandler<OnlineCheckReceivedEventArgs> OnOnlineCheckReceived;
+
         public ClientListener()
 		{
 			_messageHandler = new MessageHandler();
@@ -48,10 +49,18 @@ namespace Common.Listener
                 case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCloseHostConnection:
                     handleResponseCloseHostConnection(peer, (Network.Messages.Connection.Response.CloseHostConnectionMessage)msg);
                     break;
-
+                case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCheckOnline:
+                    handleCheckOnline(peer, (Network.Messages.Connection.ResponseCheckOnlineMessage)msg);
+                    break;
             }
 
 		}
+
+        public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.ResponseCheckOnlineMessage message)
+        {
+            if (OnOnlineCheckReceived != null)
+                OnOnlineCheckReceived(this, new OnlineCheckReceivedEventArgs() { Peers = message.Peers });
+        }
 
         public void handleResponseCloseHostConnection(NetPeer peer, Network.Messages.Connection.Response.CloseHostConnectionMessage message)
         {

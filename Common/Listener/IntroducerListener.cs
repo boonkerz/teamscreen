@@ -96,8 +96,24 @@ namespace Common.Listener
                 case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCloseHostConnection:
                     handleResponseHostClient(peer, (Network.Messages.Connection.Response.CloseHostConnectionMessage)msg);
                     break;
+                case (ushort)Network.Messages.Connection.CustomMessageType.RequestCheckOnline:
+                    handleCheckOnline(peer, (Network.Messages.Connection.RequestCheckOnlineMessage)msg);
+                    break;
             }
 
+        }
+        public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.RequestCheckOnlineMessage message)
+        {
+            List<Model.Peer> peers = message.Peers;
+            foreach (Model.Peer pr in peers)
+            {
+                if (_hostPeers.ContainsKey(pr.SystemId))
+                {
+                    pr.isOnline = true;
+                }
+            }
+
+            peer.Send(_messageHandler.encodeMessage(new ResponseCheckOnlineMessage { Peers = peers }), SendOptions.Unreliable);
         }
 
         public void handleRequestClientHost(NetPeer peer, BaseMessage message)

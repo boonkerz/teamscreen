@@ -22,21 +22,25 @@ namespace WindowsGuiClient
         Rectangle Bounds;
 
         String SystemId { get; set; }
+        String Password { get; set; }
         private Pen pen = new Pen(Color.Magenta, 2.0f);
 
         public ClientThread Manager;
+
+        protected Common.Config.Manager ConfigManager;
 
         delegate void SetDrawingAreaHeightCallback(int Height);
         delegate void DrawImageCallback(Image Image, Rectangle Bounds);
         delegate void setTransferedCallback(String text);
         delegate void CloseRemoteWindowCallback();
 
-        public RemoteForm(String RemoteId)
+        public RemoteForm(String remoteId, String password)
         {
-            this.SystemId = RemoteId;
+            this.SystemId = remoteId;
+            this.Password = password;
 
             InitializeComponent();
-   
+            ConfigManager = new Common.Config.Manager();
         }
 
         protected void setDrawingAreaHeight(int height)
@@ -276,6 +280,18 @@ namespace WindowsGuiClient
             FileManager fm = new FileManager();
             fm.setManager(this.Manager);
             fm.Show();
+        }
+
+        private void btnSaveAs_Click(object sender, EventArgs e)
+        {
+            AddHostForm addHostForm = new AddHostForm();
+
+            if (addHostForm.ShowDialog(this) == DialogResult.OK)
+            {
+                ConfigManager.ClientConfig.Peers.Add(new Model.Peer { SystemId = this.SystemId, Name = addHostForm.getName(), Password = this.Password });
+                ConfigManager.saveClientConfig();
+            }
+            addHostForm.Dispose();
         }
     }
 }

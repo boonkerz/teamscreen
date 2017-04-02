@@ -30,6 +30,7 @@
         {
             this.drawingArea1 = new WindowsGuiClient.Controls.DrawingArea();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSaveAs = new System.Windows.Forms.Button();
             this.lblTransfered = new System.Windows.Forms.Label();
             this.btnFileTransfer = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -57,6 +58,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSaveAs);
             this.panel1.Controls.Add(this.lblTransfered);
             this.panel1.Controls.Add(this.btnFileTransfer);
             this.panel1.Controls.Add(this.btnClose);
@@ -66,6 +68,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1308, 56);
             this.panel1.TabIndex = 1;
+            // 
+            // btnSaveAs
+            // 
+            this.btnSaveAs.Location = new System.Drawing.Point(268, 6);
+            this.btnSaveAs.Name = "btnSaveAs";
+            this.btnSaveAs.Size = new System.Drawing.Size(115, 44);
+            this.btnSaveAs.TabIndex = 3;
+            this.btnSaveAs.Text = "Save As";
+            this.btnSaveAs.UseVisualStyleBackColor = true;
+            this.btnSaveAs.Click += new System.EventHandler(this.btnSaveAs_Click);
             // 
             // lblTransfered
             // 
@@ -123,5 +135,6 @@
         private System.Windows.Forms.Label lblTransfered;
         private System.Windows.Forms.Button btnFileTransfer;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnSaveAs;
     }
 }

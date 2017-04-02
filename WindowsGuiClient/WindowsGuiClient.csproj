@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddHostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddHostForm.Designer.cs">
+      <DependentUpon>AddHostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DrawingArea.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -75,6 +81,9 @@
     <Compile Include="RemoteForm.Designer.cs">
       <DependentUpon>RemoteForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddHostForm.resx">
+      <DependentUpon>AddHostForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileManager.resx">
       <DependentUpon>FileManager.cs</DependentUpon>
     </EmbeddedResource>
