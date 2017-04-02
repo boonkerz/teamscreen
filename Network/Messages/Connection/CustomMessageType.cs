@@ -20,5 +20,6 @@ namespace Network.Messages.Connection
 		ResponseInitalizeHostConnection,
         RequestCloseHostConnection,
         ResponseCloseHostConnection,
+        DisconnectFromIntroducer
     }
 }

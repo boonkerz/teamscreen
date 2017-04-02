@@ -53,5 +53,11 @@ namespace Driver
         {
             this.ConnectedClients.Remove(clientSystemId);
         }
+
+        public void RemoveAllClients()
+        {
+            this.ConnectedClients.Clear();
+            this.refreshThread.Stop();
+        }
     }
 }

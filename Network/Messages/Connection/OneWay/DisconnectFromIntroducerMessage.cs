@@ -1,31 +1,29 @@
 ﻿using System;
 using Network.Utils;
+using Model;
 
 namespace Network.Messages.Connection.OneWay
 {
-	public class MouseMoveMessage: BaseMessage
+	public class DisconnectFromIntroducerMessage : BaseMessage
 	{
-		public Double X { get; set; }
-		public Double Y { get; set; }
+		public String SystemId { get; set; }
 
-		public MouseMoveMessage()
-			: base((ushort)CustomMessageType.MouseMove)
+		public DisconnectFromIntroducerMessage()
+			: base((ushort)CustomMessageType.DisconnectFromIntroducer)
 		{
 		}
 
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-			message.Put(X);
-			message.Put(Y);
-
+			message.Put(SystemId);
 		}
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			X = message.GetDouble();
-			Y = message.GetDouble();
+            SystemId = message.GetString(100);
 		}
+
 	}
 }

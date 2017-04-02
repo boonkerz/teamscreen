@@ -36,7 +36,8 @@ namespace Common.Listener
 
         public override void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
 		{
-			foreach (var item in _hostPeers.Where(kvp => kvp.Value == peer).ToList())
+            Console.WriteLine("[Server] Peer disconnect: " + peer.EndPoint);
+            foreach (var item in _hostPeers.Where(kvp => kvp.Value == peer).ToList())
 			{
 				_hostPeers.Remove(item.Key);
 			}
@@ -47,7 +48,7 @@ namespace Common.Listener
 			}
 		}
 
-        public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
+        public override void OnNetworkReceive(NetPeer peer, Network.Utils.NetDataReader reader)
 		{
 			Console.WriteLine("[Server] received data. Processing...");
 			Message msg = _messageHandler.decodeMessage(reader);
@@ -99,9 +100,26 @@ namespace Common.Listener
                 case (ushort)Network.Messages.Connection.CustomMessageType.RequestCheckOnline:
                     handleCheckOnline(peer, (Network.Messages.Connection.RequestCheckOnlineMessage)msg);
                     break;
+                case (ushort)Network.Messages.Connection.CustomMessageType.DisconnectFromIntroducer:
+                    handleDisconnect(peer, (Network.Messages.Connection.OneWay.DisconnectFromIntroducerMessage)msg);
+                    break;
+            }
+        }
+
+        public void handleDisconnect(NetPeer peer, Network.Messages.Connection.OneWay.DisconnectFromIntroducerMessage message)
+        {
+            Console.WriteLine("[Server] Peer disconnect: " + message.SystemId);
+            foreach (var item in _hostPeers.Where(kvp => kvp.Key == message.SystemId).ToList())
+            {
+                _hostPeers.Remove(item.Key);
             }
 
+            foreach (var item in _clientPeers.Where(kvp => kvp.Key == message.SystemId).ToList())
+            {
+                _hostPeers.Remove(item.Key);
+            }
         }
+
         public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.RequestCheckOnlineMessage message)
         {
             List<Model.Peer> peers = message.Peers;

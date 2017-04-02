@@ -15,5 +15,6 @@ namespace Driver.Interfaces
         void SetManager(HostManager hostManager);
 
         void RemoveClient(string clientSystemId);
+        void RemoveAllClients();
     }
 }

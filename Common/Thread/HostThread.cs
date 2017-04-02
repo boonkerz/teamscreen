@@ -45,7 +45,7 @@ namespace Common.Thread
 			};
 		}
 
-		public void start()
+		public void Start()
 		{
             if (!Manager.Start())
 			{
@@ -64,7 +64,7 @@ namespace Common.Thread
 
 		}
 
-		public void stop()
+		public void Stop()
 		{
 			Manager.Stop();
 		}

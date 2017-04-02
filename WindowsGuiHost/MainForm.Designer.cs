@@ -41,7 +41,7 @@
             // txtSystemId
             // 
             this.txtSystemId.Location = new System.Drawing.Point(114, 30);
-            this.txtSystemId.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtSystemId.Margin = new System.Windows.Forms.Padding(6);
             this.txtSystemId.Name = "txtSystemId";
             this.txtSystemId.Size = new System.Drawing.Size(196, 31);
             this.txtSystemId.TabIndex = 0;
@@ -49,7 +49,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(460, 30);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(6);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(196, 31);
             this.txtPassword.TabIndex = 1;
@@ -57,7 +57,7 @@
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(700, 23);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(150, 44);
             this.btnSave.TabIndex = 2;
@@ -70,17 +70,17 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 155);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 148);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(878, 30);
+            this.statusStrip1.Size = new System.Drawing.Size(878, 37);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // lblStatus
             // 
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(73, 25);
+            this.lblStatus.Size = new System.Drawing.Size(79, 32);
             this.lblStatus.Text = "Status";
             // 
             // label1
@@ -114,9 +114,10 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtSystemId);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainForm";
             this.Text = "TeamScreen Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);

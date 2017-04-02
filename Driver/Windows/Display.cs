@@ -27,6 +27,11 @@ namespace Driver.Windows
             
         }
 
+        public void RemoveAllClients()
+        {
+            Driver.RemoveAllClients();
+        }
+
         public void RemoveClient(string clientSystemId)
         {
             Driver.RemoveClient(clientSystemId);

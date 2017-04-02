@@ -1,5 +1,6 @@
 ﻿using Common.EventArgs.Network;
 using Common.Thread;
+using Network.Messages.Connection.OneWay;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -154,7 +156,7 @@ namespace WindowsGuiHost
             Manager.HostListener.onPeerDisconnected += HostListener_onPeerDisconnected;
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;
 
-            Manager.start();
+            Manager.Start();
         }
 
         private void HostListener_OnScreenshotRequest(object sender, ScreenshotRequestEventArgs e)
@@ -174,6 +176,7 @@ namespace WindowsGuiHost
 
         private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            Display.RemoveAllClients();
             Manager.Reconnect();
         }
 
@@ -219,7 +222,18 @@ namespace WindowsGuiHost
             ConfigManager.HostConfig.SystemId = this.txtSystemId.Text;
             ConfigManager.HostConfig.Password = this.txtPassword.Text;
             ConfigManager.saveHostConfig();
+            Manager.Manager.SystemId = this.txtSystemId.Text;
             Manager.Manager.Password = this.txtPassword.Text;
+            Manager.Manager.sendMessage(new DisconnectFromIntroducerMessage() { SystemId = Manager.Manager.SystemId });
+            Thread.Sleep(100);
+            Manager.Stop();
+            Manager.Start();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Manager.Manager.sendMessage(new DisconnectFromIntroducerMessage() { SystemId = Manager.Manager.SystemId }) ;
+            Thread.Sleep(100);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using LiteNetLib.Utils;
+﻿using Network.Utils;
+using System;
 
 namespace Network.Messages.Connection
 {

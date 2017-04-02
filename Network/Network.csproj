@@ -31,6 +31,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages\Connection\OneWay\DisconnectFromIntroducerMessage.cs" />
     <Compile Include="Messages\Connection\Request\CloseHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\ResponseEmptyScreenshotMessage.cs" />
     <Compile Include="Messages\Connection\Response\CloseHostConnectionMessage.cs" />
@@ -40,6 +41,8 @@
     <Compile Include="Messages\BaseMessage.cs" />
     <Compile Include="Messages\System\RequestHostIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\System\CustomMessageType.cs" />
+    <Compile Include="Utils\NetDataReader.cs" />
+    <Compile Include="Utils\NetDataWriter.cs" />
     <Compile Include="Utils\MessageHandler.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="HostManager.cs" />
