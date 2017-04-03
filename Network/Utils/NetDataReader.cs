@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Network.Utils
 {
-    public class NetDataReader : LiteNetLib.Utils.NetDataReader
+	public class NetDataReader : LiteNetLib.Utils.NetDataReader
     {
     }
 }

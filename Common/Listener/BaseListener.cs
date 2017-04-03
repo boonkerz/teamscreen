@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LiteNetLib.Utils;
+using LiteNetLib.Utils.Interface;
 
 namespace Common.Listener
 {
@@ -34,7 +34,7 @@ namespace Common.Listener
                 onNetworkError(this, System.EventArgs.Empty);
         }
 
-        public virtual void OnNetworkReceive(NetPeer peer, NetDataReader reader)
+		public virtual void OnNetworkReceive(NetPeer peer, NetDataReader reader)
         {
             if (OnReceive != null)
                 OnReceive(this, reader);
@@ -49,5 +49,5 @@ namespace Common.Listener
         {
             
         }
-    }
+	}
 }

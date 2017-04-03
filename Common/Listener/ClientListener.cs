@@ -24,7 +24,7 @@ namespace Common.Listener
 			_messageHandler = new MessageHandler();
 		}
 
-        public new void OnNetworkReceive(NetPeer peer, Network.Utils.NetDataReader reader)
+        public void OnNetworkReceive(NetPeer peer, Network.Utils.NetDataReader reader)
 		{
             base.OnNetworkReceive(peer, reader);
 			Message msg = _messageHandler.decodeMessage(reader);
