@@ -2,6 +2,7 @@
 using Network.Utils;
 using Model;
 using System.Drawing;
+using LiteNetLib.Utils;
 
 namespace Network.Messages.Connection
 {

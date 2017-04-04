@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteNetLib.Utils;
 using Network.Utils;
 
 namespace Network.Messages.Connection.OneWay
@@ -18,10 +19,7 @@ namespace Network.Messages.Connection.OneWay
         public KeyMode Mode { get; set; }
         
 
-        public String HostSystemId { get; set; }
-		public String ClientSystemId { get; set; }
-
-		public KeyMessage()
+        public KeyMessage()
 			: base((ushort)CustomMessageType.Key)
 		{
 		}
@@ -29,8 +27,6 @@ namespace Network.Messages.Connection.OneWay
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-			message.Put(HostSystemId);
-			message.Put(ClientSystemId);
 			message.Put(Key);
             message.Put(Shift);
             message.Put(Control);
@@ -42,8 +38,6 @@ namespace Network.Messages.Connection.OneWay
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			HostSystemId = message.GetString(100);
-			ClientSystemId = message.GetString(100);
 			Key = message.GetUInt();
             Shift = message.GetBool();
             Control = message.GetBool();

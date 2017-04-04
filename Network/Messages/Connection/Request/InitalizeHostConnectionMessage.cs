@@ -1,14 +1,13 @@
 ﻿using System;
 using Network.Utils;
 using Model;
+using LiteNetLib.Utils;
 
 namespace Network.Messages.Connection.Request
 {
 	public class InitalizeHostConnectionMessage : BaseMessage
 	{
 
-		public String HostSystemId { get; set; }
-		public String ClientSystemId { get; set; }
 		public String ClientPublicKey { get; set; }
 
 		public InitalizeHostConnectionMessage()
@@ -19,16 +18,14 @@ namespace Network.Messages.Connection.Request
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-			message.Put(HostSystemId);
-			message.Put(ClientSystemId);
 			message.Put(ClientPublicKey);
+			this.Encrypt(message);
 		}
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			HostSystemId = message.GetString(100);
-			ClientSystemId = message.GetString(100);
+			this.Decrypt(message);
 			ClientPublicKey = message.GetString(250);
 		}
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Network.Utils;
+using LiteNetLib.Utils;
 using Network.Messages.System;
 
 namespace Network

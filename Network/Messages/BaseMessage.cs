@@ -20,16 +20,16 @@ namespace Network
 		}
 
 
-        public override void WritePayload(Network.Utils.NetDataWriter message)
+        public override void WritePayload(NetDataWriter message)
         {
             base.WritePayload(message);
             message.Put(HostSystemId);
             message.Put(ClientSystemId);
-            StartPointEncryption = message.Position();
-            message.Put(StartPointEncryption + 4);
+			StartPointEncryption = message.Length + 4;
+            message.Put(StartPointEncryption);
         }
 
-        public override void ReadPayload(Network.Utils.NetDataReader message)
+        public override void ReadPayload(NetDataReader message)
         {
             base.ReadPayload(message);
             HostSystemId = message.GetString(100);
@@ -38,37 +38,51 @@ namespace Network
 
         }
 
-        public void Encrypt(Network.Utils.NetDataWriter message)
+		public void Decrypt(NetDataReader message)
+		{
+			byte[] toDecrypt = new byte[message.Data.Length - StartPointEncryption];
+
+			Array.Copy(message.Data, StartPointEncryption, toDecrypt, 0, message.Data.Length - StartPointEncryption);
+
+			this.PrintByteArray(toDecrypt);
+
+			byte[] decrypted = Network.Utils.Cryptography.DecryptBytes(toDecrypt, "12345");
+
+
+			this.PrintByteArray(decrypted);
+			byte[] toTransfer = new byte[StartPointEncryption + decrypted.Length];
+			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
+			Array.Copy(decrypted, 0, toTransfer, StartPointEncryption, decrypted.Length);
+			message.SetSource(toTransfer, StartPointEncryption);
+		}
+
+        public void Encrypt(NetDataWriter message)
         {
+			byte[] toEncrypt = new byte[message.Data.Length-StartPointEncryption];
+			Array.Copy(message.Data, StartPointEncryption , toEncrypt, 0, message.Data.Length - StartPointEncryption);
 
-            byte[] toEncrypt = new byte[message.Data.Length-this.StartPointEncryption];
+			this.PrintByteArray(toEncrypt);
+            
+			byte[] encrypted = Network.Utils.Cryptography.EncryptBytes(toEncrypt, "12345");
 
-            message.Data.CopyTo(toEncrypt, this.StartPointEncryption);
+			this.PrintByteArray(encrypted);
+			byte[] toTransfer = new byte[StartPointEncryption + encrypted.Length];
 
-            using (Rijndael rijAlg = Rijndael.Create())
-            {
-                rijAlg.Key = Encoding.ASCII.GetBytes("Test");
-                rijAlg.IV = Encoding.ASCII.GetBytes("TE");
-
-                // Create an encryptor to perform the stream transform.
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
-
-                // Create the streams used for encryption.
-                using (MemoryStream msEncrypt = new MemoryStream())
-                {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-
-                            //Write all data to the stream.
-                            swEncrypt.Write(toEncrypt);
-                        }
-                        msEncrypt.ToArray().CopyTo(message.Data, StartPointEncryption);
-                    }
-                }
-            }
-
+			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
+			Array.Copy(encrypted, 0, toTransfer, StartPointEncryption, encrypted.Length);
+			message.Data = toTransfer;
+			message.Length = toTransfer.Length;
         }
+
+		public void PrintByteArray(byte[] bytes)
+		{
+			var sb = new StringBuilder("new byte[] { ");
+			foreach (var b in bytes)
+			{
+				sb.Append(b + ", ");
+			}
+			sb.Append("}");
+			Console.WriteLine(sb.ToString());
+		}
     }
 }

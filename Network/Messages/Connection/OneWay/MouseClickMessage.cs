@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteNetLib.Utils;
 using Network.Utils;
 
 namespace Network.Messages.Connection.OneWay
@@ -12,8 +13,6 @@ namespace Network.Messages.Connection.OneWay
 			Right = 3
 		}
 
-		public String HostSystemId { get; set; }
-		public String ClientSystemId { get; set; }
 		public int X { get; set; }
 		public int Y { get; set; }
 		public ButtonType Button { get; set; }
@@ -32,8 +31,6 @@ namespace Network.Messages.Connection.OneWay
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-			message.Put(HostSystemId);
-			message.Put(ClientSystemId);
 			message.Put(X);
 			message.Put(Y);
 			message.Put((int)this.Button);
@@ -45,8 +42,6 @@ namespace Network.Messages.Connection.OneWay
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			HostSystemId = message.GetString(100);
-			ClientSystemId = message.GetString(100);
 			X = message.GetInt();
 			Y = message.GetInt();
 			Button = (ButtonType)message.GetInt();

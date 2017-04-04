@@ -15,7 +15,7 @@ namespace Network.Messages.Connection
             Fullscreen = false;
 		}
 
-		public override void WritePayload(Network.Utils.NetDataWriter message)
+		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
 			message.Put(Fullscreen);
@@ -23,7 +23,7 @@ namespace Network.Messages.Connection
             this.Encrypt(message);
         }
 
-		public override void ReadPayload(Network.Utils.NetDataReader message)
+		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
             Fullscreen = message.GetBool();

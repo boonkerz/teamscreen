@@ -48,7 +48,7 @@ namespace Common.Listener
 			}
 		}
 
-        public void OnNetworkReceive(NetPeer peer, Network.Utils.NetDataReader reader)
+        public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
 			Console.WriteLine("[Server] received data. Processing...");
 			Message msg = _messageHandler.decodeMessage(reader);
@@ -172,7 +172,7 @@ namespace Common.Listener
 
 		public void handleRequestInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Request.InitalizeHostConnectionMessage message)
 		{
-			NetPeer wpeer;
+			/*NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
 			{
 				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
@@ -181,7 +181,7 @@ namespace Common.Listener
 			{
 				Network.Messages.Connection.Response.InitalizeHostConnectionMessage messageNew = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
 				messageNew.HostFound = false;
-			}
+			}*/
 		}
 
 		public void handleMouseClickEvent(NetPeer peer, Network.Messages.Connection.OneWay.MouseClickMessage message)

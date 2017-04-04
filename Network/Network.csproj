@@ -41,8 +41,6 @@
     <Compile Include="Messages\BaseMessage.cs" />
     <Compile Include="Messages\System\RequestHostIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\System\CustomMessageType.cs" />
-    <Compile Include="Utils\NetDataReader.cs" />
-    <Compile Include="Utils\NetDataWriter.cs" />
     <Compile Include="Utils\MessageHandler.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="HostManager.cs" />
@@ -66,6 +64,7 @@
     <Compile Include="Messages\Connection\Response\HostConnectionMessage.cs" />
     <Compile Include="BaseManager.cs" />
     <Compile Include="Messages\Connection\OneWay\KeyMessage.cs" />
+    <Compile Include="Utils\Crypto.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

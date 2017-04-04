@@ -13,12 +13,12 @@ namespace Network
 			MessageType = messageType;
 		}
 
-		public virtual void WritePayload(Network.Utils.NetDataWriter message)
+		public virtual void WritePayload(NetDataWriter message)
 		{
 			message.Put(MessageType);
 		}
 
-		public virtual void ReadPayload(Network.Utils.NetDataReader message)
+		public virtual void ReadPayload(NetDataReader message)
 		{
 		}
 	}

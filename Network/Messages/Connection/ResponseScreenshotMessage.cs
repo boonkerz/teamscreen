@@ -2,14 +2,13 @@
 using Network.Utils;
 using Model;
 using System.Drawing;
+using LiteNetLib.Utils;
 
 namespace Network.Messages.Connection
 {
 	public class ResponseScreenshotMessage : BaseMessage
 	{
 
-		public String HostSystemId { get; set; }
-		public String ClientSystemId { get; set; }
 		public byte[] Image { get; set; } 
 		public Rectangle Bounds { get; set; }
         public Boolean Fullscreen { get; set; }
@@ -22,8 +21,6 @@ namespace Network.Messages.Connection
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-			message.Put(HostSystemId);
-			message.Put(ClientSystemId);
 			message.Put(Bounds.X);
             message.Put(Bounds.Y);
             message.Put(Bounds.Width);
@@ -36,9 +33,7 @@ namespace Network.Messages.Connection
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			HostSystemId = message.GetString(100);
-			ClientSystemId = message.GetString(100);
-            Bounds = new Rectangle(message.GetInt(), message.GetInt(), message.GetInt(), message.GetInt());
+			Bounds = new Rectangle(message.GetInt(), message.GetInt(), message.GetInt(), message.GetInt());
             Fullscreen = message.GetBool();
  			Image = message.GetRemainingBytes();
 
