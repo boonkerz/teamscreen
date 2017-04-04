@@ -120,6 +120,8 @@ namespace Common.Listener
 			if (this._hostManager.Password == decrypt)
 			{
 				res.PasswordOk = true;
+				var symmetricKey = _hostManager.Decode(message.ClientSystemId, message.SymmetricKey);
+				_hostManager.SaveSymmetricKey(message.ClientSystemId, symmetricKey);
 			}
 			peer.Send(_messageHandler.encodeMessage(res), SendOptions.Unreliable);
 			if (OnClientConnected != null)

@@ -144,33 +144,37 @@ namespace WindowsGuiClient
 
         private void ClientListener_OnReceive(object sender, LiteNetLib.Utils.NetDataReader e)
         {
-            
-            if (this.InvokeRequired)
-            {
-                setTransferedCallback d = new setTransferedCallback(setTransfered);
-                if (!this.IsDisposed && !this.Disposing)
-                {
-                    this.Invoke(d, new object[] { "Rx: " + ByteSize.FromBytes(e.AvailableBytes).ToString() });
-                }
-            }
-            else
-            {
-                setTransfered("Rx: " + ByteSize.FromBytes(e.AvailableBytes));
-            }
+
+			if (!this.IsDisposed && !this.Disposing)
+			{
+				if (this.InvokeRequired)
+				{
+					setTransferedCallback d = new setTransferedCallback(setTransfered);
+					this.Invoke(d, new object[] { "Rx: " + ByteSize.FromBytes(e.AvailableBytes).ToString() });
+
+				}
+				else
+				{
+					setTransfered("Rx: " + ByteSize.FromBytes(e.AvailableBytes));
+				}
+			}
             
         }
 
         private void ClientListener_OnHostClose(object sender, Common.EventArgs.Network.Client.HostCloseEventArgs e)
         {
-            if (this.InvokeRequired)
-            {
-                CloseRemoteWindowCallback d = new CloseRemoteWindowCallback(CloseRemoteWindow);
-                this.Invoke(d);
-            }
-            else
-            {
-                CloseRemoteWindow();
-            }
+			if (!this.IsDisposed && !this.Disposing)
+			{
+				if (this.InvokeRequired)
+				{
+					CloseRemoteWindowCallback d = new CloseRemoteWindowCallback(CloseRemoteWindow);
+					this.Invoke(d);
+				}
+				else
+				{
+					CloseRemoteWindow();
+				}
+			}
         }
 
         private void drawingArea1_Click(object sender, EventArgs e)

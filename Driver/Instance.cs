@@ -51,7 +51,7 @@ namespace Driver
 			{
 				Mouse = new Driver.Mac.Mouse();
 				Keyboard = new Driver.Mac.Keyboard();
-				Display = new Driver.Windows.Display(true);
+				Display = new Driver.Mac.Display();
 			}
 			else if (operating_system == OS.Windows)
 			{

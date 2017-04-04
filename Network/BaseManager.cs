@@ -10,6 +10,7 @@ namespace Network
 	{
 		System.Collections.Hashtable _myKeys;
 		System.Collections.Hashtable _remoteKeys;
+		System.Collections.Hashtable _symmetricKey;
 
 		NetManager _netManager;
 		MessageHandler _messageHandler;
@@ -22,6 +23,7 @@ namespace Network
 		{
 			_myKeys = new System.Collections.Hashtable();
 			_remoteKeys = new System.Collections.Hashtable();
+			_symmetricKey = new System.Collections.Hashtable();
 			_netManager = new NetManager(Listener, 12000, ConnectKey);
 			_netManager.UnsyncedEvents = true;
 			_netManager.PingInterval = 10000;
@@ -29,13 +31,22 @@ namespace Network
 			_messageHandler = new MessageHandler();
 		}
 
-		public void SaveHostPublicKey(string RemoteSystemId, string RemotePublicKey)
+		public void SaveHostPublicKey(string remoteSystemId, string remotePublicKey)
 		{
-			if (_remoteKeys.Contains(RemoteSystemId))
+			if (_remoteKeys.Contains(remoteSystemId))
 			{
-				_remoteKeys.Remove(RemoteSystemId);
+				_remoteKeys.Remove(remoteSystemId);
 			}
-			this._remoteKeys.Add(RemoteSystemId, RemotePublicKey);
+			this._remoteKeys.Add(remoteSystemId, remotePublicKey);
+		}
+
+		public void SaveSymmetricKey(string remoteSystemId, string symmetricKey)
+		{
+			if (_symmetricKey.Contains(remoteSystemId))
+			{
+				_symmetricKey.Remove(remoteSystemId);
+			}
+			this._symmetricKey.Add(remoteSystemId, symmetricKey);
 		}
 
 		public string Decode(string MySystemId, string Text)

@@ -27,22 +27,38 @@ namespace Network.Messages.Connection.OneWay
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-			message.Put(Key);
-            message.Put(Shift);
-            message.Put(Control);
-            message.Put(Alt);
-            message.Put((int)Mode);
-
+			if (this.Introducer)
+			{
+				this.CopyEncryptedFromTempStorage(message);
+			}
+			else
+			{
+				message.Put(Key);
+				message.Put(Shift);
+				message.Put(Control);
+				message.Put(Alt);
+				message.Put((int)Mode);
+				this.Encrypt(message);
+			}
 		}
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			Key = message.GetUInt();
-            Shift = message.GetBool();
-            Control = message.GetBool();
-            Alt = message.GetBool();
-            Mode = (KeyMode)message.GetInt();
+			if (this.Introducer)
+			{
+				this.CopyEncryptedToTempStorage(message);
+			}
+			else
+			{
+				this.Decrypt(message);
+				Key = message.GetUInt();
+				Shift = message.GetBool();
+				Control = message.GetBool();
+				Alt = message.GetBool();
+				Mode = (KeyMode)message.GetInt();
+			}
+
 		}
 	}
 }

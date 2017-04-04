@@ -14,13 +14,30 @@ namespace Network
         public String ClientSystemId { get; set; }
         public int StartPointEncryption { get; set; }
 
+		protected byte[] EncryptedTempStorage { get; set; }
+
         protected BaseMessage(ushort type)
 			: base(type)
 		{
 		}
 
+		public void CopyEncryptedToTempStorage(NetDataReader message)
+		{
+			this.EncryptedTempStorage = new byte[message.Data.Length - StartPointEncryption];
+			Array.Copy(message.Data, StartPointEncryption, this.EncryptedTempStorage, 0, message.Data.Length - StartPointEncryption);
+		}
 
-        public override void WritePayload(NetDataWriter message)
+		public void CopyEncryptedFromTempStorage(NetDataWriter message)
+		{
+			byte[] toTransfer = new byte[StartPointEncryption + this.EncryptedTempStorage.Length];
+
+			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
+			Array.Copy(this.EncryptedTempStorage, 0, toTransfer, StartPointEncryption, this.EncryptedTempStorage.Length);
+			message.Data = toTransfer;
+			message.Length = toTransfer.Length;
+		}
+
+		public override void WritePayload(NetDataWriter message)
         {
             base.WritePayload(message);
             message.Put(HostSystemId);
@@ -31,7 +48,7 @@ namespace Network
 
         public override void ReadPayload(NetDataReader message)
         {
-            base.ReadPayload(message);
+			base.ReadPayload(message);
             HostSystemId = message.GetString(100);
             ClientSystemId = message.GetString(100);
             StartPointEncryption = message.GetInt();

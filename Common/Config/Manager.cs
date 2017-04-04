@@ -22,6 +22,11 @@ namespace Common.Config
 			loadConfig();
 		}
 
+		public void Reload()
+		{
+			this.loadConfig();
+		}
+
 		protected void loadConfig()
 		{
 

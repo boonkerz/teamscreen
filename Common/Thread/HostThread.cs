@@ -51,6 +51,7 @@ namespace Common.Thread
 			{
 				return;
 			}
+			ConfigManager.Reload();
 			Manager.Connect(ConfigManager.HostConfig.ServerName, ConfigManager.HostConfig.ServerPort);
 
 			if (ConfigManager.HostConfig.SystemId == "")

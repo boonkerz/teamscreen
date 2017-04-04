@@ -20,7 +20,7 @@ namespace Network.Messages.Connection
 			base.WritePayload(message);
 			message.Put(Fullscreen);
 
-            this.Encrypt(message);
+            //this.Encrypt(message);
         }
 
 		public override void ReadPayload(NetDataReader message)

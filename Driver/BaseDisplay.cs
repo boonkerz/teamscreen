@@ -18,7 +18,7 @@ namespace Driver
 
         protected System.Timers.Timer refreshThread;
 
-        public BaseDisplay()
+		public BaseDisplay() : base()
         {
             refreshThread = new System.Timers.Timer(200);
             refreshThread.Elapsed += RefreshThread_Elapsed;

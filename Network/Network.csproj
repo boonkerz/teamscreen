@@ -65,6 +65,8 @@
     <Compile Include="BaseManager.cs" />
     <Compile Include="Messages\Connection\OneWay\KeyMessage.cs" />
     <Compile Include="Utils\Crypto.cs" />
+    <Compile Include="Messages\FileTransfer\Request\ListingMessage.cs" />
+    <Compile Include="Messages\FileTransfer\CustomMessageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -77,5 +79,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messages\FileTransfer\" />
+    <Folder Include="Messages\FileTransfer\Request\" />
+    <Folder Include="Messages\FileTransfer\Response\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

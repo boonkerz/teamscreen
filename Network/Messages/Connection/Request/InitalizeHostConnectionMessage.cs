@@ -19,13 +19,11 @@ namespace Network.Messages.Connection.Request
 		{
 			base.WritePayload(message);
 			message.Put(ClientPublicKey);
-			this.Encrypt(message);
 		}
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-			this.Decrypt(message);
 			ClientPublicKey = message.GetString(250);
 		}
 

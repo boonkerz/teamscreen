@@ -11,24 +11,27 @@ namespace Network
 {
 	public class MessageHandler
 	{
-		public MessageHandler()
+		protected Boolean Introducer {get;set;}
+
+		public MessageHandler(Boolean introducer = false)
 		{
+			this.Introducer = introducer;
 			Discover();
 		}
-
 
 		public NetDataWriter encodeMessage(Message message)
 		{
 			NetDataWriter dw = new NetDataWriter();
+			message.Introducer = Introducer;
 			message.WritePayload(dw);
 			return dw;
 		}
 
 		public Message decodeMessage(NetDataReader incoming)
 		{
-			
 			ushort messageType = incoming.GetUShort();
 			var message = create(messageType);
+			message.Introducer = Introducer;
 			message.ReadPayload(incoming);
 
 			return message;

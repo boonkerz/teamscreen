@@ -7,6 +7,8 @@ namespace Network
 	{
 		public ushort MessageType { get; private set; }
 
+		public Boolean Introducer { get; set; }
+
 
 		protected Message(ushort messageType)
 		{
@@ -20,6 +22,7 @@ namespace Network
 
 		public virtual void ReadPayload(NetDataReader message)
 		{
+
 		}
 	}
 }

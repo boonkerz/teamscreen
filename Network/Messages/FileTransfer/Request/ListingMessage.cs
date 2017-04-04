@@ -1,27 +1,30 @@
 ﻿using System;
 using Network.Utils;
 using Model;
-using System.Drawing;
 using LiteNetLib.Utils;
 
-namespace Network.Messages.Connection
+namespace Network.Messages.FileTransfer.Request
 {
-	public class ResponseEmptyScreenshotMessage : BaseMessage
+	public class ListingMessage : BaseMessage
 	{
 
-		public ResponseEmptyScreenshotMessage()
-			: base((ushort)CustomMessageType.ResponseEmptyScreenshot)
+		public String Subdir { get; set; }
+
+		public ListingMessage()
+			: base((ushort)CustomMessageType.RequestListing)
 		{
 		}
 
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
+			message.Put(Subdir);
 		}
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
+			Subdir = message.GetString(250);
 		}
 
 	}

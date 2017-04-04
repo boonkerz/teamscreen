@@ -13,10 +13,10 @@ namespace Driver.Windows
         
         Interfaces.BaseDisplay Driver;
 
-        public Display(bool forceSimple = false)
+        public Display()
 		{
             Windows.DfMirage.Display DfMirage = new DfMirage.Display();
-            if (!forceSimple && DfMirage.DoesMirrorDriverExist())
+            if (DfMirage.DoesMirrorDriverExist())
             {
                 Driver = DfMirage;
             }
