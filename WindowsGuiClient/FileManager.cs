@@ -17,11 +17,62 @@ namespace WindowsGuiClient
     {
         protected ClientThread Manager;
 
-        public FileManager()
+        protected String SystemId;
+
+        delegate void fillListRemoteCallback(List<Model.Listing> entrys);
+
+        public FileManager(String systemId)
         {
+            SystemId = systemId;
             InitializeComponent();
 
-            InitTrees();
+            
+        }
+
+        protected void fillListRemote(List<Model.Listing> entrys)
+        {
+            this.listRemote.Items.Clear();
+            ListViewItem upper = new ListViewItem("");
+            upper.SubItems.Add("..");
+            upper.SubItems.Add("0");
+            upper.SubItems.Add("Folder");
+            upper.SubItems.Add("");
+            this.listLocal.Items.Add(upper);
+
+            foreach (var entry in entrys)
+            {
+                upper = new ListViewItem("");
+                upper.SubItems.Add(entry.Name);
+                upper.SubItems.Add(entry.Size.ToString());
+                if (entry.Directory)
+                {
+                    upper.SubItems.Add("Folder");
+                }
+                else
+                {
+                    upper.SubItems.Add("File");
+                }
+                upper.SubItems.Add("");
+                this.listRemote.Items.Add(upper);
+            }
+        }
+
+        private void ClientListener_OnFileTransferListing(object sender, Common.EventArgs.FileTransfer.FileTransferListingEventArgs e)
+        {
+            
+
+            if (!this.IsDisposed && !this.Disposing)
+            {
+                if (this.InvokeRequired)
+                {
+                    fillListRemoteCallback d = new fillListRemoteCallback(fillListRemote);
+                    this.Invoke(d, new object[] { e.Entrys });
+                }
+                else
+                {
+                    fillListRemote(e.Entrys);
+                }
+            }
         }
 
         private void InitTrees()
@@ -33,11 +84,14 @@ namespace WindowsGuiClient
         public void setManager(ClientThread manager)
         {
             this.Manager = manager;
+            Manager.ClientListener.OnFileTransferListing += ClientListener_OnFileTransferListing;
+
+            InitTrees();
         }
 
         private void PopulateTreeViewRemote()
         {
-            //Manager.Manager.sendMessage(new Network.Messages.Connection.Request.MouseMoveMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (e.X / Ratio), Y = (e.Y / Ratio) });
+            Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
         }
 
         private void PopulateTreeViewLocal()

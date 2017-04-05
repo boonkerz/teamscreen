@@ -35,6 +35,7 @@
     <Compile Include="Messages\Connection\Request\CloseHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\ResponseEmptyScreenshotMessage.cs" />
     <Compile Include="Messages\Connection\Response\CloseHostConnectionMessage.cs" />
+    <Compile Include="Messages\FileTransfer\Response\ListingMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messages\System\KeepAliveMessage.cs" />
     <Compile Include="Message.cs" />
@@ -79,10 +80,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Messages\FileTransfer\" />
-    <Folder Include="Messages\FileTransfer\Request\" />
-    <Folder Include="Messages\FileTransfer\Response\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

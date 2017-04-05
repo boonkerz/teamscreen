@@ -23,6 +23,7 @@ namespace WindowsGuiHost
         public Driver.Interfaces.Mouse Mouse { get { return Driver.Manager.Instance.Mouse; } }
         public Driver.Interfaces.Keyboard Keyboard { get { return Driver.Manager.Instance.Keyboard; } }
         public Driver.Interfaces.Display Display { get { return Driver.Manager.Instance.Display; } }
+        public Driver.Interfaces.FileManager FileManager { get { return Driver.Manager.Instance.FileManager; } }
 
         delegate void SetSystemIdAndPasswordCallback(String SystemId, String Password);
 
@@ -155,8 +156,20 @@ namespace WindowsGuiHost
             Manager.HostListener.onPeerConnected += HostListener_onPeerConnected;
             Manager.HostListener.onPeerDisconnected += HostListener_onPeerDisconnected;
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;
+            Manager.HostListener.OnFileTransferListing += HostListener_OnFileTransferListing;
 
             Manager.Start();
+        }
+
+        private void HostListener_OnFileTransferListing(object sender, Common.EventArgs.FileTransfer.FileTransferListingEventArgs e)
+        {
+            Network.Messages.FileTransfer.Response.ListingMessage rs = new Network.Messages.FileTransfer.Response.ListingMessage();
+            rs.HostSystemId = Manager.Manager.SystemId;
+            rs.ClientSystemId = e.ClientSystemId;
+            rs.Entrys = FileManager.getList(e.Folder);
+            
+
+            Manager.Manager.sendMessage(rs);
         }
 
         private void HostListener_OnScreenshotRequest(object sender, ScreenshotRequestEventArgs e)
@@ -196,6 +209,7 @@ namespace WindowsGuiHost
         {
             this.lblStatus.Text = "Introducer Connected";
             connectionStatus.Stop();
+            connectionStatus.Start();
         }
 
         protected void SetSystemIdAndPassword(String SystemId, String Password)

@@ -43,10 +43,14 @@ namespace Driver
 		public Driver.Interfaces.Mouse Mouse { get; private set; }
 		public Driver.Interfaces.Keyboard Keyboard { get; private set; }
 		public Interfaces.Display Display { get; private set; }
+        public Interfaces.FileManager FileManager { get; private set; }
 
-		private Manager()
+        private Manager()
 		{
             detectOsSystem();
+
+            FileManager = new Driver.Windows.FileManager();
+
 			if (operating_system == OS.Mac)
 			{
 				Mouse = new Driver.Mac.Mouse();

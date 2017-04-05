@@ -281,7 +281,7 @@ namespace WindowsGuiClient
 
         private void btnFileTransfer_Click(object sender, EventArgs e)
         {
-            FileManager fm = new FileManager();
+            FileManager fm = new FileManager(this.SystemId);
             fm.setManager(this.Manager);
             fm.Show();
         }

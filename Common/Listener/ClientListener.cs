@@ -4,6 +4,7 @@ using Common.EventArgs.Network.Client;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using Network;
+using Common.EventArgs.FileTransfer;
 
 namespace Common.Listener
 {
@@ -18,6 +19,7 @@ namespace Common.Listener
         public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
 		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;
         public event EventHandler<OnlineCheckReceivedEventArgs> OnOnlineCheckReceived;
+        public event EventHandler<FileTransferListingEventArgs> OnFileTransferListing;
 
         public ClientListener()
 		{
@@ -52,9 +54,18 @@ namespace Common.Listener
                 case (ushort)Network.Messages.Connection.CustomMessageType.ResponseCheckOnline:
                     handleCheckOnline(peer, (Network.Messages.Connection.ResponseCheckOnlineMessage)msg);
                     break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.ResponseListing:
+                    handleFileResponseListing(peer, (Network.Messages.FileTransfer.Response.ListingMessage)msg);
+                    break;
             }
 
 		}
+
+        public void handleFileResponseListing(NetPeer peer, Network.Messages.FileTransfer.Response.ListingMessage message)
+        {
+            if (OnFileTransferListing != null)
+                OnFileTransferListing(this, new FileTransferListingEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, Entrys = message.Entrys });
+        }
 
         public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.ResponseCheckOnlineMessage message)
         {

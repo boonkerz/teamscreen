@@ -38,6 +38,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventArgs\FileTransfer\FileTransferListingEventArgs.cs" />
     <Compile Include="EventArgs\Network\Client\HostCloseEventArgs.cs" />
     <Compile Include="EventArgs\Network\Host\ClientCloseEventArgs.cs" />
     <Compile Include="Listener\BaseListener.cs" />

@@ -103,8 +103,15 @@ namespace Common.Listener
                 case (ushort)Network.Messages.Connection.CustomMessageType.DisconnectFromIntroducer:
                     handleDisconnect(peer, (Network.Messages.Connection.OneWay.DisconnectFromIntroducerMessage)msg);
                     break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.RequestListing:
+                    handleRequestClientHost(peer, (Network.Messages.FileTransfer.Request.ListingMessage)msg);
+                    break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.ResponseListing:
+                    handleResponseHostClient(peer, (Network.Messages.FileTransfer.Response.ListingMessage)msg);
+                    break;
             }
         }
+
 
         public void handleDisconnect(NetPeer peer, Network.Messages.Connection.OneWay.DisconnectFromIntroducerMessage message)
         {

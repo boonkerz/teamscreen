@@ -8,6 +8,7 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using Network;
 using Network.Messages.Connection;
+using Common.EventArgs.FileTransfer;
 
 namespace Common.Listener
 {
@@ -24,6 +25,7 @@ namespace Common.Listener
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 		public event EventHandler<KeyEventArgs> OnKey;
+        public event EventHandler<FileTransferListingEventArgs> OnFileTransferListing;
 
 
         public HostListener()
@@ -60,9 +62,18 @@ namespace Common.Listener
                 case (ushort)Network.Messages.Connection.CustomMessageType.RequestCloseHostConnection:
                     handleRequestClientCloseConnection(peer, (Network.Messages.Connection.Request.CloseHostConnectionMessage)msg);
                     break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.RequestListing:
+                    handleListing(peer, (Network.Messages.FileTransfer.Request.ListingMessage)msg);
+                    break;
 
             }
 
+        }
+
+        public void handleListing(NetPeer peer, Network.Messages.FileTransfer.Request.ListingMessage message)
+        {
+            if (OnFileTransferListing != null)
+                OnFileTransferListing(this, new FileTransferListingEventArgs { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, Folder = message.Folder });
         }
 
         public void handleRequestClientCloseConnection(NetPeer peer, Network.Messages.Connection.Request.CloseHostConnectionMessage message)
