@@ -5,13 +5,14 @@ using LiteNetLib.Utils;
 
 namespace Network.Messages.FileTransfer.Request
 {
-	public class ListingMessage : BaseMessage
+	public class CopyMessage : BaseMessage
 	{
 
 		public String Folder { get; set; }
+        public byte[] Data { get; set; }
 
-		public ListingMessage()
-			: base((ushort)CustomMessageType.RequestListing)
+		public CopyMessage()
+			: base((ushort)CustomMessageType.RequestCopy)
 		{
             Folder = "";
 		}
@@ -19,21 +20,24 @@ namespace Network.Messages.FileTransfer.Request
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-            if (this.Introducer)
+            message.Put(Folder);
+            message.Put(Data);
+            /*if (this.Introducer)
             {
                 this.CopyEncryptedFromTempStorage(message);
             }
             else
             {
                 message.Put(Folder);
-                this.Encrypt(message);
-            }
+            }*/
         }
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-            if (this.Introducer)
+            Folder = message.GetString(250);
+            Data = message.GetBytesWithLength();
+            /*if (this.Introducer)
             {
                 this.CopyEncryptedToTempStorage(message);
             }
@@ -41,7 +45,7 @@ namespace Network.Messages.FileTransfer.Request
             {
                 this.Decrypt(message);
                 Folder = message.GetString(250);
-            }
+            }*/
 		}
 
 	}

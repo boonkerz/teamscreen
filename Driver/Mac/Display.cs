@@ -33,7 +33,6 @@ namespace Driver.Mac
 
         public void RequestScreenshot(ScreenshotRequestEventArgs e, Boolean fullscreen)
         {
-            
             Driver.RequestScreenshot(e, fullscreen);
         }
 

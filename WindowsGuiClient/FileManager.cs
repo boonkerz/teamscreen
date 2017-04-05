@@ -41,7 +41,7 @@ namespace WindowsGuiClient
                 upper.SubItems.Add("0");
                 upper.SubItems.Add("Folder");
                 upper.SubItems.Add("");
-                this.listLocal.Items.Add(upper);
+                this.listRemote.Items.Add(upper);
             }
 
             foreach (var entry in entrys)
@@ -60,7 +60,7 @@ namespace WindowsGuiClient
                     lvi.SubItems.Add(ByteSize.FromBytes(entry.Size).ToString());
                     lvi.SubItems.Add("File");
                 }
-                lvi.SubItems.Add(entry.ToString());
+                lvi.SubItems.Add(entry.Modified);
                 this.listRemote.Items.Add(lvi);
             }
         }
@@ -99,7 +99,7 @@ namespace WindowsGuiClient
 
         private void PopulateTreeViewRemote()
         {
-            Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
+            Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage {  SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
         }
 
         private void PopulateTreeViewLocal()
@@ -152,32 +152,46 @@ namespace WindowsGuiClient
             if (this.listLocal.SelectedItems.Count == 1)
             {
                 ListView.SelectedListViewItemCollection items = this.listLocal.SelectedItems;
-
                 
                 if(items[0].SubItems[3].Text == "Folder")
                 {
                     DirectoryInfo folder = (DirectoryInfo)items[0].Tag;
                     populateListLocal(folder);
                 }
-                
-
             }
         }
 
         private void listRemote_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (this.listRemote.SelectedItems.Count == 1)
+            {
+                ListView.SelectedListViewItemCollection items = this.listRemote.SelectedItems;
+                
+                if (items[0].SubItems[3].Text == "Folder")
+                {                    
+                    String folder = (String)items[0].Tag;
+                    Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Folder = folder });
+                }
+            }
+        }
+
+        private void btnCopyToRemote_Click(object sender, EventArgs e)
+        {
             if (this.listLocal.SelectedItems.Count == 1)
             {
                 ListView.SelectedListViewItemCollection items = this.listLocal.SelectedItems;
-                
-                if (items[0].SubItems[3].Text == "Folder")
-                {
-                    
-                    String folder = (String)items[0].Tag;
-                    Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Folder = folder });
-                }
 
+                if (items[0].SubItems[3].Text == "File")
+                {
+                    FileInfo file = (FileInfo)items[0].Tag;
+                    
+                }
             }
+        }
+
+        private void btnCopyFromRemote_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

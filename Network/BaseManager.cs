@@ -49,6 +49,11 @@ namespace Network
 			this._symmetricKey.Add(remoteSystemId, symmetricKey);
 		}
 
+        public string getSymmetricKeyForRemoteId(string remoteSystemId)
+        {
+            return this._symmetricKey[remoteSystemId] as string;
+        }
+
 		public string Decode(string MySystemId, string Text)
 		{
 			var pair = _myKeys[MySystemId] as PublicPrivateKey;

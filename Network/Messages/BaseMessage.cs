@@ -61,13 +61,9 @@ namespace Network
 
 			Array.Copy(message.Data, StartPointEncryption, toDecrypt, 0, message.Data.Length - StartPointEncryption);
 
-			this.PrintByteArray(toDecrypt);
+			byte[] decrypted = Network.Utils.Cryptography.DecryptBytes(toDecrypt, this.SymmetricKey);
 
-			byte[] decrypted = Network.Utils.Cryptography.DecryptBytes(toDecrypt, "12345");
-
-
-			this.PrintByteArray(decrypted);
-			byte[] toTransfer = new byte[StartPointEncryption + decrypted.Length];
+            byte[] toTransfer = new byte[StartPointEncryption + decrypted.Length];
 			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
 			Array.Copy(decrypted, 0, toTransfer, StartPointEncryption, decrypted.Length);
 			message.SetSource(toTransfer, StartPointEncryption);
@@ -78,11 +74,8 @@ namespace Network
 			byte[] toEncrypt = new byte[message.Data.Length-StartPointEncryption];
 			Array.Copy(message.Data, StartPointEncryption , toEncrypt, 0, message.Data.Length - StartPointEncryption);
 
-			this.PrintByteArray(toEncrypt);
-            
-			byte[] encrypted = Network.Utils.Cryptography.EncryptBytes(toEncrypt, "12345");
+			byte[] encrypted = Network.Utils.Cryptography.EncryptBytes(toEncrypt, this.SymmetricKey);
 
-			this.PrintByteArray(encrypted);
 			byte[] toTransfer = new byte[StartPointEncryption + encrypted.Length];
 
 			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);

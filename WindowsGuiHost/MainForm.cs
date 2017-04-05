@@ -164,6 +164,7 @@ namespace WindowsGuiHost
         private void HostListener_OnFileTransferListing(object sender, Common.EventArgs.FileTransfer.FileTransferListingEventArgs e)
         {
             Network.Messages.FileTransfer.Response.ListingMessage rs = new Network.Messages.FileTransfer.Response.ListingMessage();
+            rs.SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(e.ClientSystemId);
             rs.HostSystemId = Manager.Manager.SystemId;
             rs.ClientSystemId = e.ClientSystemId;
             FileManager.BrowseTo(e.Folder);
@@ -211,7 +212,6 @@ namespace WindowsGuiHost
         {
             this.lblStatus.Text = "Introducer Connected";
             connectionStatus.Stop();
-            connectionStatus.Start();
         }
 
         protected void SetSystemIdAndPassword(String SystemId, String Password)

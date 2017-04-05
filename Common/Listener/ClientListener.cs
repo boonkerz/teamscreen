@@ -13,8 +13,7 @@ namespace Common.Listener
 		private readonly MessageHandler _messageHandler;
 		public ClientManager _clientManager;
 
-		public event EventHandler<ConnectedEventArgs> OnConnected;
-        public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
+		public event EventHandler<ClientConnectedEventArgs> OnClientConnected;
         public event EventHandler<HostCloseEventArgs> OnHostClose;
         public event EventHandler<ScreenshotReceivedEventArgs> OnScreenshotReceived;
 		public event EventHandler<HostInitalizeConnectedEventArgs> OnHostInitalizeConnected;

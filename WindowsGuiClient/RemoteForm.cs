@@ -133,7 +133,7 @@ namespace WindowsGuiClient
             Manager.ClientListener.OnHostClose += ClientListener_OnHostClose;
             Manager.ClientListener.OnReceive += ClientListener_OnReceive;
 
-            Manager.Manager.sendMessage(new RequestScreenshotMessage { HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId, Fullscreen = true });
+            Manager.Manager.sendMessage(new RequestScreenshotMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId, Fullscreen = true });
 
         }
 
@@ -184,7 +184,7 @@ namespace WindowsGuiClient
 
         private void drawingArea1_MouseMove_1(object sender, MouseEventArgs e)
         {
-            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseMoveMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (e.X / Ratio), Y = (e.Y / Ratio) });
+            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseMoveMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (e.X / Ratio), Y = (e.Y / Ratio) });
         }
 
         private void drawingArea1_MouseClick(object sender, MouseEventArgs e)
@@ -211,20 +211,20 @@ namespace WindowsGuiClient
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { DoubleClick = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), DoubleClick = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
                 case MouseButtons.Middle:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { DoubleClick = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), DoubleClick = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
                 case MouseButtons.Right:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { DoubleClick = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), DoubleClick = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
             }
         }
 
         private void drawingArea1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.KeyMessage { Key = (uint)e.KeyValue, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Alt = e.Alt, Control = e.Control, Shift = e.Shift, Mode = Network.Messages.Connection.OneWay.KeyMessage.KeyMode.Down });
+            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.KeyMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Key = (uint)e.KeyValue, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Alt = e.Alt, Control = e.Control, Shift = e.Shift, Mode = Network.Messages.Connection.OneWay.KeyMessage.KeyMode.Down });
         }
 
         private void drawingArea1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
@@ -234,7 +234,7 @@ namespace WindowsGuiClient
 
         private void drawingArea1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.KeyMessage { Key = (uint)e.KeyValue, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Alt = e.Alt, Control = e.Control, Shift = e.Shift, Mode = Network.Messages.Connection.OneWay.KeyMessage.KeyMode.Up });
+            Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.KeyMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Key = (uint)e.KeyValue, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Alt = e.Alt, Control = e.Control, Shift = e.Shift, Mode = Network.Messages.Connection.OneWay.KeyMessage.KeyMode.Up });
         }
 
         private void drawingArea1_MouseDown(object sender, MouseEventArgs e)
@@ -242,13 +242,13 @@ namespace WindowsGuiClient
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Down = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Down = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
                 case MouseButtons.Middle:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Down = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Down = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
                 case MouseButtons.Right:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Down = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Down = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
             }
         }
@@ -258,25 +258,25 @@ namespace WindowsGuiClient
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
                 case MouseButtons.Middle:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
                 case MouseButtons.Right:
-                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    Manager.Manager.sendMessage(new Network.Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), Up = true, Button = Network.Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
                     break;
             }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
+            Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
         }
 
         private void RemoteForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
+            Manager.Manager.sendMessage(new Network.Messages.Connection.Request.CloseHostConnectionMessage() { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
         }
 
         private void btnFileTransfer_Click(object sender, EventArgs e)

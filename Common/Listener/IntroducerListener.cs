@@ -146,7 +146,7 @@ namespace Common.Listener
             NetPeer wpeer;
             if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
             {
-                wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+                wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.ReliableOrdered);
             }
         }
 
@@ -155,7 +155,7 @@ namespace Common.Listener
             NetPeer wpeer;
             if (_clientPeers.TryGetValue(message.ClientSystemId, out wpeer))
             {
-                wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+                wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.ReliableOrdered);
             }
         }
 

@@ -13,7 +13,7 @@ namespace Model
         public String Name { get; set; }
         public Boolean Directory { get; set; }
         public long Size { get; set; }
-        public DateTime Modified { get; set; }
+        public String Modified { get; set; }
 
         public void WritePayload(NetDataWriter writer)
         {
@@ -21,7 +21,7 @@ namespace Model
             writer.Put(this.Name);
             writer.Put(this.Directory);
             writer.Put(this.Size);
-            writer.Put(this.Modified.ToBinary());
+            writer.Put(this.Modified.ToString());
         }
 
         public void ReadPayload(NetDataReader reader)
@@ -30,7 +30,7 @@ namespace Model
             this.Name = reader.GetString(100);
             this.Directory = reader.GetBool();
             this.Size = reader.GetLong();
-            this.Modified = new DateTime(reader.GetLong());
+            this.Modified = reader.GetString(100);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Driver.Windows
                 folder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             }
 
-            var ActFolder = new DirectoryInfo(folder);
+            ActFolder = new DirectoryInfo(folder);
         }
 
         public List<Listing> getList()
@@ -60,7 +60,7 @@ namespace Driver.Windows
                 lvi.Name = f.Name;
                 lvi.Size = 0;
                 lvi.Directory = true;
-                lvi.Modified = f.LastWriteTime;
+                lvi.Modified = f.LastWriteTime.ToString();
                 lvi.Path = f.FullName;
                 data.Add(lvi);
             }
@@ -71,7 +71,7 @@ namespace Driver.Windows
                 lvi.Name = f.Name;
                 lvi.Size = f.Length;
                 lvi.Directory = false;
-                lvi.Modified = f.LastWriteTime;
+                lvi.Modified = f.LastWriteTime.ToString();
                 lvi.Path = f.FullName;
                 
                 data.Add(lvi);

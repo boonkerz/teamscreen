@@ -9,8 +9,10 @@ namespace Network
 
 		public Boolean Introducer { get; set; }
 
+        public String SymmetricKey { get; set; }
 
-		protected Message(ushort messageType)
+
+        protected Message(ushort messageType)
 		{
 			MessageType = messageType;
 		}

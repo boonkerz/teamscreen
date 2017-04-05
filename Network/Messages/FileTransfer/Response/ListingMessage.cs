@@ -22,27 +22,43 @@ namespace Network.Messages.FileTransfer.Response
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-            message.Put(Parent);
-            message.Put(ParentPath);
-            message.Put(Entrys.Count);
-            foreach (var entry in Entrys)
+            if (this.Introducer)
             {
-                entry.WritePayload(message);
+                this.CopyEncryptedFromTempStorage(message);
+            }
+            else
+            {
+                message.Put(Parent);
+                message.Put(ParentPath);
+                message.Put(Entrys.Count);
+                foreach (var entry in Entrys)
+                {
+                    entry.WritePayload(message);
+                }
+                this.Encrypt(message);
             }
         }
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-            Parent = message.GetBool();
-            ParentPath = message.GetString(300);
-            int count = message.GetInt();
-
-            for (int i = 0; i < count; i++)
+            if (this.Introducer)
             {
-                Model.Listing entry = new Model.Listing();
-                entry.ReadPayload(message);
-                this.Entrys.Add(entry);
+                this.CopyEncryptedToTempStorage(message);
+            }
+            else
+            {
+                this.Decrypt(message);
+                Parent = message.GetBool();
+                ParentPath = message.GetString(300);
+                int count = message.GetInt();
+
+                for (int i = 0; i < count; i++)
+                {
+                    Model.Listing entry = new Model.Listing();
+                    entry.ReadPayload(message);
+                    this.Entrys.Add(entry);
+                }
             }
         }
 
