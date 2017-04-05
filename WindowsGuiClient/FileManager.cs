@@ -19,7 +19,7 @@ namespace WindowsGuiClient
 
         protected String SystemId;
 
-        delegate void fillListRemoteCallback(List<Model.Listing> entrys);
+        delegate void fillListRemoteCallback(Boolean parent, String parentPath, List<Model.Listing> entrys);
 
         public FileManager(String systemId)
         {
@@ -29,31 +29,39 @@ namespace WindowsGuiClient
             
         }
 
-        protected void fillListRemote(List<Model.Listing> entrys)
+        protected void fillListRemote(Boolean parent, String parentPath, List<Model.Listing> entrys)
         {
             this.listRemote.Items.Clear();
-            ListViewItem upper = new ListViewItem("");
-            upper.SubItems.Add("..");
-            upper.SubItems.Add("0");
-            upper.SubItems.Add("Folder");
-            upper.SubItems.Add("");
-            this.listLocal.Items.Add(upper);
+
+            if (parent)
+            {
+                ListViewItem upper = new ListViewItem("");
+                upper.Tag = parentPath;
+                upper.SubItems.Add("..");
+                upper.SubItems.Add("0");
+                upper.SubItems.Add("Folder");
+                upper.SubItems.Add("");
+                this.listLocal.Items.Add(upper);
+            }
 
             foreach (var entry in entrys)
             {
-                upper = new ListViewItem("");
-                upper.SubItems.Add(entry.Name);
-                upper.SubItems.Add(entry.Size.ToString());
+                ListViewItem lvi = new ListViewItem("");
+                lvi.Tag = entry.Path;
+                lvi.SubItems.Add(entry.Name);
+                
                 if (entry.Directory)
                 {
-                    upper.SubItems.Add("Folder");
+                    lvi.SubItems.Add("0");
+                    lvi.SubItems.Add("Folder");
                 }
                 else
                 {
-                    upper.SubItems.Add("File");
+                    lvi.SubItems.Add(ByteSize.FromBytes(entry.Size).ToString());
+                    lvi.SubItems.Add("File");
                 }
-                upper.SubItems.Add("");
-                this.listRemote.Items.Add(upper);
+                lvi.SubItems.Add(entry.ToString());
+                this.listRemote.Items.Add(lvi);
             }
         }
 
@@ -66,11 +74,11 @@ namespace WindowsGuiClient
                 if (this.InvokeRequired)
                 {
                     fillListRemoteCallback d = new fillListRemoteCallback(fillListRemote);
-                    this.Invoke(d, new object[] { e.Entrys });
+                    this.Invoke(d, new object[] { e.Parent, e.ParentPath, e.Entrys });
                 }
                 else
                 {
-                    fillListRemote(e.Entrys);
+                    fillListRemote(e.Parent, e.ParentPath, e.Entrys);
                 }
             }
         }
@@ -152,6 +160,22 @@ namespace WindowsGuiClient
                     populateListLocal(folder);
                 }
                 
+
+            }
+        }
+
+        private void listRemote_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.listLocal.SelectedItems.Count == 1)
+            {
+                ListView.SelectedListViewItemCollection items = this.listLocal.SelectedItems;
+                
+                if (items[0].SubItems[3].Text == "Folder")
+                {
+                    
+                    String folder = (String)items[0].Tag;
+                    Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Folder = folder });
+                }
 
             }
         }

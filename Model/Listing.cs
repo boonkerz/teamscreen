@@ -21,7 +21,7 @@ namespace Model
             writer.Put(this.Name);
             writer.Put(this.Directory);
             writer.Put(this.Size);
-            //writer.Put(this.Modified);
+            writer.Put(this.Modified.ToBinary());
         }
 
         public void ReadPayload(NetDataReader reader)
@@ -30,6 +30,7 @@ namespace Model
             this.Name = reader.GetString(100);
             this.Directory = reader.GetBool();
             this.Size = reader.GetLong();
+            this.Modified = new DateTime(reader.GetLong());
         }
     }
 }

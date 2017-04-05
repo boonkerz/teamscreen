@@ -39,15 +39,15 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.listRemote = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -154,6 +154,49 @@
             this.textBox2.Size = new System.Drawing.Size(568, 31);
             this.textBox2.TabIndex = 1;
             // 
+            // listRemote
+            // 
+            this.listRemote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listRemote.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+            this.listRemote.FullRowSelect = true;
+            this.listRemote.Location = new System.Drawing.Point(4, 99);
+            this.listRemote.MultiSelect = false;
+            this.listRemote.Name = "listRemote";
+            this.listRemote.Size = new System.Drawing.Size(677, 600);
+            this.listRemote.TabIndex = 4;
+            this.listRemote.UseCompatibleStateImageBehavior = false;
+            this.listRemote.View = System.Windows.Forms.View.Details;
+            this.listRemote.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listRemote_MouseDoubleClick);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Icon";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Name";
+            this.columnHeader2.Width = 350;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Size";
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Type";
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Last Modified";
+            this.columnHeader5.Width = 98;
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(606, 63);
@@ -178,49 +221,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(568, 31);
             this.textBox1.TabIndex = 1;
-            // 
-            // listRemote
-            // 
-            this.listRemote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listRemote.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
-            this.listRemote.FullRowSelect = true;
-            this.listRemote.Location = new System.Drawing.Point(4, 99);
-            this.listRemote.MultiSelect = false;
-            this.listRemote.Name = "listRemote";
-            this.listRemote.Size = new System.Drawing.Size(677, 600);
-            this.listRemote.TabIndex = 4;
-            this.listRemote.UseCompatibleStateImageBehavior = false;
-            this.listRemote.View = System.Windows.Forms.View.Details;
-            this.listRemote.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listLocal_MouseDoubleClick);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Icon";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Name";
-            this.columnHeader2.Width = 350;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Size";
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Type";
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Last Modified";
-            this.columnHeader5.Width = 98;
             // 
             // FileManager
             // 

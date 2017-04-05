@@ -166,8 +166,10 @@ namespace WindowsGuiHost
             Network.Messages.FileTransfer.Response.ListingMessage rs = new Network.Messages.FileTransfer.Response.ListingMessage();
             rs.HostSystemId = Manager.Manager.SystemId;
             rs.ClientSystemId = e.ClientSystemId;
-            rs.Entrys = FileManager.getList(e.Folder);
-            
+            FileManager.BrowseTo(e.Folder);
+            rs.Entrys = FileManager.getList();
+            rs.Parent = FileManager.getParent();
+            rs.ParentPath = FileManager.getParentPath();
 
             Manager.Manager.sendMessage(rs);
         }

@@ -10,6 +10,9 @@ namespace Driver.Interfaces
 {
     public interface FileManager
     {
-        List<Model.Listing> getList(String folder);
+        List<Model.Listing> getList();
+        bool getParent();
+        void BrowseTo(String folder);
+        String getParentPath();
     }
 }

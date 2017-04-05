@@ -13,13 +13,41 @@ namespace Driver.Windows
 {
     public class FileManager : Interfaces.FileManager
     {
-        public List<Listing> getList(string folder)
+        protected DirectoryInfo ActFolder { get; set; }
+
+        public void BrowseTo(string folder)
         {
             if (folder == "")
             {
                 folder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            }      
-            return populateListLocal(new DirectoryInfo(folder));
+            }
+
+            var ActFolder = new DirectoryInfo(folder);
+        }
+
+        public List<Listing> getList()
+        {
+            return populateListLocal(ActFolder);
+        }
+
+        public bool getParent()
+        {
+            
+            if(ActFolder.Parent == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public String getParentPath()
+        {
+
+            if (ActFolder.Parent == null)
+            {
+                return "";
+            }
+            return ActFolder.Parent.FullName;
         }
 
         protected List<Model.Listing> populateListLocal(DirectoryInfo info)
@@ -33,7 +61,7 @@ namespace Driver.Windows
                 lvi.Size = 0;
                 lvi.Directory = true;
                 lvi.Modified = f.LastWriteTime;
-
+                lvi.Path = f.FullName;
                 data.Add(lvi);
             }
 
@@ -44,6 +72,7 @@ namespace Driver.Windows
                 lvi.Size = f.Length;
                 lvi.Directory = false;
                 lvi.Modified = f.LastWriteTime;
+                lvi.Path = f.FullName;
                 
                 data.Add(lvi);
             }
