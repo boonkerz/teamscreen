@@ -25,9 +25,9 @@ namespace WindowsGuiClient
         {
             SystemId = systemId;
             InitializeComponent();
-
-            
         }
+
+        protected List<FileInfo> copyToRemote = new List<FileInfo>();
 
         protected void fillListRemote(Boolean parent, String parentPath, List<Model.Listing> entrys)
         {
@@ -181,17 +181,56 @@ namespace WindowsGuiClient
             {
                 ListView.SelectedListViewItemCollection items = this.listLocal.SelectedItems;
 
-                if (items[0].SubItems[3].Text == "File")
-                {
-                    FileInfo file = (FileInfo)items[0].Tag;
-                    
+                foreach(ListViewItem item in items) {
+                    if (item.SubItems[3].Text == "File")
+                    {
+                        FileInfo file = (FileInfo)items[0].Tag;
+                        this.copyToRemote.Add(file);
+                    }
                 }
             }
+
+            startCopyToRemote();
         }
 
         private void btnCopyFromRemote_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void startCopyToRemote() {
+
+            int maxLength = 1024;
+            String hash = "";
+            foreach (var file in this.copyToRemote)
+            {
+                byte[] buff = File.ReadAllBytes(file.FullName);
+
+                int fullPacketsCount = buff.Length / maxLength;
+                int lastPacketSize = buff.Length % maxLength;
+                int totalPackets = fullPacketsCount + (lastPacketSize == 0 ? 0 : 1);
+                hash = Guid.NewGuid().ToString().Replace("-", string.Empty);
+
+                for (ushort i = 0; i < fullPacketsCount; i++)
+                {
+                    Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
+                    msg.Hash = hash;
+                    msg.Fragement = i;
+                    msg.TotalFragments = (ushort)totalPackets;
+                    Buffer.BlockCopy(buff, i * maxLength, msg.Data, 0, maxLength);
+                    Manager.Manager.sendMessage(msg);
+                }
+
+                if (lastPacketSize > 0)
+                {
+                    Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
+                    msg.Hash = hash;
+                    msg.Fragement = fullPacketsCount;
+                    msg.TotalFragments = (ushort)totalPackets;
+                    Buffer.BlockCopy(buff, fullPacketsCount * maxLength, msg.Data, 0, lastPacketSize);
+                    Manager.Manager.sendMessage(msg);
+                }
+            }
         }
     }
 }

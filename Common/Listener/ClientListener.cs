@@ -56,9 +56,17 @@ namespace Common.Listener
                 case (ushort)Network.Messages.FileTransfer.CustomMessageType.ResponseListing:
                     handleFileResponseListing(peer, (Network.Messages.FileTransfer.Response.ListingMessage)msg);
                     break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.RequestCopy:
+                    handleFileCopy(peer, (Network.Messages.FileTransfer.Request.CopyMessage)msg);
+                    break;
             }
 
 		}
+
+        public void handleFileCopy(NetPeer peer, Network.Messages.FileTransfer.Request.CopyMessage message)
+        {
+            Console.WriteLine("Segment: " + message.Fragement + " Totals: " + message.TotalFragments);
+        }
 
         public void handleFileResponseListing(NetPeer peer, Network.Messages.FileTransfer.Response.ListingMessage message)
         {

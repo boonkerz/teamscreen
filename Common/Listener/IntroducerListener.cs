@@ -109,6 +109,9 @@ namespace Common.Listener
                 case (ushort)Network.Messages.FileTransfer.CustomMessageType.ResponseListing:
                     handleResponseHostClient(peer, (Network.Messages.FileTransfer.Response.ListingMessage)msg);
                     break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.RequestCopy:
+                    handleRequestClientHost(peer, (Network.Messages.FileTransfer.Request.CopyMessage)msg);
+                    break;
             }
         }
 
