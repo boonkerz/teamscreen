@@ -1,4 +1,5 @@
 ﻿using Common.EventArgs.Network;
+using Driver.Windows.Screen;
 using Network;
 using Network.Messages.Connection;
 using System;
@@ -16,10 +17,13 @@ namespace Driver.Windows.Simple
     class Display : BaseDisplay
     {
         System.Drawing.Rectangle bounds;
+        private ScreenCapture _ScreenCapture;
+        public RawImage _LastImage = null;
 
         public Display()
         {
-            bounds = Screen.GetBounds(System.Drawing.Point.Empty);
+            bounds = System.Windows.Forms.Screen.GetBounds(System.Drawing.Point.Empty);
+            _ScreenCapture = new Screen.ScreenCapture(80);
         }
 
         public int getScreenHeight()
@@ -34,31 +38,49 @@ namespace Driver.Windows.Simple
 
         public override void SendScreenshot(Boolean fullscreen)
         {
-            byte[] image = new byte[] { };
+            //byte[] image = new byte[] { };
 
-            var bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width,
-                               Screen.PrimaryScreen.Bounds.Height,
+            var bmpScreenshot = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
+                               System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height,
                                PixelFormat.Format32bppArgb);
 
             // Create a graphics object from the bitmap.
-            var gfxScreenshot = Graphics.FromImage(bmpScreenshot);
+            var img = _ScreenCapture.GetScreen(new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
 
-            // Take the screenshot from the upper left corner to the right bottom corner.
-            gfxScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                        Screen.PrimaryScreen.Bounds.Y,
+            //var gfxScreenshot = Graphics.FromImage(img.Data);
+
+            /*// Take the screenshot from the upper left corner to the right bottom corner.
+            gfxScreenshot.CopyFromScreen(System.Windows.Forms.Screen.PrimaryScreen.Bounds.X,
+                                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Y,
                                         0,
                                         0,
-                                        Screen.PrimaryScreen.Bounds.Size,
+                                        System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size,
                                         CopyPixelOperation.SourceCopy);
 
             var stream = new MemoryStream();
-            bmpScreenshot.Save(stream, ImageFormat.Png);
+            bmpScreenshot.Save(stream, ImageFormat.Png);*/
 
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-            rs.Bounds = Screen.PrimaryScreen.Bounds;
+            rs.Bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             rs.Fullscreen = true;
             rs.HostSystemId = HostManager.SystemId;
-            rs.Image = stream.ToArray();
+            using (var msout = new MemoryStream())
+            {
+                unsafe
+                {
+                    fixed (byte* datb = img.Data)
+                    {
+                        using (Bitmap image = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width * 4, PixelFormat.Format32bppRgb, new IntPtr(datb)))
+                        {
+                            image.Save(msout, ImageFormat.Png);
+                            rs.Image = msout.ToArray();
+
+                        }
+                    }
+                }
+            }
+
+            //rs.Image = stream.ToArray();
             
             foreach(var ID in ConnectedClients)
             {

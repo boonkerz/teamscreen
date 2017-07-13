@@ -12,10 +12,12 @@ namespace Network
 	public class MessageHandler
 	{
 		protected Boolean Introducer {get;set;}
+        protected BaseManager Manager { get; set; }
 
-		public MessageHandler(Boolean introducer = false)
+		public MessageHandler(Boolean introducer = false, BaseManager manager = null)
 		{
 			this.Introducer = introducer;
+            this.Manager = manager;
 			Discover();
 		}
 
@@ -32,9 +34,11 @@ namespace Network
 			ushort messageType = incoming.GetUShort();
 			var message = create(messageType);
 			message.Introducer = Introducer;
-			message.ReadPayload(incoming);
-
-			return message;
+            //message.ReadBasePayload(incoming);
+            //message.SymmetricKey = Manager.getSymmetricKeyForRemoteId(message.SymmetricKey);
+            message.ReadPayload(incoming);
+            
+            return message;
 		}
 
 		private readonly ConcurrentDictionary<ushort, Func<Message>> messageCtors = new ConcurrentDictionary<ushort, Func<Message>>();

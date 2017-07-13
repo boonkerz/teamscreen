@@ -7,7 +7,7 @@ namespace Driver.Mac.Simple
 	public class Display : BaseDisplay
 	{
 
-		Gdk.Window window;
+		/*Gdk.Window window;
 
 		public Display()
 		{
@@ -27,7 +27,7 @@ namespace Driver.Mac.Simple
 		public override void SendScreenshot(Boolean fullscreen)
 		{
 			byte[] image = new byte[] { };
-
+            
 			if (window != null)
 			{
 				Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, false, 8,
@@ -47,7 +47,7 @@ namespace Driver.Mac.Simple
 					rs.ClientSystemId = ID;
 					HostManager.sendMessage(rs);
 				}
-			}
-		}
+			}*
+		}*/
 	}
 }

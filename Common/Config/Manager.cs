@@ -16,7 +16,7 @@ namespace Common.Config
 		{
 			HostConfig = new Host();
 			ClientConfig = new Client();
-			ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 			ConfigPath += Path.DirectorySeparatorChar + "teamscreen" + Path.DirectorySeparatorChar;
 
 			loadConfig();
@@ -42,7 +42,8 @@ namespace Common.Config
 			{
 				saveClientConfig();
 			}
-			HostConfig = JsonConvert.DeserializeObject<Host>(File.ReadAllText(@"" + ConfigPath + "host.json"));
+
+            HostConfig = JsonConvert.DeserializeObject<Host>(File.ReadAllText(@"" + ConfigPath + "host.json"));
 			ClientConfig = JsonConvert.DeserializeObject<Client>(File.ReadAllText(@"" + ConfigPath + "client.json"));
 		}
 

@@ -130,7 +130,7 @@ namespace Driver.Windows.DfMirage
 
             device.CallBack = Marshal.SizeOf(device);
             deviceMode.dmSize = (short)Marshal.SizeOf(deviceMode);
-            deviceMode.dmBitsPerPel = Screen.PrimaryScreen.BitsPerPixel;
+            deviceMode.dmBitsPerPel = System.Windows.Forms.Screen.PrimaryScreen.BitsPerPixel;
 
             if (deviceMode.dmBitsPerPel == 24)
                 deviceMode.dmBitsPerPel = 32;
@@ -139,8 +139,8 @@ namespace Driver.Windows.DfMirage
 
             deviceMode.dmDeviceName = string.Empty;
             deviceMode.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_POSITION);
-            _bitmapHeight = deviceMode.dmPelsHeight = Screen.PrimaryScreen.Bounds.Height;
-            _bitmapWidth = deviceMode.dmPelsWidth = Screen.PrimaryScreen.Bounds.Width;
+            _bitmapHeight = deviceMode.dmPelsHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            _bitmapWidth = deviceMode.dmPelsWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
 
             bool deviceFound;
             uint deviceIndex = 0;
@@ -348,7 +348,7 @@ namespace Driver.Windows.DfMirage
 
             device.CallBack = Marshal.SizeOf(device);
             deviceMode.dmSize = (short)Marshal.SizeOf(deviceMode);
-            deviceMode.dmBitsPerPel = Screen.PrimaryScreen.BitsPerPixel;
+            deviceMode.dmBitsPerPel = System.Windows.Forms.Screen.PrimaryScreen.BitsPerPixel;
 
             if (deviceMode.dmBitsPerPel == 24)
 
@@ -359,8 +359,8 @@ namespace Driver.Windows.DfMirage
             deviceMode.dmDeviceName = string.Empty;
             deviceMode.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_POSITION);
 
-            _bitmapHeight = deviceMode.dmPelsHeight = Screen.PrimaryScreen.Bounds.Height;
-            _bitmapWidth = deviceMode.dmPelsWidth = Screen.PrimaryScreen.Bounds.Width;
+            _bitmapHeight = deviceMode.dmPelsHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            _bitmapWidth = deviceMode.dmPelsWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
 
             bool deviceFound;
 

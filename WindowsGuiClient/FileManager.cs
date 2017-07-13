@@ -105,10 +105,10 @@ namespace WindowsGuiClient
         private void PopulateTreeViewLocal()
         {
             var folder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            populateListLocal(new DirectoryInfo(folder));
+            PopulateListLocal(new DirectoryInfo(folder));
         }
 
-        public void populateListLocal(DirectoryInfo info)
+        public void PopulateListLocal(DirectoryInfo info)
         {
             this.listLocal.Items.Clear();
             if (info.Parent != null)
@@ -156,7 +156,7 @@ namespace WindowsGuiClient
                 if(items[0].SubItems[3].Text == "Folder")
                 {
                     DirectoryInfo folder = (DirectoryInfo)items[0].Tag;
-                    populateListLocal(folder);
+                    PopulateListLocal(folder);
                 }
             }
         }

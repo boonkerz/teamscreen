@@ -46,7 +46,7 @@ namespace Driver.Windows.DfMirage
                 screenshot.Save(stream, ImageFormat.Png);
 
                 ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-                rs.Bounds = Screen.PrimaryScreen.Bounds;
+                rs.Bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
                 rs.HostSystemId = HostManager.SystemId;
                 rs.Fullscreen = true;
                 rs.Image = stream.ToArray();
@@ -72,7 +72,7 @@ namespace Driver.Windows.DfMirage
                     this.DesktopChanges.Clear();
                     ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
                     rs.Fullscreen = true;
-                    rs.Bounds = Screen.PrimaryScreen.Bounds;
+                    rs.Bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
                     rs.HostSystemId = HostManager.SystemId;
                     rs.Image = stream.ToArray();
 

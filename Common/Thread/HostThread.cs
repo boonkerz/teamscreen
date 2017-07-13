@@ -17,6 +17,7 @@ namespace Common.Thread
 		public HostListener HostListener { get; set; }
 		public HostManager Manager { get; set; }
 		public Config.Manager ConfigManager { get; set; }
+        protected bool _Running = false;
 
 		public HostThread()
 		{
@@ -62,12 +63,21 @@ namespace Common.Thread
 			{
 				Manager.sendMessage(new RequestHostIntroducerRegistrationMessage { SystemId = ConfigManager.HostConfig.SystemId });
 			}
+            _Running = true;
+		}
+
+        public void Loop()
+		{
+            while(_Running) {
+                System.Threading.Thread.Sleep(10);
+            }
 
 		}
 
 		public void Stop()
 		{
 			Manager.Stop();
+            _Running = false;
 		}
 
         public void Reconnect()
