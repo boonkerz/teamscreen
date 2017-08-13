@@ -13,13 +13,40 @@ namespace MacGuiClient
 	partial class ViewController
 	{
 		[Outlet]
+		AppKit.NSTextField lblStatus { get; set; }
+
+		[Outlet]
 		AppKit.NSScrollView tblNodes { get; set; }
+
+		[Outlet]
+		AppKit.NSSecureTextField txtPasswordfield { get; set; }
+
+		[Outlet]
+		AppKit.NSTextField txtUserfield { get; set; }
+
+		[Action ("LoginClick:")]
+		partial void LoginClick (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (tblNodes != null) {
 				tblNodes.Dispose ();
 				tblNodes = null;
+			}
+
+			if (txtPasswordfield != null) {
+				txtPasswordfield.Dispose ();
+				txtPasswordfield = null;
+			}
+
+			if (txtUserfield != null) {
+				txtUserfield.Dispose ();
+				txtUserfield = null;
+			}
+
+			if (lblStatus != null) {
+				lblStatus.Dispose ();
+				lblStatus = null;
 			}
 		}
 	}

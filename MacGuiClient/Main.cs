@@ -1,9 +1,11 @@
 ﻿using AppKit;
+using Common;
 
 namespace MacGuiClient
 {
 	static class MainClass
 	{
+
 		static void Main(string[] args)
 		{
 			NSApplication.Init();

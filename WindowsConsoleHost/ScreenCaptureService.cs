@@ -4,17 +4,21 @@ using Driver.Windows.Desktop;
 using Driver.Windows.Screen;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace WindowsConsoleHost
 {
-    class ScreenCaptureService
+    public class ScreenCaptureService
     {
+
         public HostThread Manager { get { return Common.Instance.Host.Instance.Thread; } }
         private DesktopInfo _DesktopInfo;
         private ScreenCapture _ScreenCapture;
+
+        private StreamWriter f = new StreamWriter(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\service.txt", true);
 
         protected Common.Config.Manager ConfigManager;
 
@@ -27,12 +31,20 @@ namespace WindowsConsoleHost
 
         public void OnStart()
         {
+            f.AutoFlush = true;
+            f.WriteLine("Start");
             _ScreenCapture = new ScreenCapture(80);
-            
+
+            f.WriteLine("Screen");
+
+
             connectionStatus = new System.Timers.Timer(1000);
             connectionStatus.Elapsed += Connection_Elapsed;
 
             ConfigManager = new Common.Config.Manager();
+
+            f.WriteLine("Server" + ConfigManager.HostConfig.ServerName);
+            f.WriteLine("Configpath" + ConfigManager.ConfigPath);
 
             Manager.HostListener.OnConnected += new EventHandler<ConnectedEventArgs>(Network_OnConnected);
 
@@ -53,11 +65,11 @@ namespace WindowsConsoleHost
             {
                 if (e.PasswordOk)
                 {
-                    Console.WriteLine("Passwort Ok Verbunden mit: " + e.SystemId);
+                    f.WriteLine("Passwort Ok Verbunden mit: " + e.SystemId);
                 }
                 else
                 {
-                    Console.WriteLine("Passwort Falsch Verbindung abgebrochen von: " + e.SystemId);
+                    f.WriteLine("Passwort Falsch Verbindung abgebrochen von: " + e.SystemId);
                 }
             };
 
@@ -69,7 +81,7 @@ namespace WindowsConsoleHost
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;
 
             Manager.Start();
-            Manager.Loop();
+            //Manager.Loop();
         }
 
         public void OnStop()
@@ -101,25 +113,25 @@ namespace WindowsConsoleHost
 
         private void HostListener_onNetworkError(object sender, EventArgs e)
         {
-            Console.WriteLine("Network Error");
+            f.WriteLine("Network Error");
             connectionStatus.Start();
         }
 
         private void HostListener_onPeerDisconnected(object sender, EventArgs e)
         {
-            Console.WriteLine("Introducer Disconnected");
+            f.WriteLine("Introducer Disconnected");
             connectionStatus.Start();
         }
 
         private void HostListener_onPeerConnected(object sender, EventArgs e)
         {
-            Console.WriteLine("Introducer Connected");
+            f.WriteLine("Introducer Connected");
             connectionStatus.Stop();
         }
 
         void Network_OnConnected(object sender, ConnectedEventArgs e)
         {
-            Console.WriteLine("SystemId: " + e.SystemId + " Password:" + Manager.Manager.Password);
+            f.WriteLine("SystemId: " + e.SystemId + " Password:" + Manager.Manager.Password);
         }
     }
 }

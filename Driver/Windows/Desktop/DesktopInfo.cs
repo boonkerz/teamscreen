@@ -21,7 +21,7 @@ namespace Driver.Windows.Desktop
 
         public DesktopInfo()
         {
-            using (var searcher = new ManagementObjectSearcher("SELECT UserName FROM Win32_ComputerSystem"))
+            /*using (var searcher = new ManagementObjectSearcher("SELECT UserName FROM Win32_ComputerSystem"))
             {
                 using (var collection = searcher.Get())
                 {
@@ -33,7 +33,7 @@ namespace Driver.Windows.Desktop
                 }
             }
             _Users_DesktopPath = @"c:\users\" + Username + @"\desktop\";
-        
+        */
             m_hCurWinsta = new StationHandle(PInvoke.GetProcessWindowStation());
             if (m_hCurWinsta.IsInvalid)
             {

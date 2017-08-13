@@ -19,7 +19,7 @@ namespace Driver
 
 		private static volatile Manager instance;
 		private static readonly object syncRoot = new Object();
-		private OS operating_system;
+		public OS operating_system;
 
 		public static Manager Instance
 		{

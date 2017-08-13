@@ -7,7 +7,7 @@ namespace Common.Config
 	public class Manager
 	{
 
-		protected String ConfigPath;
+		public String ConfigPath;
 
 		public Host HostConfig { get; set; }
 		public Client ClientConfig { get; set; }
@@ -16,7 +16,7 @@ namespace Common.Config
 		{
 			HostConfig = new Host();
 			ClientConfig = new Client();
-			ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 			ConfigPath += Path.DirectorySeparatorChar + "teamscreen" + Path.DirectorySeparatorChar;
 
 			loadConfig();

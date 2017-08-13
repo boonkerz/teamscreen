@@ -66,11 +66,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowsConsoleHost\WindowsConsoleHost.csproj">
-      <Project>{cf12f820-0e40-45b2-9e93-89bbeabd30ac}</Project>
-      <Name>WindowsConsoleHost</Name>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="Z:\Common\Common.csproj">
       <Project>{62a99e23-9f56-4a77-9643-568e04d65bd5}</Project>
       <Name>Common</Name>
