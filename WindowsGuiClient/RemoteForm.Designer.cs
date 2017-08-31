@@ -39,11 +39,13 @@
             // 
             // drawingArea1
             // 
+            this.drawingArea1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.drawingArea1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.drawingArea1.Location = new System.Drawing.Point(0, 67);
-            this.drawingArea1.Margin = new System.Windows.Forms.Padding(6);
+            this.drawingArea1.Location = new System.Drawing.Point(0, 35);
             this.drawingArea1.Name = "drawingArea1";
-            this.drawingArea1.Size = new System.Drawing.Size(1308, 452);
+            this.drawingArea1.Size = new System.Drawing.Size(654, 235);
             this.drawingArea1.TabIndex = 0;
             this.drawingArea1.Text = "drawingArea1";
             this.drawingArea1.Click += new System.EventHandler(this.drawingArea1_Click);
@@ -64,16 +66,16 @@
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1308, 56);
+            this.panel1.Size = new System.Drawing.Size(654, 29);
             this.panel1.TabIndex = 1;
             // 
             // btnSaveAs
             // 
-            this.btnSaveAs.Location = new System.Drawing.Point(268, 6);
+            this.btnSaveAs.Location = new System.Drawing.Point(134, 3);
+            this.btnSaveAs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSaveAs.Name = "btnSaveAs";
-            this.btnSaveAs.Size = new System.Drawing.Size(115, 44);
+            this.btnSaveAs.Size = new System.Drawing.Size(58, 23);
             this.btnSaveAs.TabIndex = 3;
             this.btnSaveAs.Text = "Save As";
             this.btnSaveAs.UseVisualStyleBackColor = true;
@@ -82,19 +84,17 @@
             // lblTransfered
             // 
             this.lblTransfered.AutoSize = true;
-            this.lblTransfered.Location = new System.Drawing.Point(690, 16);
-            this.lblTransfered.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblTransfered.Location = new System.Drawing.Point(345, 8);
             this.lblTransfered.Name = "lblTransfered";
-            this.lblTransfered.Size = new System.Drawing.Size(103, 25);
+            this.lblTransfered.Size = new System.Drawing.Size(53, 13);
             this.lblTransfered.TabIndex = 2;
             this.lblTransfered.Text = "Rx 120kb";
             // 
             // btnFileTransfer
             // 
-            this.btnFileTransfer.Location = new System.Drawing.Point(528, 6);
-            this.btnFileTransfer.Margin = new System.Windows.Forms.Padding(6);
+            this.btnFileTransfer.Location = new System.Drawing.Point(264, 3);
             this.btnFileTransfer.Name = "btnFileTransfer";
-            this.btnFileTransfer.Size = new System.Drawing.Size(150, 44);
+            this.btnFileTransfer.Size = new System.Drawing.Size(75, 23);
             this.btnFileTransfer.TabIndex = 1;
             this.btnFileTransfer.Text = "File Transfer";
             this.btnFileTransfer.UseVisualStyleBackColor = true;
@@ -102,10 +102,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(24, 6);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(6);
+            this.btnClose.Location = new System.Drawing.Point(12, 3);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(150, 44);
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 0;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -113,12 +112,11 @@
             // 
             // RemoteForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1308, 519);
+            this.ClientSize = new System.Drawing.Size(654, 270);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.drawingArea1);
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "RemoteForm";
             this.Text = "RemoteForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RemoteForm_FormClosing);

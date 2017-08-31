@@ -20,13 +20,18 @@ namespace Driver
 
 		public BaseDisplay() : base()
         {
-            refreshThread = new System.Timers.Timer(200);
+            refreshThread = new System.Timers.Timer(1000);
             refreshThread.Elapsed += RefreshThread_Elapsed;
         }
 
         private void RefreshThread_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             this.SendScreenshot(true);
+        }
+
+        public void Clear()
+        {
+
         }
 
         public void SetManager(HostManager hostManager)

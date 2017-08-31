@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
+using System.IO;
 
 namespace Driver.Windows.DfMirage
 {
@@ -19,27 +20,34 @@ namespace Driver.Windows.DfMirage
         DesktopMirror MirrorDriver;
 
         private List<System.Drawing.Rectangle> DesktopChanges { get; set; }
-      
+
+        private StreamWriter f = new StreamWriter(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\serviceMirror.txt", true);
+
         public Display()
         {
-            MirrorDriver = new DesktopMirror();
+            f.AutoFlush = true;
+            f.WriteLine("Start");
+            MirrorDriver = new DesktopMirror(f);
             DesktopChanges = new List<System.Drawing.Rectangle>();
             MirrorDriver.DesktopChange += new EventHandler<DesktopMirror.DesktopChangeEventArgs>(MirrorDriver_DesktopChange);
-            
         }
 
         public override void SendScreenshot(Boolean fullscreen)
         {
+            f.WriteLine("SendScreenshot" + fullscreen);
             var stream = new System.IO.MemoryStream();
 
             if (MirrorDriver.State != DesktopMirror.MirrorState.Running)
             {
+                f.WriteLine("StateNotRunning");
                 stream = new System.IO.MemoryStream();
                 // Most likely first time
                 // Start the mirror driver
+                f.WriteLine("To Load");
                 MirrorDriver.Load();
-
+                f.WriteLine("To Connect");
                 MirrorDriver.Connect();
+                f.WriteLine("To Start");
                 MirrorDriver.Start();
 
                 Bitmap screenshot = MirrorDriver.GetScreen();
@@ -63,7 +71,7 @@ namespace Driver.Windows.DfMirage
                 var regions = (List<System.Drawing.Rectangle>)GetOptimizedRectangleRegions();
 
                 Bitmap screenshot = MirrorDriver.GetScreen();
-
+                f.WriteLine("StateRunning");
                 if (fullscreen)
                 {
                     MirrorDriver.Stop();

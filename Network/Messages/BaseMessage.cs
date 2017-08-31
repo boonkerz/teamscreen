@@ -33,11 +33,12 @@ namespace Network
 
 			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
 			Array.Copy(this.EncryptedTempStorage, 0, toTransfer, StartPointEncryption, this.EncryptedTempStorage.Length);
-			message.Data = toTransfer;
-			message.Length = toTransfer.Length;
-		}
+            message.PutBytesWithLength(toTransfer, 0, toTransfer.Length);
+            //message.Data = toTransfer;
+            //message.Length = toTransfer.Length;
+        }
 
-		public override void WritePayload(NetDataWriter message)
+        public override void WritePayload(NetDataWriter message)
         {
             base.WritePayload(message);
             message.Put(HostSystemId);
@@ -80,8 +81,9 @@ namespace Network
 
 			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
 			Array.Copy(encrypted, 0, toTransfer, StartPointEncryption, encrypted.Length);
-			message.Data = toTransfer;
-			message.Length = toTransfer.Length;
+            message.PutBytesWithLength(toTransfer, 0, toTransfer.Length);
+			//message.Data = toTransfer;
+			//message.Length = toTransfer.Length;
         }
 
 		public void PrintByteArray(byte[] bytes)

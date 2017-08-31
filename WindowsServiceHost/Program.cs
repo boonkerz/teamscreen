@@ -19,35 +19,7 @@ namespace WindowsServiceHost
 
             var par = string.Concat(args);
 
-            //if started by a user
-            if (Environment.UserInteractive)
-            {
-#if DEBUG
-                //if in debug mode, run the services as a non service application
-                WindowsServiceHost.Interactive.Run(ServicesToRun.ToArray());
-#else
-                //otherwise, install the application
-
-                switch(par)
-                {
-                    case "--install":
-                        ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
-                        break;
-                    case "--uninstall":
-                        ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
-                        break;
-                    default:
-                        Console.Error.WriteLine("Insvalid Paramters!");
-                        break;
-                }
-#endif
-
-            }
-            else
-            {
-
-                ServiceBase.Run(ServicesToRun.ToArray());
-            }
+            ServiceBase.Run(ServicesToRun.ToArray());
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Driver.Windows.Desktop
 
         public DesktopInfo()
         {
+           
             /*using (var searcher = new ManagementObjectSearcher("SELECT UserName FROM Win32_ComputerSystem"))
             {
                 using (var collection = searcher.Get())
@@ -42,17 +43,9 @@ namespace Driver.Windows.Desktop
 
                 throw er;
             }
-
-            m_hWinsta = new StationHandle(PInvoke.OpenWindowStation("winsta0", false,
-                ACCESS_MASK.WINSTA_ENUMDESKTOPS |
-                ACCESS_MASK.WINSTA_READATTRIBUTES |
-                ACCESS_MASK.WINSTA_ACCESSCLIPBOARD |
-                ACCESS_MASK.WINSTA_CREATEDESKTOP |
-                ACCESS_MASK.WINSTA_WRITEATTRIBUTES |
-                ACCESS_MASK.WINSTA_ACCESSGLOBALATOMS |
-                ACCESS_MASK.WINSTA_EXITWINDOWS |
-                ACCESS_MASK.WINSTA_ENUMERATE |
-                ACCESS_MASK.WINSTA_READSCREEN));
+            
+            m_hWinsta = new StationHandle(PInvoke.OpenWindowStation("WinSta0", false,
+                ACCESS_MASK.MAXIMUM_ALLOWED));
             if (m_hWinsta.IsInvalid)
             {
 
@@ -60,7 +53,7 @@ namespace Driver.Windows.Desktop
 
                 throw er;
             }
-
+          
             if (!PInvoke.SetProcessWindowStation(m_hWinsta.Handle))
             {
 
@@ -68,16 +61,7 @@ namespace Driver.Windows.Desktop
 
                 throw er;
             }
-            m_hDesk = new DesktopHandle(PInvoke.OpenDesktop("default", 0, false,
-                    ACCESS_MASK.DESKTOP_CREATEMENU |
-                    ACCESS_MASK.DESKTOP_CREATEWINDOW |
-                    ACCESS_MASK.DESKTOP_ENUMERATE |
-                    ACCESS_MASK.DESKTOP_HOOKCONTROL |
-                    ACCESS_MASK.DESKTOP_JOURNALPLAYBACK |
-                    ACCESS_MASK.DESKTOP_JOURNALRECORD |
-                    ACCESS_MASK.DESKTOP_READOBJECTS |
-                    ACCESS_MASK.DESKTOP_SWITCHDESKTOP |
-                    ACCESS_MASK.DESKTOP_WRITEOBJECTS));
+            m_hDesk = new DesktopHandle(PInvoke.OpenDesktop("default", 0, false,ACCESS_MASK.MAXIMUM_ALLOWED));
             if (m_hDesk.IsInvalid)
             {
 
@@ -85,6 +69,7 @@ namespace Driver.Windows.Desktop
 
                 throw er;
             }
+           
             if (!PInvoke.SetThreadDesktop(m_hDesk.Handle))
             {
 
@@ -93,11 +78,12 @@ namespace Driver.Windows.Desktop
                 //throw er;
             }
             Current_Desktop = GetDesktop(m_hDesk);
+          
 
         }
         public Desktops GetActiveDesktop()
         {
-            using (var s = new DesktopHandle(PInvoke.OpenInputDesktop(0, false, ACCESS_MASK.DESKTOP_SWITCHDESKTOP)))
+            using (var s = new DesktopHandle(PInvoke.OpenInputDesktop(0, false, ACCESS_MASK.MAXIMUM_ALLOWED)))
             {
                 return GetDesktop(s);
             }
@@ -115,7 +101,6 @@ namespace Driver.Windows.Desktop
             bool result = PInvoke.GetUserObjectInformation(s.Handle, PInvoke.UOI_NAME, ptr, needed, ref needed);
             name = Marshal.PtrToStringAnsi(ptr).ToLower();
             Marshal.FreeHGlobal(ptr);
-
             if (!result)
                 return Desktops.Default;
             if (name == "default")
@@ -153,13 +138,12 @@ namespace Driver.Windows.Desktop
         public bool SwitchDesktop(Desktops dname)
         {
             var desktop = new DesktopHandle(PInvoke.OpenDesktop(Enum.GetName(dname.GetType(), dname), 0, false,
-                 ACCESS_MASK.DESKTOP_CREATEMENU | ACCESS_MASK.DESKTOP_CREATEWINDOW |
-                 ACCESS_MASK.DESKTOP_ENUMERATE | ACCESS_MASK.DESKTOP_HOOKCONTROL |
-                 ACCESS_MASK.DESKTOP_WRITEOBJECTS | ACCESS_MASK.DESKTOP_READOBJECTS |
-                 ACCESS_MASK.DESKTOP_SWITCHDESKTOP | ACCESS_MASK.GENERIC_WRITE));
+                 ACCESS_MASK.MAXIMUM_ALLOWED));
 
             if (desktop.IsInvalid)
+            {
                 return false;
+            }
             if (!PInvoke.SetThreadDesktop(desktop.Handle))
             {
                 desktop.Dispose();

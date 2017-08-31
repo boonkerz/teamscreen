@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using LiteNetLib;
 using Network.Utils;
+using System.Net;
 
 namespace Network
 {
@@ -116,7 +117,9 @@ namespace Network
 
 		public void Connect(String host, int port)
 		{
-			_netManager.Connect(host, port);
+            IPAddress[] addresslist = Dns.GetHostAddresses(host);
+
+            _netManager.Connect(addresslist[0].ToString(), port);
 		}
 	}
 }

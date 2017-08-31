@@ -98,10 +98,6 @@
       <Project>{ee97e80c-1685-4a8e-9463-da714007761c}</Project>
       <Name>Network</Name>
     </ProjectReference>
-    <ProjectReference Include="..\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
-      <Name>LiteNetLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

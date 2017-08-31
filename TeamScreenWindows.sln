@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleIntroducer", "ConsoleIntroducer\ConsoleIntroducer.csproj", "{CA0E53FB-BADE-49B7-AC8D-2A1BB478973F}"
 EndProject
@@ -11,8 +11,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{60E8D004-BAC1-46B7-94A5-1B1C85564B01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Driver", "Driver\Driver.csproj", "{FC3DD536-3DFD-4800-9BD1-30F95B915536}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteNetLib", "vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj", "{B0A014E4-0392-4E35-AA42-8FB5A40417E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsGuiClient", "WindowsGuiClient\WindowsGuiClient.csproj", "{639B97CE-8D88-456E-AC2A-F3301147ED53}"
 EndProject
@@ -68,14 +66,6 @@ Global
 		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Release|x86.ActiveCfg = Release|Any CPU
 		{FC3DD536-3DFD-4800-9BD1-30F95B915536}.Release|x86.Build.0 = Release|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Debug|x86.Build.0 = Debug|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Release|x86.ActiveCfg = Release|Any CPU
-		{B0A014E4-0392-4E35-AA42-8FB5A40417E0}.Release|x86.Build.0 = Release|Any CPU
 		{639B97CE-8D88-456E-AC2A-F3301147ED53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{639B97CE-8D88-456E-AC2A-F3301147ED53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{639B97CE-8D88-456E-AC2A-F3301147ED53}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -111,5 +101,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {903106C3-2A94-4EF5-A4B1-60A181EF818E}
 	EndGlobalSection
 EndGlobal

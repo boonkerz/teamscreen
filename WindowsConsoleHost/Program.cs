@@ -13,6 +13,7 @@ namespace WindowsConsoleHost
         {
             var p = new ScreenCaptureService();
             p.OnStart();
+            
         }
     }
 }

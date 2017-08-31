@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Common.EventArgs.Network;
 using Driver.Windows.Desktop;
+using System.IO;
 
 namespace Driver.Windows
 {
@@ -20,8 +21,14 @@ namespace Driver.Windows
 
         public Display()
 		{
+
             _DesktopInfo = new DesktopInfo();
+            _DesktopInfo.SwitchDesktop(Desktops.INPUT);
             _RunningAsService = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToLower().Contains(@"nt authority\system");
+            if(!_RunningAsService)
+            {
+                _RunningAsService = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToLower().Contains(@"nt-autorität\system");
+            }
             Windows.DfMirage.Display DfMirage = new DfMirage.Display();
             if (DfMirage.DoesMirrorDriverExist())
             {
@@ -31,7 +38,7 @@ namespace Driver.Windows
             {
                 Driver = new Simple.Display();
             }
-            
+
         }
 
         public void RemoveAllClients()
@@ -46,10 +53,10 @@ namespace Driver.Windows
 
         public void RequestScreenshot(ScreenshotRequestEventArgs e, Boolean fullscreen)
         {
-            if (_RunningAsService && (DateTime.Now - LastDeskSwitch).TotalMilliseconds > 500)
+            if (_RunningAsService && (DateTime.Now - LastDeskSwitch).TotalMilliseconds > 1000)
             {//only a program running as under the account     nt authority\system       is allowed to switch desktops
                 var d = _DesktopInfo.GetActiveDesktop();
-                //_ScreenCapture.ReleaseHandles();//make sure to release any handles before switching
+                Driver.Clear(); //make sure to release any handles before switching
                 if (d != _DesktopInfo.Current_Desktop)
                 {
                     _DesktopInfo.SwitchDesktop(d);

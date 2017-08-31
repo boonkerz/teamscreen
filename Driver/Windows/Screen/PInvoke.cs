@@ -75,6 +75,11 @@ namespace Driver.Windows.Screen
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
         [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateDC(string lpszDriver, string lpszDevice, string lpszOutput, IntPtr lpInitData);
+
+        [DllImport("coredll.dll", EntryPoint = "GetDC")]
+        public static extern IntPtr GetDC(IntPtr hwnd);
+        [DllImport("gdi32.dll")]
         public static extern IntPtr SelectObject(IntPtr hdc, IntPtr bmp);
         [DllImport("user32.dll")]
         public static extern IntPtr GetDesktopWindow();

@@ -6,12 +6,13 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Driver.Windows.DfMirage
 {
 	public class DesktopMirror : IDisposable
 	{
-
+        private StreamWriter f;
         #region External Constants
 
         private const int Map = 1030;
@@ -118,7 +119,10 @@ namespace Driver.Windows.DfMirage
         private const string driverRegistryPath = "SYSTEM\\CurrentControlSet\\Hardware Profiles\\Current\\System\\CurrentControlSet\\Services";
         private RegistryKey _registryKey;
 
-
+        public DesktopMirror(StreamWriter f)
+        {
+            this.f = f;
+        }
 
         public bool Load()
         {
@@ -130,7 +134,7 @@ namespace Driver.Windows.DfMirage
 
             device.CallBack = Marshal.SizeOf(device);
             deviceMode.dmSize = (short)Marshal.SizeOf(deviceMode);
-            deviceMode.dmBitsPerPel = System.Windows.Forms.Screen.PrimaryScreen.BitsPerPixel;
+            deviceMode.dmBitsPerPel = 24;
 
             if (deviceMode.dmBitsPerPel == 24)
                 deviceMode.dmBitsPerPel = 32;
@@ -139,14 +143,15 @@ namespace Driver.Windows.DfMirage
 
             deviceMode.dmDeviceName = string.Empty;
             deviceMode.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_POSITION);
-            _bitmapHeight = deviceMode.dmPelsHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-            _bitmapWidth = deviceMode.dmPelsWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            _bitmapHeight = deviceMode.dmPelsHeight = 768;
+            _bitmapWidth = deviceMode.dmPelsWidth = 1024;
 
             bool deviceFound;
             uint deviceIndex = 0;
 
             while (deviceFound = EnumDisplayDevices(null, deviceIndex, ref device, 0))
             {
+                f.WriteLine("Display" + driverInstanceName);
                 if (device.DeviceString == driverName)
                     break;
                 deviceIndex++;
@@ -166,18 +171,18 @@ namespace Driver.Windows.DfMirage
 				_registryKey = _registryKey.CreateSubKey(driverDeviceNumber);
 			else
 				throw new Exception("Couldn't open registry key");
-
+                */
 //			_registryKey.SetValue("Cap.DfbBackingMode", 0);
 //			_registryKey.SetValue("Order.BltCopyBits.Enabled", 1);
-			_registryKey.SetValue("Attach.ToDesktop", 1);
-            */
+			//_registryKey.SetValue("Attach.ToDesktop", 1);
+            
             #region This was CommitDisplayChanges
 
             SafeChangeDisplaySettingsEx(device.DeviceName, ref deviceMode, IntPtr.Zero, CDS_UPDATEREGISTRY, IntPtr.Zero);
             SafeChangeDisplaySettingsEx(device.DeviceName, ref deviceMode, IntPtr.Zero, 0, IntPtr.Zero);
 
             #endregion
-
+            f.WriteLine("Loaded" + driverInstanceName);
             State = MirrorState.Loaded;
 
             return true;
@@ -189,11 +194,13 @@ namespace Driver.Windows.DfMirage
                 throw new InvalidOperationException("You may call Connect only if the state is Loaded");
 
             bool result = mapSharedBuffers(); // Adjusts _running
+            f.WriteLine("Before Connect");
             if (result)
             {
+                f.WriteLine("Connected");
                 State = MirrorState.Connected;
             }
-
+            f.WriteLine("After Connect");
             return result;
         }
 
@@ -207,9 +214,10 @@ namespace Driver.Windows.DfMirage
             else
                 _terminatePollingThread.Reset();
 
+            f.WriteLine("Before Start");
             _pollingThread = new Thread(pollingThreadProc) { IsBackground = true };
             _pollingThread.Start();
-
+            f.WriteLine("After Start");
             State = MirrorState.Running;
         }
 
@@ -348,7 +356,7 @@ namespace Driver.Windows.DfMirage
 
             device.CallBack = Marshal.SizeOf(device);
             deviceMode.dmSize = (short)Marshal.SizeOf(deviceMode);
-            deviceMode.dmBitsPerPel = System.Windows.Forms.Screen.PrimaryScreen.BitsPerPixel;
+            deviceMode.dmBitsPerPel = 24;
 
             if (deviceMode.dmBitsPerPel == 24)
 
@@ -359,18 +367,19 @@ namespace Driver.Windows.DfMirage
             deviceMode.dmDeviceName = string.Empty;
             deviceMode.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_POSITION);
 
-            _bitmapHeight = deviceMode.dmPelsHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-            _bitmapWidth = deviceMode.dmPelsWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            _bitmapHeight = deviceMode.dmPelsHeight = 1024;
+            _bitmapWidth = deviceMode.dmPelsWidth = 768;
 
             bool deviceFound;
 
             uint deviceIndex = 0;
-
+            f.WriteLine("driverName: " + driverName);
             while (deviceFound = EnumDisplayDevices(null, deviceIndex, ref device, 0))
             {
-
-                if (device.DeviceString == driverName)
-                    break;
+                f.WriteLine("DeviceName: "+ device.DeviceName);
+                f.WriteLine("DeviceString: " + device.DeviceString);
+                //   if (device.DeviceString == driverName)
+                //     break;
 
                 deviceIndex++;
             }
@@ -385,6 +394,7 @@ namespace Driver.Windows.DfMirage
         private bool mapSharedBuffers()
         {
             _globalDC = CreateDC(driverInstanceName, null, null, IntPtr.Zero);
+            f.WriteLine("globalDC: " + driverInstanceName + _globalDC);
             if (_globalDC == IntPtr.Zero)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());

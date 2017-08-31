@@ -9,9 +9,10 @@ namespace Driver.Windows.Desktop
 {
     public enum Desktops
     {
-        ScreenSaver,
-        Winlogon,
-        Default
+        INPUT= 8,
+        ScreenSaver = 4,
+        Winlogon = 2,
+        Default = 1
     }
     [Flags]
     public enum ACCESS_MASK : uint

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace Driver.Windows.Screen
         IntPtr nDest = IntPtr.Zero;
         IntPtr nBmp = IntPtr.Zero;
         private Size PreviousSize = new Size(0, 0);
+        IntPtr hOldBmp = IntPtr.Zero;
+        RawImage raw = new RawImage();
 
         public ScreenCapture(long jpgquality = 60L)
         {
@@ -45,8 +48,7 @@ namespace Driver.Windows.Screen
         }
         public RawImage GetScreen(Size sz)
         {
-            IntPtr hOldBmp = IntPtr.Zero;
-            RawImage raw = new RawImage();
+            
             try
             {
                 var dt = DateTime.Now;
@@ -54,7 +56,9 @@ namespace Driver.Windows.Screen
                 if (nDesk == IntPtr.Zero)
                     nDesk = PInvoke.GetDesktopWindow();
                 if (nSrce == IntPtr.Zero)
+                {
                     nSrce = PInvoke.GetWindowDC(nDesk);
+                }
                 if (nDest == IntPtr.Zero)
                     nDest = PInvoke.CreateCompatibleDC(nSrce);
                 if (nBmp == IntPtr.Zero)
@@ -66,9 +70,7 @@ namespace Driver.Windows.Screen
                 }
                 PreviousSize = sz;
                 hOldBmp = PInvoke.SelectObject(nDest, nBmp);
-
                 bool b = PInvoke.BitBlt(nDest, 0, 0, sz.Width, sz.Height, nSrce, 0, 0, CopyPixelOperation.SourceCopy | CopyPixelOperation.CaptureBlt);
-
                 PInvoke.BITMAPINFO bi = new PInvoke.BITMAPINFO();
 
                 bi.bmiHeader.biSize = 40;
@@ -85,7 +87,6 @@ namespace Driver.Windows.Screen
                 var dwBmpSize = ((sz.Width * bi.bmiHeader.biBitCount + 31) / 32) * 4 * sz.Height;
                 raw.Data = new byte[dwBmpSize];
                 raw.Dimensions = new Rectangle(0, 0, sz.Width, sz.Height);
-
                 PInvoke.GetDIBits(nSrce, nBmp, 0, Convert.ToUInt32(sz.Height), raw.Data, ref bi, PInvoke.DIB_Color_Mode.DIB_RGB_COLORS);
                 
                 PInvoke.SelectObject(nDest, hOldBmp);

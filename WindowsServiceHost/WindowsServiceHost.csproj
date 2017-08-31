@@ -66,25 +66,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Z:\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{62a99e23-9f56-4a77-9643-568e04d65bd5}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="Z:\Driver\Driver.csproj">
+    <ProjectReference Include="..\Driver\Driver.csproj">
       <Project>{fc3dd536-3dfd-4800-9bd1-30f95b915536}</Project>
       <Name>Driver</Name>
     </ProjectReference>
-    <ProjectReference Include="Z:\Model\Model.csproj">
+    <ProjectReference Include="..\Model\Model.csproj">
       <Project>{60e8d004-bac1-46b7-94a5-1b1c85564b01}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="Z:\Network\Network.csproj">
+    <ProjectReference Include="..\Network\Network.csproj">
       <Project>{ee97e80c-1685-4a8e-9463-da714007761c}</Project>
       <Name>Network</Name>
     </ProjectReference>
-    <ProjectReference Include="Z:\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{b0a014e4-0392-4e35-aa42-8fb5a40417e0}</Project>
-      <Name>LiteNetLib</Name>
+    <ProjectReference Include="..\WindowsConsoleHost\WindowsConsoleHost.csproj">
+      <Project>{cf12f820-0e40-45b2-9e93-89bbeabd30ac}</Project>
+      <Name>WindowsConsoleHost</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

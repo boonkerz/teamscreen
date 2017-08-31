@@ -36,6 +36,11 @@ namespace Driver.Windows.Simple
             return bounds.Width;
         }
 
+        public void Clear()
+        {
+            _ScreenCapture.ReleaseHandles();
+        }
+
         public override void SendScreenshot(Boolean fullscreen)
         {
             //byte[] image = new byte[] { };

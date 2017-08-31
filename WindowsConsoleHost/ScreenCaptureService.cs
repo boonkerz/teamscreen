@@ -81,7 +81,7 @@ namespace WindowsConsoleHost
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;
 
             Manager.Start();
-            //Manager.Loop();
+            Manager.Loop();
         }
 
         public void OnStop()

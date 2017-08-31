@@ -73,6 +73,7 @@ namespace WindowsServiceHost
             private const uint MAXIMUM_ALLOWED = 0x2000000;
             private const int CREATE_NEW_CONSOLE = 0x00000010;
             private const int CREATE_NO_WINDOW = 0x08000000;
+            private const int DETACHED_PROCESS = 0x00000008;
 
 
             private const int IDLE_PRIORITY_CLASS = 0x40;
@@ -109,7 +110,7 @@ namespace WindowsServiceHost
 
             public static bool StartProcessAndBypassUAC(String applicationName, out PROCESS_INFORMATION procInfo)
             {
-                using (var f = System.IO.File.CreateText(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\log.txt"))
+                using (var f = System.IO.File.CreateText(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\logStartService.txt"))
                 {
                     try
                     {
@@ -165,10 +166,10 @@ namespace WindowsServiceHost
                         // interaction with the new process.
                         STARTUPINFO si = new STARTUPINFO();
                         si.cb = (int)Marshal.SizeOf(si);
-                        si.lpDesktop = @"winsta0\default"; // interactive window station parameter; basically this indicates that the process created can display a GUI on the desktop
-                        f.WriteLine(@"winsta0\default ");
+                        si.lpDesktop = "Winsta0\\Winlogon"; // interactive window station parameter; basically this indicates that the process created can display a GUI on the desktop
+                        f.WriteLine("Winsta0\\Winlogon");
                         // flags that specify the priority and creation method of the process
-                        int dwCreationFlags = NORMAL_PRIORITY_CLASS | CREATE_NO_WINDOW;
+                        int dwCreationFlags = NORMAL_PRIORITY_CLASS | CREATE_NO_WINDOW | DETACHED_PROCESS;
 
                         // create a new process in the current user's logon session
                         bool result = CreateProcessAsUser(hUserTokenDup,        // client's access token

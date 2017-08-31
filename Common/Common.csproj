@@ -27,6 +27,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteNetLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteNetLib.0.7.4.1\lib\net35\LiteNetLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Data" />
@@ -71,10 +74,6 @@
     <ProjectReference Include="..\Network\Network.csproj">
       <Project>{EE97E80C-1685-4A8E-9463-DA714007761C}</Project>
       <Name>Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\vendor\LiteNetLib\LiteNetLib\LiteNetLib.csproj">
-      <Project>{B0A014E4-0392-4E35-AA42-8FB5A40417E0}</Project>
-      <Name>LiteNetLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

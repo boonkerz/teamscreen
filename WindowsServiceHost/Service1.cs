@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WindowsConsoleHost;
 
@@ -52,24 +53,30 @@ namespace WindowsServiceHost
         public Service1()
         {
             InitializeComponent();
-            service = new ScreenCaptureService();
-            
+            //service = new ScreenCaptureService();
+            //service.OnStart();
+
         }
         protected override void OnStart(string[] args)
         {
-            service.OnStart();
-            ServiceStatus serviceStatus = new ServiceStatus();
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
-            serviceStatus.dwWaitHint = 100000;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            //WindowsServiceHost.Toolkit.ApplicationLoader.PROCESS_INFORMATION proc;
-            //WindowsServiceHost.Toolkit.ApplicationLoader.StartProcessAndBypassUAC(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\WindowsConsoleHost.exe", out proc);
+            /* ServiceStatus serviceStatus = new ServiceStatus();
+             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
+             serviceStatus.dwWaitHint = 100000;
+             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+             */
+
+            //service = new ScreenCaptureService();
+            //Thread dateServerThread = new Thread(new ThreadStart(service.OnStart));
+            //dateServerThread.Start();
+
+            WindowsServiceHost.Toolkit.ApplicationLoader.PROCESS_INFORMATION proc;
+            WindowsServiceHost.Toolkit.ApplicationLoader.StartProcessAndBypassUAC(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\WindowsConsoleHost.exe", out proc);
         }
 
         protected override void OnStop()
         {
-            service.OnStop();
-            /* using (var f = System.IO.File.CreateText(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\log2.txt"))
+            //service.OnStop();
+            using (var f = System.IO.File.CreateText(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\log2.txt"))
              {
                  var processes = Process.GetProcesses();
                  // set break point here
@@ -83,7 +90,7 @@ namespace WindowsServiceHost
                  {
                      process.Kill();
                  }
-             }*/
+             }
         }
         protected override void OnSessionChange(SessionChangeDescription changeDescription)
         {
