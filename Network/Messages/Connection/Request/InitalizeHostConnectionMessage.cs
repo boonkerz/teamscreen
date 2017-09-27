@@ -13,7 +13,8 @@ namespace Network.Messages.Connection.Request
 		public InitalizeHostConnectionMessage()
 			: base((ushort)CustomMessageType.RequestInitalizeHostConnection)
 		{
-		}
+            EncryptedMessage = false;
+        }
 
 		public override void WritePayload(NetDataWriter message)
 		{

@@ -22,7 +22,7 @@ namespace Common.Listener
 
         public ClientListener()
 		{
-			_messageHandler = new MessageHandler();
+			_messageHandler = new MessageHandler(MessageHandler.ManagerModus.Client, _clientManager);
 		}
 
         public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
@@ -99,7 +99,7 @@ namespace Common.Listener
 		public void handleResponseInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Response.InitalizeHostConnectionMessage message)
 		{
 			if (OnHostInitalizeConnected != null)
-				OnHostInitalizeConnected(this, new HostInitalizeConnectedEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, HostPublicKey = message.PublicKey });
+				OnHostInitalizeConnected(this, new HostInitalizeConnectedEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, HostPublicKey = message.HostPublicKey });
 		}
 
 		public void handleResponseScreenshotConnection(NetPeer peer, Network.Messages.Connection.ResponseScreenshotMessage message)
@@ -108,11 +108,11 @@ namespace Common.Listener
 			OnScreenshotReceived(this, new ScreenshotReceivedEventArgs()
 			{
 				Image = message.Image,
-					Nothing = false,
-					Bounds = message.Bounds,
-					SystemId = message.HostSystemId,
-                    Fullscreen = message.Fullscreen
-				});
+				Nothing = false,
+				Bounds = message.Bounds,
+				SystemId = message.HostSystemId,
+                Fullscreen = message.Fullscreen
+			});
 		}
 
 		public void handleResponseHostConnection(NetPeer peer, Network.Messages.Connection.Response.HostConnectionMessage message)

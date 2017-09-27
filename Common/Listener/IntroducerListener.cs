@@ -20,7 +20,7 @@ namespace Common.Listener
 
 		public IntroducerListener()
 		{
-			_messageHandler = new MessageHandler(true);
+			_messageHandler = new MessageHandler(MessageHandler.ManagerModus.Intoducer);
 
 		}
 

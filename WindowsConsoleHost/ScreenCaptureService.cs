@@ -56,7 +56,7 @@ namespace WindowsConsoleHost
                 Network.Messages.Connection.Response.InitalizeHostConnectionMessage rs = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
                 rs.HostSystemId = Manager.Manager.SystemId;
                 rs.ClientSystemId = e.ClientSystemId;
-                rs.PublicKey = pair.PublicKey;
+                rs.HostPublicKey = pair.PublicKey;
 
                 Manager.Manager.sendMessage(rs);
             };
@@ -72,7 +72,91 @@ namespace WindowsConsoleHost
                     f.WriteLine("Passwort Falsch Verbindung abgebrochen von: " + e.SystemId);
                 }
             };
+            Manager.HostListener.OnMouseMove += (object sender, MouseMoveEventArgs e) =>
+            {
+                Mouse.Move((int)e.X, (int)e.Y);
+            };
+            Manager.HostListener.OnKey += (object sender, Common.EventArgs.Network.KeyEventArgs e) =>
+            {
+                if (e.Mode == Network.Messages.Connection.OneWay.KeyMessage.KeyMode.Down)
+                {
+                    Keyboard.Down(e.Key);
+                }
+                else
+                {
+                    Keyboard.Up(e.Key);
+                }
 
+            };
+            Manager.HostListener.OnMouseClick += (object sender, MouseClickEventArgs e) =>
+            {
+                if (e.DoubleClick)
+                {
+                    switch (e.Button)
+                    {
+                        case MouseClickEventArgs.ButtonType.Left:
+                            Mouse.DoubleClickLeft((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Middle:
+                            Mouse.DoubleClickMiddle((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Right:
+                            Mouse.DoubleClickRight((int)e.X, (int)e.Y);
+                            break;
+                    }
+
+                    return;
+                }
+                if (e.Down)
+                {
+                    switch (e.Button)
+                    {
+                        case MouseClickEventArgs.ButtonType.Left:
+                            Mouse.ClickDownLeft((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Middle:
+                            Mouse.ClickDownMiddle((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Right:
+                            Mouse.ClickDownRight((int)e.X, (int)e.Y);
+                            break;
+                    }
+
+                    return;
+                }
+                if (e.Up)
+                {
+                    switch (e.Button)
+                    {
+                        case MouseClickEventArgs.ButtonType.Left:
+                            Mouse.ClickUpLeft((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Middle:
+                            Mouse.ClickUpMiddle((int)e.X, (int)e.Y);
+                            break;
+                        case MouseClickEventArgs.ButtonType.Right:
+                            Mouse.ClickUpRight((int)e.X, (int)e.Y);
+                            break;
+                    }
+
+                    return;
+                }
+
+
+                switch (e.Button)
+                {
+                    case MouseClickEventArgs.ButtonType.Left:
+                        Mouse.ClickLeft((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Middle:
+                        Mouse.ClickMiddle((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Right:
+                        Mouse.ClickRight((int)e.X, (int)e.Y);
+                        break;
+                }
+
+            };
             Manager.HostListener.OnScreenshotRequest += HostListener_OnScreenshotRequest;
             Manager.HostListener.OnClientClose += HostListener_OnClientClose;
             Display.SetManager(Manager.Manager);

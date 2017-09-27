@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Driver.Windows.Desktop;
+using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -7,18 +9,37 @@ namespace Driver.Windows
 {
 	public class Keyboard : Driver.Interfaces.Keyboard
 	{
-		
-		public void Down(uint Key)
+
+        private StreamWriter f = new StreamWriter(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\keyboard.txt", true);
+
+        public Keyboard()
+        {
+            f.AutoFlush = true;
+        }
+
+
+        public void Down(uint Key)
 		{
+            f.WriteLine("Key Down " + Key);
+            SwitchToInputDesktop();
 			Robot.keyDown((int)Key);
 		}
 
 		public void Up(uint Key)
 		{
-			Robot.keyUp((int)Key);
+            f.WriteLine("Key Up " + Key);
+            SwitchToInputDesktop();
+            Robot.keyUp((int)Key);
 		}
 
-		public string KeyCodeToUnicode(uint key)
+        public void SwitchToInputDesktop()
+        {
+            var s = PInvoke.OpenInputDesktop(0, false, ACCESS_MASK.MAXIMUM_ALLOWED);
+            bool success = PInvoke.SetThreadDesktop(s);
+            PInvoke.CloseDesktop(s);
+        }
+
+        public string KeyCodeToUnicode(uint key)
 		{
 			byte[] keyboardState = new byte[255];
 			bool keyboardStateStatus = GetKeyboardState(keyboardState);

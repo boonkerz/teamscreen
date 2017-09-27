@@ -10,15 +10,13 @@ namespace Network
 {
 	public abstract class BaseMessage : Message
 	{
-        public String HostSystemId { get; set; }
-        public String ClientSystemId { get; set; }
-        public int StartPointEncryption { get; set; }
-
-		protected byte[] EncryptedTempStorage { get; set; }
+        
+        protected byte[] EncryptedTempStorage { get; set; }
 
         protected BaseMessage(ushort type)
 			: base(type)
 		{
+            StartPointEncryption = 0;
 		}
 
 		public void CopyEncryptedToTempStorage(NetDataReader message)
@@ -40,53 +38,31 @@ namespace Network
 
         public override void WritePayload(NetDataWriter message)
         {
-            base.WritePayload(message);
-            message.Put(HostSystemId);
-            message.Put(ClientSystemId);
-			StartPointEncryption = message.Length + 4;
-            message.Put(StartPointEncryption);
+            base.WritePayload(message);   
         }
 
         public override void ReadPayload(NetDataReader message)
         {
 			base.ReadPayload(message);
+        }
+
+        public override void WriteUncryptedPayload(NetDataWriter message)
+        {
+            message.Put(MessageType);
+            message.Put(HostSystemId);
+            message.Put(ClientSystemId);
+            StartPointEncryption = message.Length + 4;
+            message.Put(StartPointEncryption);
+        }
+
+        public override void ReadUncryptedPayload(NetDataReader message)
+        {
             HostSystemId = message.GetString(100);
             ClientSystemId = message.GetString(100);
             StartPointEncryption = message.GetInt();
-
         }
 
-		public void Decrypt(NetDataReader message)
-		{
-			byte[] toDecrypt = new byte[message.Data.Length - StartPointEncryption];
-
-			Array.Copy(message.Data, StartPointEncryption, toDecrypt, 0, message.Data.Length - StartPointEncryption);
-
-			byte[] decrypted = Network.Utils.Cryptography.DecryptBytes(toDecrypt, this.SymmetricKey);
-
-            byte[] toTransfer = new byte[StartPointEncryption + decrypted.Length];
-			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
-			Array.Copy(decrypted, 0, toTransfer, StartPointEncryption, decrypted.Length);
-			message.SetSource(toTransfer, StartPointEncryption);
-		}
-
-        public void Encrypt(NetDataWriter message)
-        {
-			byte[] toEncrypt = new byte[message.Data.Length-StartPointEncryption];
-			Array.Copy(message.Data, StartPointEncryption , toEncrypt, 0, message.Data.Length - StartPointEncryption);
-
-			byte[] encrypted = Network.Utils.Cryptography.EncryptBytes(toEncrypt, this.SymmetricKey);
-
-			byte[] toTransfer = new byte[StartPointEncryption + encrypted.Length];
-
-			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
-			Array.Copy(encrypted, 0, toTransfer, StartPointEncryption, encrypted.Length);
-            message.PutBytesWithLength(toTransfer, 0, toTransfer.Length);
-			//message.Data = toTransfer;
-			//message.Length = toTransfer.Length;
-        }
-
-		public void PrintByteArray(byte[] bytes)
+        public void PrintByteArray(byte[] bytes)
 		{
 			var sb = new StringBuilder("new byte[] { ");
 			foreach (var b in bytes)

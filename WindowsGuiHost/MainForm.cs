@@ -49,7 +49,7 @@ namespace WindowsGuiHost
                 Network.Messages.Connection.Response.InitalizeHostConnectionMessage rs = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
                 rs.HostSystemId = Manager.Manager.SystemId;
                 rs.ClientSystemId = e.ClientSystemId;
-                rs.PublicKey = pair.PublicKey;
+                rs.HostPublicKey = pair.PublicKey;
 
                 Manager.Manager.sendMessage(rs);
             };

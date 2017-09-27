@@ -10,6 +10,7 @@ namespace Network
 
 		public HostManager(INetEventListener listener, string connectKey) : base(listener, connectKey)
         {
-		}
+            _messageHandler = new MessageHandler(MessageHandler.ManagerModus.Host, this);
+        }
 	}
 }

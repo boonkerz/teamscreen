@@ -30,7 +30,7 @@ namespace Common.Listener
 
         public HostListener()
 		{
-			_messageHandler = new MessageHandler();
+			_messageHandler = new MessageHandler(MessageHandler.ManagerModus.Host, _hostManager);
 		}
 
         public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)

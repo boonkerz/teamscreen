@@ -1,5 +1,5 @@
 ﻿using System;
-using Network.Utils;
+using Network.Messages.System;
 using Model;
 using LiteNetLib.Utils;
 
@@ -13,6 +13,7 @@ namespace Network.Messages.System
 		public RequestHostIntroducerRegistrationMessage()
 			: base((ushort)CustomMessageType.RequestHostIntroducerRegistration)
 		{
+            EncryptedMessage = false;
 		}
 
 		public override void WritePayload(NetDataWriter message)

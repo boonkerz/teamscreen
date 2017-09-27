@@ -11,12 +11,18 @@ namespace Network
 {
 	public class MessageHandler
 	{
-		protected Boolean Introducer {get;set;}
+		protected ManagerModus Modus {get;set;}
         protected BaseManager Manager { get; set; }
 
-		public MessageHandler(Boolean introducer = false, BaseManager manager = null)
+        public enum ManagerModus {
+            Client = 1,
+            Intoducer = 2 ,
+            Host = 3
+        }
+
+		public MessageHandler(ManagerModus modus, BaseManager manager = null)
 		{
-			this.Introducer = introducer;
+			this.Modus = modus;
             this.Manager = manager;
 			Discover();
 		}
@@ -24,19 +30,54 @@ namespace Network
 		public NetDataWriter encodeMessage(Message message)
 		{
 			NetDataWriter dw = new NetDataWriter();
-			message.Introducer = Introducer;
-			message.WritePayload(dw);
+            message.WriteUncryptedPayload(dw);
+            if(this.Modus == ManagerModus.Intoducer)
+            {
+                message.WritePayload(dw);
+            }
+            else
+            {
+                message.WritePayload(dw);
+                if (message.EncryptedMessage)
+                {
+                    if(this.Modus == ManagerModus.Host)
+                    {
+                        Encrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.ClientSystemId), dw);
+                    }
+                    else
+                    {
+                        Encrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.HostSystemId), dw);
+                    }
+                    
+                }
+            }
 			return dw;
 		}
 
 		public Message decodeMessage(NetDataReader incoming)
 		{
 			ushort messageType = incoming.GetUShort();
-			var message = create(messageType);
-			message.Introducer = Introducer;
-            //message.ReadBasePayload(incoming);
-            //message.SymmetricKey = Manager.getSymmetricKeyForRemoteId(message.SymmetricKey);
-            message.ReadPayload(incoming);
+            var message = create(messageType);
+            message.ReadUncryptedPayload(incoming);
+            if (this.Modus == ManagerModus.Intoducer)
+            {
+                message.ReadPayload(incoming);
+            }
+            else
+            {
+                if (message.EncryptedMessage)
+                {
+                    if (this.Modus == ManagerModus.Host)
+                    {
+                        Decrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.HostSystemId), incoming);
+                    }
+                    else
+                    {
+                        Decrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.ClientSystemId), incoming);
+                    }
+                }
+                message.ReadPayload(incoming);
+            }
             
             return message;
 		}
@@ -124,5 +165,35 @@ namespace Network
 				}
 			}
 		}
-	}
+
+        public void Decrypt(int StartPointEncryption, String SymmetricKey, NetDataReader message)
+        {
+            byte[] toDecrypt = new byte[message.Data.Length - StartPointEncryption];
+
+            Array.Copy(message.Data, StartPointEncryption, toDecrypt, 0, message.Data.Length - StartPointEncryption);
+
+            byte[] decrypted = Network.Utils.Cryptography.DecryptBytes(toDecrypt, SymmetricKey);
+
+            byte[] toTransfer = new byte[StartPointEncryption + decrypted.Length];
+            Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
+            Array.Copy(decrypted, 0, toTransfer, StartPointEncryption, decrypted.Length);
+            message.SetSource(toTransfer, StartPointEncryption);
+        }
+
+        public void Encrypt(int StartPointEncryption, String SymmetricKey, NetDataWriter message)
+        {
+            byte[] toEncrypt = new byte[message.Data.Length - StartPointEncryption];
+            Array.Copy(message.Data, StartPointEncryption, toEncrypt, 0, message.Data.Length - StartPointEncryption);
+
+            byte[] encrypted = Network.Utils.Cryptography.EncryptBytes(toEncrypt, SymmetricKey);
+
+            byte[] toTransfer = new byte[StartPointEncryption + encrypted.Length];
+
+            Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
+            Array.Copy(encrypted, 0, toTransfer, StartPointEncryption, encrypted.Length);
+            message.PutBytesWithLength(toTransfer, 0, toTransfer.Length);
+            //message.Data = toTransfer;
+            //message.Length = toTransfer.Length;
+        }
+    }
 }

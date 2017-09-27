@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Driver.Windows.Screen.PInvoke;
 
 namespace Driver.Windows.Simple
 {
@@ -41,6 +42,13 @@ namespace Driver.Windows.Simple
             _ScreenCapture.ReleaseHandles();
         }
 
+        public void SwitchToInputDesktop()
+        {
+            var s = PInvoke.OpenInputDesktop(0, false, ACCESS_MASK.MAXIMUM_ALLOWED);
+            bool success = PInvoke.SetThreadDesktop(s);
+            PInvoke.CloseDesktop(s);
+        }
+
         public override void SendScreenshot(Boolean fullscreen)
         {
             //byte[] image = new byte[] { };
@@ -48,7 +56,7 @@ namespace Driver.Windows.Simple
             var bmpScreenshot = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
                                System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height,
                                PixelFormat.Format32bppArgb);
-
+            SwitchToInputDesktop();
             // Create a graphics object from the bitmap.
             var img = _ScreenCapture.GetScreen(new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
 
@@ -84,10 +92,8 @@ namespace Driver.Windows.Simple
                     }
                 }
             }
-
-            //rs.Image = stream.ToArray();
-            
-            foreach(var ID in ConnectedClients)
+           
+            foreach (var ID in ConnectedClients)
             {
                 rs.ClientSystemId = ID;
                 HostManager.sendMessage(rs);

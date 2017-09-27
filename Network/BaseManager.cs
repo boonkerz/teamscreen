@@ -14,7 +14,7 @@ namespace Network
 		System.Collections.Hashtable _symmetricKey;
 
 		NetManager _netManager;
-		MessageHandler _messageHandler;
+		protected MessageHandler _messageHandler;
 		public String SystemId { get; set; }
 		public String Password { get; set; }
 
@@ -29,7 +29,7 @@ namespace Network
 			_netManager.UnsyncedEvents = true;
 			_netManager.PingInterval = 10000;
 			_netManager.DisconnectTimeout = 20000;
-			_messageHandler = new MessageHandler();
+			
 		}
 
 		public void SaveHostPublicKey(string remoteSystemId, string remotePublicKey)

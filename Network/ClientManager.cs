@@ -10,7 +10,8 @@ namespace Network
 
 		public ClientManager(INetEventListener listener, string connectKey) : base(listener, connectKey)
 		{
+            _messageHandler = new MessageHandler(MessageHandler.ManagerModus.Client, this);
 
-		}
+        }
 	}
 }

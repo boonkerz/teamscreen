@@ -10,6 +10,7 @@ namespace Network.Messages.System
 		public RequestClientIntroducerRegistrationMessage()
 			: base((ushort)CustomMessageType.RequestClientIntroducerRegistration)
 		{
+            EncryptedMessage = false;
 		}
 
 		public override void WritePayload(NetDataWriter message)

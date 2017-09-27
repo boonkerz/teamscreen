@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Driver.Windows.Desktop;
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Driver.Windows
@@ -18,14 +20,24 @@ namespace Driver.Windows
         private const int MOUSEEVENTF_MIDDLEDOWN = 0x0020;
         private const int MOUSEEVENTF_MIDDLEUP = 0x0040;
 
+        private StreamWriter f = new StreamWriter(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\mouse.txt", true);
+
         public Mouse()
 		{
-			
-
+            f.AutoFlush = true;
 		}
 
-		public void ClickLeft(int x, int y)
+        public void SwitchToInputDesktop()
+        {
+            var s = PInvoke.OpenInputDesktop(0, false, ACCESS_MASK.MAXIMUM_ALLOWED);
+            bool success = PInvoke.SetThreadDesktop(s);
+            PInvoke.CloseDesktop(s);
+        }
+
+
+        public void ClickLeft(int x, int y)
 		{
+            f.WriteLine("Click Left at: " + x + "," + y);
 			System.Windows.Forms.Cursor.Position = new System.Drawing.Point(x, y);
 			mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)x, (uint)y, 0, 0);
 		}

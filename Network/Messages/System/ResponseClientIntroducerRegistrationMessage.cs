@@ -10,6 +10,7 @@ namespace Network.Messages.System
 		public ResponseClientIntroducerRegistrationMessage()
 			: base((ushort)CustomMessageType.ResponseClientIntroducerRegistration)
 		{
+            EncryptedMessage = false;
 		}
 
 		public Machine Machine { get; set; }

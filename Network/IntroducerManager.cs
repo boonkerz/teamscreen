@@ -18,7 +18,7 @@ namespace Network
 			_netManager.UnsyncedEvents = true;
 			_netManager.PingInterval = 10000;
 			_netManager.DisconnectTimeout = 20000;
-			_messageHandler = new MessageHandler();
+			_messageHandler = new MessageHandler(MessageHandler.ManagerModus.Intoducer);
 		}
 
 		public void sendMessage(Message message)

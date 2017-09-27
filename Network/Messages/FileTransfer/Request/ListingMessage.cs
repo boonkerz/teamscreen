@@ -19,30 +19,13 @@ namespace Network.Messages.FileTransfer.Request
 		public override void WritePayload(NetDataWriter message)
 		{
 			base.WritePayload(message);
-            if (this.Introducer)
-            {
-                this.CopyEncryptedFromTempStorage(message);
-            }
-            else
-            {
-                message.Put(Folder);
-                this.Encrypt(message);
-            }
+            message.Put(Folder);
         }
 
 		public override void ReadPayload(NetDataReader message)
 		{
 			base.ReadPayload(message);
-            if (this.Introducer)
-            {
-                this.CopyEncryptedToTempStorage(message);
-            }
-            else
-            {
-                this.Decrypt(message);
-                Folder = message.GetString(250);
-            }
-		}
-
+            Folder = message.GetString(250);
+        }
 	}
 }
