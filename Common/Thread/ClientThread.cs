@@ -6,6 +6,7 @@ using LiteNetLib.Utils;
 using Network;
 using Network.Messages.Connection;
 using Network.Messages.System;
+using Network.Manager;
 
 namespace Common
 {
@@ -19,11 +20,10 @@ namespace Common
 		public ClientThread()
 		{
 			ConfigManager = new Config.Manager();
-			ClientListener = new ClientListener();
-
-			Manager = new ClientManager(ClientListener, "teamscreen");
-			ClientListener._clientManager = Manager;
-		}
+            ClientListener = new ClientListener();
+            Manager = new ClientManager(ClientListener, "teamscreen");
+            ClientListener._clientManager = Manager;
+        }
 
 		public void Start()
 		{

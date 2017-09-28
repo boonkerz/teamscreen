@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Common.EventArgs.Network;
+using Network.Manager;
 
 namespace Driver.Mac
 {

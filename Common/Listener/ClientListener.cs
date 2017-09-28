@@ -5,6 +5,8 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using Network;
 using Common.EventArgs.FileTransfer;
+using Network.Utils;
+using Network.Manager;
 
 namespace Common.Listener
 {
@@ -98,7 +100,12 @@ namespace Common.Listener
 
 		public void handleResponseInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Response.InitalizeHostConnectionMessage message)
 		{
-			if (OnHostInitalizeConnected != null)
+            var symmetricKey = Guid.NewGuid().ToString().Replace("-", string.Empty);
+
+            this._clientManager.SaveRemotePublicKey(message.HostSystemId, message.HostPublicKey);
+            this._clientManager.SaveSymmetricKey(message.HostSystemId, symmetricKey);
+            
+            if (OnHostInitalizeConnected != null)
 				OnHostInitalizeConnected(this, new HostInitalizeConnectedEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, HostPublicKey = message.HostPublicKey });
 		}
 

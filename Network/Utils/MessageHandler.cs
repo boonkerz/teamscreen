@@ -6,8 +6,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using LiteNetLib.Utils;
 using Network.Messages.System;
+using Network.Manager;
 
-namespace Network
+namespace Network.Utils
 {
 	public class MessageHandler
 	{

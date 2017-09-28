@@ -14,6 +14,7 @@ namespace Network.Messages.Connection.Response
 		public InitalizeHostConnectionMessage()
 			: base((ushort)CustomMessageType.ResponseInitalizeHostConnection)
 		{
+            EncryptedMessage = false;
 		}
 
 		public override void WritePayload(NetDataWriter message)

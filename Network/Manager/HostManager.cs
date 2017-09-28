@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using LiteNetLib;
 using Network.Utils;
 
-namespace Network
+namespace Network.Manager
 {
 	public sealed class HostManager : BaseManager
 	{

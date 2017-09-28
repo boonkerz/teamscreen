@@ -44,14 +44,6 @@ namespace WindowsGuiHost
             Manager.HostListener.OnClientInitalizeConnected += (object sender, Common.EventArgs.Network.Host.ClientInitalizeConnectedEventArgs e) =>
             {
                 this.lblStatus.Text = "Initaliziere Verbindung";
-                var pair = Manager.Manager.CreateNewKeyPairKey(e.ClientSystemId);
-
-                Network.Messages.Connection.Response.InitalizeHostConnectionMessage rs = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
-                rs.HostSystemId = Manager.Manager.SystemId;
-                rs.ClientSystemId = e.ClientSystemId;
-                rs.HostPublicKey = pair.PublicKey;
-
-                Manager.Manager.sendMessage(rs);
             };
 
             Manager.HostListener.OnClientConnected += (object sender, ClientConnectedEventArgs e) =>

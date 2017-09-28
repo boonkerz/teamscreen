@@ -8,6 +8,7 @@ using LiteNetLib.Utils;
 using Network;
 using Network.Messages.Connection;
 using Network.Messages.System;
+using Network.Manager;
 
 namespace Common.Thread
 {
@@ -25,6 +26,7 @@ namespace Common.Thread
 			HostListener = new HostListener();
 
 			Manager = new HostManager(HostListener, "teamscreen");
+
 			if (ConfigManager.HostConfig.Password == null || ConfigManager.HostConfig.Password == "")
 			{
 				Manager.Password = new Random().Next(0, 9999).ToString();

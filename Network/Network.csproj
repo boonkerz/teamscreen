@@ -34,6 +34,10 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Manager\BaseManager.cs" />
+    <Compile Include="Manager\ClientManager.cs" />
+    <Compile Include="Manager\HostManager.cs" />
+    <Compile Include="Manager\IntroducerManager.cs" />
     <Compile Include="Messages\Connection\OneWay\DisconnectFromIntroducerMessage.cs" />
     <Compile Include="Messages\Connection\Request\CloseHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\ResponseEmptyScreenshotMessage.cs" />
@@ -47,8 +51,6 @@
     <Compile Include="Messages\System\RequestHostIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\System\CustomMessageType.cs" />
     <Compile Include="Utils\MessageHandler.cs" />
-    <Compile Include="ClientManager.cs" />
-    <Compile Include="HostManager.cs" />
     <Compile Include="Messages\System\ResponseHostIntroducerRegistrationMessage.cs" />
     <Compile Include="Messages\Connection\CustomMessageType.cs" />
     <Compile Include="Messages\System\RequestClientIntroducerRegistrationMessage.cs" />
@@ -61,27 +63,24 @@
     <Compile Include="Messages\System\RequestHostDisconnectMessage.cs" />
     <Compile Include="Messages\Connection\RequestCheckOnlineMessage.cs" />
     <Compile Include="Messages\Connection\ResponseCheckOnlineMessage.cs" />
-    <Compile Include="IntroducerManager.cs" />
     <Compile Include="Messages\Connection\Request\InitalizeHostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\Response\InitalizeHostConnectionMessage.cs" />
     <Compile Include="Utils\PublicPrivateKey.cs" />
     <Compile Include="Messages\Connection\Request\HostConnectionMessage.cs" />
     <Compile Include="Messages\Connection\Response\HostConnectionMessage.cs" />
-    <Compile Include="BaseManager.cs" />
     <Compile Include="Messages\Connection\OneWay\KeyMessage.cs" />
     <Compile Include="Utils\Crypto.cs" />
     <Compile Include="Messages\FileTransfer\Request\ListingMessage.cs" />
     <Compile Include="Messages\FileTransfer\CustomMessageType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{60E8D004-BAC1-46B7-94A5-1B1C85564B01}</Project>
+      <Project>{60e8d004-bac1-46b7-94a5-1b1c85564b01}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

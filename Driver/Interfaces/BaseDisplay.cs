@@ -1,5 +1,6 @@
 ﻿using Common.EventArgs.Network;
 using Network;
+using Network.Manager;
 using Network.Messages.Connection;
 using System;
 namespace Driver.Interfaces

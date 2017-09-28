@@ -24,6 +24,7 @@ namespace Common.Thread
 			IntroducerListener = new IntroducerListener();
 
 			Manager = new IntroducerManager(IntroducerListener, "teamscreen");
+            
 			IntroducerListener.Server = Manager.getNetmanager();
 		}
 

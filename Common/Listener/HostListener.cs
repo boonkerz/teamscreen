@@ -9,6 +9,8 @@ using LiteNetLib.Utils;
 using Network;
 using Network.Messages.Connection;
 using Common.EventArgs.FileTransfer;
+using Network.Utils;
+using Network.Manager;
 
 namespace Common.Listener
 {
@@ -91,7 +93,16 @@ namespace Common.Listener
 
 		public void handleRequestInitalizeHostConnection(NetPeer peer, Network.Messages.Connection.Request.InitalizeHostConnectionMessage message)
 		{
-			if (OnClientInitalizeConnected != null)
+            this._hostManager.SaveRemotePublicKey(message.ClientSystemId, message.ClientPublicKey);
+            var pair = this._hostManager.CreateNewKeyPairKey(message.ClientSystemId);
+
+            Network.Messages.Connection.Response.InitalizeHostConnectionMessage rs = new Network.Messages.Connection.Response.InitalizeHostConnectionMessage();
+            rs.HostSystemId = this._hostManager.SystemId;
+            rs.ClientSystemId = message.ClientSystemId;
+            rs.HostPublicKey = pair.PublicKey;
+
+            this._hostManager.sendMessage(rs);
+            if (OnClientInitalizeConnected != null)
 				OnClientInitalizeConnected(this, new ClientInitalizeConnectedEventArgs { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, ClientPublicKey = message.ClientPublicKey });
 		}
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using LiteNetLib;
+using Network.Manager;
+using Network.Utils;
 
 namespace Network
 {
