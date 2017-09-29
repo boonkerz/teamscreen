@@ -35,6 +35,12 @@ namespace Common.Listener
 			_messageHandler = new MessageHandler(MessageHandler.ManagerModus.Host, _hostManager);
 		}
 
+        public void SetManager(HostManager Manager)
+        {
+            this._hostManager = Manager;
+            _messageHandler.Manager = Manager;
+        }
+
         public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
 			Message msg = _messageHandler.decodeMessage(reader);

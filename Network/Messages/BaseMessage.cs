@@ -19,19 +19,21 @@ namespace Network
             StartPointEncryption = 0;
 		}
 
-		public void CopyEncryptedToTempStorage(NetDataReader message)
+		public override void CopyEncryptedToTempStorage(NetDataReader message)
 		{
 			this.EncryptedTempStorage = new byte[message.Data.Length - StartPointEncryption];
 			Array.Copy(message.Data, StartPointEncryption, this.EncryptedTempStorage, 0, message.Data.Length - StartPointEncryption);
 		}
 
-		public void CopyEncryptedFromTempStorage(NetDataWriter message)
+		public override byte[] CopyEncryptedFromTempStorage(NetDataWriter message)
 		{
 			byte[] toTransfer = new byte[StartPointEncryption + this.EncryptedTempStorage.Length];
 
 			Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
 			Array.Copy(this.EncryptedTempStorage, 0, toTransfer, StartPointEncryption, this.EncryptedTempStorage.Length);
-            message.PutBytesWithLength(toTransfer, 0, toTransfer.Length);
+
+            return toTransfer;
+            //message.PutBytesWithLength(this.EncryptedTempStorage, 0, this.EncryptedTempStorage.Length);
             //message.Data = toTransfer;
             //message.Length = toTransfer.Length;
         }

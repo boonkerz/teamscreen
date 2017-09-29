@@ -13,7 +13,7 @@ namespace Network.Utils
 	public class MessageHandler
 	{
 		protected ManagerModus Modus {get;set;}
-        protected BaseManager Manager { get; set; }
+        public BaseManager Manager { get; set; }
 
         public enum ManagerModus {
             Client = 1,
@@ -28,13 +28,21 @@ namespace Network.Utils
 			Discover();
 		}
 
-		public NetDataWriter encodeMessage(Message message)
+		public byte[] encodeMessage(Message message)
 		{
-			NetDataWriter dw = new NetDataWriter();
+			NetDataWriter dw = new NetDataWriter(true);
             message.WriteUncryptedPayload(dw);
             if(this.Modus == ManagerModus.Intoducer)
             {
-                message.WritePayload(dw);
+                if (message.EncryptedMessage)
+                {
+                    return message.CopyEncryptedFromTempStorage(dw);
+                }
+                else
+                {
+                    message.WritePayload(dw);
+                }
+                
             }
             else
             {
@@ -43,16 +51,16 @@ namespace Network.Utils
                 {
                     if(this.Modus == ManagerModus.Host)
                     {
-                        Encrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.ClientSystemId), dw);
+                        return Encrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.ClientSystemId), dw);
                     }
                     else
                     {
-                        Encrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.HostSystemId), dw);
+                        return Encrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.HostSystemId), dw);
                     }
                     
                 }
             }
-			return dw;
+			return dw.Data;
 		}
 
 		public Message decodeMessage(NetDataReader incoming)
@@ -62,7 +70,14 @@ namespace Network.Utils
             message.ReadUncryptedPayload(incoming);
             if (this.Modus == ManagerModus.Intoducer)
             {
-                message.ReadPayload(incoming);
+                if (message.EncryptedMessage)
+                {
+                    message.CopyEncryptedToTempStorage(incoming);
+                }
+                else
+                {
+                    message.ReadPayload(incoming);
+                }
             }
             else
             {
@@ -70,11 +85,11 @@ namespace Network.Utils
                 {
                     if (this.Modus == ManagerModus.Host)
                     {
-                        Decrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.HostSystemId), incoming);
+                        Decrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.ClientSystemId), incoming);
                     }
                     else
                     {
-                        Decrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.ClientSystemId), incoming);
+                        Decrypt(message.StartPointEncryption, Manager.getSymmetricKeyForRemoteId(message.HostSystemId), incoming);
                     }
                 }
                 message.ReadPayload(incoming);
@@ -181,7 +196,7 @@ namespace Network.Utils
             message.SetSource(toTransfer, StartPointEncryption);
         }
 
-        public void Encrypt(int StartPointEncryption, String SymmetricKey, NetDataWriter message)
+        public byte[] Encrypt(int StartPointEncryption, String SymmetricKey, NetDataWriter message)
         {
             byte[] toEncrypt = new byte[message.Data.Length - StartPointEncryption];
             Array.Copy(message.Data, StartPointEncryption, toEncrypt, 0, message.Data.Length - StartPointEncryption);
@@ -192,9 +207,7 @@ namespace Network.Utils
 
             Array.Copy(message.Data, 0, toTransfer, 0, StartPointEncryption);
             Array.Copy(encrypted, 0, toTransfer, StartPointEncryption, encrypted.Length);
-            message.PutBytesWithLength(toTransfer, 0, toTransfer.Length);
-            //message.Data = toTransfer;
-            //message.Length = toTransfer.Length;
+            return toTransfer;
         }
     }
 }

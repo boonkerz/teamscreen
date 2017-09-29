@@ -22,7 +22,7 @@ namespace Common
 			ConfigManager = new Config.Manager();
             ClientListener = new ClientListener();
             Manager = new ClientManager(ClientListener, "teamscreen");
-            ClientListener._clientManager = Manager;
+            ClientListener.SetManager(Manager);
         }
 
 		public void Start()

@@ -35,7 +35,7 @@ namespace Common.Thread
 			{
 				Manager.Password = ConfigManager.HostConfig.Password;
 			}
-			HostListener._hostManager = Manager;
+			HostListener.SetManager(Manager);
 
 			HostListener.OnConnected += (object sender, ConnectedEventArgs e) =>
 			{

@@ -27,6 +27,12 @@ namespace Common.Listener
 			_messageHandler = new MessageHandler(MessageHandler.ManagerModus.Client, _clientManager);
 		}
 
+        public void SetManager(ClientManager Manager)
+        {
+            this._clientManager = Manager;
+            _messageHandler.Manager = Manager;
+        }
+
         public override void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 		{
             base.OnNetworkReceive(peer, reader);

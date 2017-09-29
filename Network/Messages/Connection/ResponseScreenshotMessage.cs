@@ -16,6 +16,7 @@ namespace Network.Messages.Connection
         public ResponseScreenshotMessage()
 			: base((ushort)CustomMessageType.ResponseScreenshot)
 		{
+            EncryptedMessage = true;
 		}
 
 		public override void WritePayload(NetDataWriter message)

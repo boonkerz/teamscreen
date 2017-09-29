@@ -21,7 +21,7 @@ namespace Driver
 
 		public BaseDisplay() : base()
         {
-            refreshThread = new System.Timers.Timer(1000);
+            refreshThread = new System.Timers.Timer(2000);
             refreshThread.Elapsed += RefreshThread_Elapsed;
         }
 

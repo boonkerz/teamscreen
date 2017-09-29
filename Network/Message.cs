@@ -40,5 +40,15 @@ namespace Network
         {
             
         }
+
+        public virtual void CopyEncryptedToTempStorage(NetDataReader message)
+        {
+
+        }
+
+        public virtual byte[] CopyEncryptedFromTempStorage(NetDataWriter message)
+        {
+            return null;
+        }
     }
 }
