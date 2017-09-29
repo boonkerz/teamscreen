@@ -99,7 +99,7 @@ namespace WindowsGuiClient
 
         private void PopulateTreeViewRemote()
         {
-            Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage {  SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
+            Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage {  ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId });
         }
 
         private void PopulateTreeViewLocal()
@@ -170,7 +170,7 @@ namespace WindowsGuiClient
                 if (items[0].SubItems[3].Text == "Folder")
                 {                    
                     String folder = (String)items[0].Tag;
-                    Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Folder = folder });
+                    Manager.Manager.sendMessage(new Network.Messages.FileTransfer.Request.ListingMessage { ClientSystemId = Manager.Manager.SystemId, HostSystemId = this.SystemId, Folder = folder });
                 }
             }
         }
@@ -211,12 +211,16 @@ namespace WindowsGuiClient
                 int totalPackets = fullPacketsCount + (lastPacketSize == 0 ? 0 : 1);
                 hash = Guid.NewGuid().ToString().Replace("-", string.Empty);
 
+                /*
                 for (ushort i = 0; i < fullPacketsCount; i++)
                 {
                     Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
                     msg.Hash = hash;
                     msg.Fragement = i;
                     msg.TotalFragments = (ushort)totalPackets;
+                    msg.Data = new byte[maxLength];
+                    msg.ClientSystemId = Manager.Manager.SystemId;
+                    msg.HostSystemId = this.SystemId;
                     Buffer.BlockCopy(buff, i * maxLength, msg.Data, 0, maxLength);
                     Manager.Manager.sendMessage(msg);
                 }
@@ -227,9 +231,13 @@ namespace WindowsGuiClient
                     msg.Hash = hash;
                     msg.Fragement = fullPacketsCount;
                     msg.TotalFragments = (ushort)totalPackets;
+                    msg.Data = new byte[maxLength];
+                    msg.ClientSystemId = Manager.Manager.SystemId;
+                    msg.HostSystemId = this.SystemId;
                     Buffer.BlockCopy(buff, fullPacketsCount * maxLength, msg.Data, 0, lastPacketSize);
                     Manager.Manager.sendMessage(msg);
                 }
+                */
             }
         }
     }

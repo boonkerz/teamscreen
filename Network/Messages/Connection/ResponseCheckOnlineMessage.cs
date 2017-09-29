@@ -14,6 +14,7 @@ namespace Network.Messages.Connection
 			: base((ushort)CustomMessageType.ResponseCheckOnline)
 		{
 			Peers = new List<Model.Peer>();
+            EncryptedMessage = false;
 		}
 
 		public override void WritePayload(NetDataWriter message)
