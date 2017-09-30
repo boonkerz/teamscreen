@@ -11,6 +11,7 @@ namespace Network.Messages.System
 		public RequestHostDisconnectMessage()
 			: base((ushort)CustomMessageType.RequestHostDisconnect)
 		{
+            EncryptedMessage = false;
 		}
 
 		public override void WritePayload(NetDataWriter message)

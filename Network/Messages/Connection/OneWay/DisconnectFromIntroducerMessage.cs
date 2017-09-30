@@ -11,6 +11,7 @@ namespace Network.Messages.Connection.OneWay
 		public DisconnectFromIntroducerMessage()
 			: base((ushort)CustomMessageType.DisconnectFromIntroducer)
 		{
+            EncryptedMessage = false;
 		}
 
 		public override void WritePayload(NetDataWriter message)

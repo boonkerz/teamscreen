@@ -1,5 +1,5 @@
 ﻿using Common;using Common.EventArgs.Network;using Network.Messages.Connection;
-using System;using System.Collections.Generic;using System.ComponentModel;using System.Data;using System.Drawing;using System.Linq;using System.Text;using System.Threading;using System.Threading.Tasks;using System.Windows.Forms;namespace WindowsGuiClient{    public partial class MainForm : Form    {        public ClientThread Manager;        protected Common.Config.Manager ConfigManager;        protected System.Timers.Timer connectionStatus;        public delegate void ShowFormCallback(String systemId);        System.Timers.Timer onlineCheckTimer;        public MainForm(ClientThread manager)        {            this.Manager = manager;            InitializeComponent();            connectionStatus = new System.Timers.Timer(1000);            connectionStatus.Elapsed += Connection_Elapsed;            onlineCheckTimer = new System.Timers.Timer(5000);            onlineCheckTimer.Elapsed += OnlineCheckTimer_Elapsed;            ConfigManager = new Common.Config.Manager();            Manager.ClientListener.OnHostInitalizeConnected += (object sender, Common.EventArgs.Network.Client.HostInitalizeConnectedEventArgs e) =>            {
+using System;using System.Collections.Generic;using System.ComponentModel;using System.Data;using System.Drawing;using System.Linq;using System.Text;using System.Threading;using System.Threading.Tasks;using System.Windows.Forms;namespace WindowsGuiClient{    public partial class MainForm : Form    {        public ClientThread Manager;        protected Common.Config.Manager ConfigManager;        protected System.Timers.Timer connectionStatus;        public delegate void ShowFormCallback(String systemId);        public delegate void AddItemListHostCallback(ListViewItem Item);        public delegate void ClearItemsListHostCallback();        System.Timers.Timer onlineCheckTimer;        public MainForm(ClientThread manager)        {            this.Manager = manager;            InitializeComponent();            connectionStatus = new System.Timers.Timer(1000);            connectionStatus.Elapsed += Connection_Elapsed;            onlineCheckTimer = new System.Timers.Timer(5000);            onlineCheckTimer.Elapsed += OnlineCheckTimer_Elapsed;            ConfigManager = new Common.Config.Manager();            Manager.ClientListener.OnHostInitalizeConnected += (object sender, Common.EventArgs.Network.Client.HostInitalizeConnectedEventArgs e) =>            {
                 Network.Messages.Connection.Request.HostConnectionMessage ms = new Network.Messages.Connection.Request.HostConnectionMessage();
                 ms.HostSystemId = e.HostSystemId;
                 ms.ClientSystemId = e.ClientSystemId;
@@ -11,7 +11,15 @@ using System;using System.Collections.Generic;using System.ComponentModel;usi
 
         private void ClientListener_OnOnlineCheckReceived(object sender, OnlineCheckReceivedEventArgs e)
         {
-            this.listMyHosts.Items.Clear();
+            if (this.InvokeRequired)
+            {
+                ClearItemsListHostCallback d = new ClearItemsListHostCallback(ClearItemsInListHost);
+                this.Invoke(d, new object[] { });
+            }
+            else
+            {
+                this.listMyHosts.Items.Clear();
+            }
             foreach (var peer in e.Peers)
             {
                 ListViewItem item = new ListViewItem(peer.Name);
@@ -26,10 +34,15 @@ using System;using System.Collections.Generic;using System.ComponentModel;usi
                     item.SubItems.Add("Offline");
                     item.BackColor = Color.White;
                 }
-                
-                this.listMyHosts.Items.Add(item);
+                if (this.InvokeRequired)                {                    AddItemListHostCallback d = new AddItemListHostCallback(AddItemListHost);                    this.Invoke(d, new object[] { item });                }                else                {
+                    this.listMyHosts.Items.Add(item);
+                }
             }
         }
+
+        private void ClearItemsInListHost()        {            this.listMyHosts.Items.Clear();        }
+
+        private void AddItemListHost(ListViewItem item)        {            this.listMyHosts.Items.Add(item);        }
 
         private void OnlineCheckTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
