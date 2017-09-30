@@ -11,6 +11,7 @@ using Network.Messages.Connection;
 using Common.EventArgs.FileTransfer;
 using Network.Utils;
 using Network.Manager;
+using Network.Messages.FileTransfer.Request;
 
 namespace Common.Listener
 {
@@ -28,7 +29,7 @@ namespace Common.Listener
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 		public event EventHandler<KeyEventArgs> OnKey;
         public event EventHandler<FileTransferListingEventArgs> OnFileTransferListing;
-
+        public event EventHandler<FileTransferCopyEventArgs> OnFileTransferCopy;
 
         public HostListener()
 		{
@@ -73,9 +74,18 @@ namespace Common.Listener
                 case (ushort)Network.Messages.FileTransfer.CustomMessageType.RequestListing:
                     handleListing(peer, (Network.Messages.FileTransfer.Request.ListingMessage)msg);
                     break;
+                case (ushort)Network.Messages.FileTransfer.CustomMessageType.RequestCopy:
+                    handleCopyMessage(peer, (Network.Messages.FileTransfer.Request.CopyMessage)msg);
+                    break;
 
             }
 
+        }
+
+        private void handleCopyMessage(NetPeer peer, CopyMessage msg)
+        {
+            if (OnFileTransferCopy != null)
+                OnFileTransferCopy(this, new FileTransferCopyEventArgs { HostSystemId = msg.HostSystemId, ClientSystemId = msg.ClientSystemId, Folder = msg.Folder, Data = msg.Data });
         }
 
         public void handleListing(NetPeer peer, Network.Messages.FileTransfer.Request.ListingMessage message)

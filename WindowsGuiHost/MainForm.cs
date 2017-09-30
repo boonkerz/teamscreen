@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -142,6 +143,7 @@ namespace WindowsGuiHost
                 }
 
             };
+            Manager.HostListener.OnFileTransferCopy += HostListener_OnFileTransferCopy;
             Manager.HostListener.OnScreenshotRequest += HostListener_OnScreenshotRequest;
             Manager.HostListener.OnClientClose += HostListener_OnClientClose;
             Display.SetManager(Manager.Manager);
@@ -151,6 +153,11 @@ namespace WindowsGuiHost
             Manager.HostListener.OnFileTransferListing += HostListener_OnFileTransferListing;
 
             Manager.Start();
+        }
+
+        private void HostListener_OnFileTransferCopy(object sender, Common.EventArgs.FileTransfer.FileTransferCopyEventArgs e)
+        {
+            File.WriteAllBytes("Foo.txt", e.Data);
         }
 
         private void HostListener_OnFileTransferListing(object sender, Common.EventArgs.FileTransfer.FileTransferListingEventArgs e)

@@ -37,7 +37,7 @@ namespace Network.Messages.FileTransfer.Request
             Fragement = message.GetInt();
             TotalFragments = message.GetInt();
             Hash = message.GetString(50);
-            Data = message.GetBytesWithLength();
+            Data = message.GetRemainingBytes();
 
 		}
 

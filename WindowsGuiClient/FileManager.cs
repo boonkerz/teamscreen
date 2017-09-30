@@ -211,33 +211,17 @@ namespace WindowsGuiClient
                 int totalPackets = fullPacketsCount + (lastPacketSize == 0 ? 0 : 1);
                 hash = Guid.NewGuid().ToString().Replace("-", string.Empty);
 
-                /*
-                for (ushort i = 0; i < fullPacketsCount; i++)
-                {
-                    Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
-                    msg.Hash = hash;
-                    msg.Fragement = i;
-                    msg.TotalFragments = (ushort)totalPackets;
-                    msg.Data = new byte[maxLength];
-                    msg.ClientSystemId = Manager.Manager.SystemId;
-                    msg.HostSystemId = this.SystemId;
-                    Buffer.BlockCopy(buff, i * maxLength, msg.Data, 0, maxLength);
-                    Manager.Manager.sendMessage(msg);
-                }
-
-                if (lastPacketSize > 0)
-                {
-                    Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
-                    msg.Hash = hash;
-                    msg.Fragement = fullPacketsCount;
-                    msg.TotalFragments = (ushort)totalPackets;
-                    msg.Data = new byte[maxLength];
-                    msg.ClientSystemId = Manager.Manager.SystemId;
-                    msg.HostSystemId = this.SystemId;
-                    Buffer.BlockCopy(buff, fullPacketsCount * maxLength, msg.Data, 0, lastPacketSize);
-                    Manager.Manager.sendMessage(msg);
-                }
-                */
+                Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
+                msg.Hash = hash;
+                msg.Fragement = 0;
+                msg.TotalFragments = (ushort)totalPackets;
+                msg.Data = new byte[maxLength];
+                msg.ClientSystemId = Manager.Manager.SystemId;
+                msg.HostSystemId = this.SystemId;
+                msg.Data = buff;
+                
+                Manager.Manager.sendMessage(msg);
+                
             }
         }
     }
