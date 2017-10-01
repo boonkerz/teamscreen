@@ -66,6 +66,7 @@
     <Compile Include="EventArgs\Network\Host\ClientInitalizeConnectedEventArgs.cs" />
     <Compile Include="EventArgs\Network\Client\HostInitalizeConnectedEventArgs.cs" />
     <Compile Include="EventArgs\Network\KeyEventArgs.cs" />
+    <Compile Include="Utils\Env.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -80,6 +81,9 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

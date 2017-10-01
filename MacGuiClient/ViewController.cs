@@ -34,16 +34,11 @@ namespace MacGuiClient
 
 			Manager.ClientListener.OnHostInitalizeConnected += (object sender, Common.EventArgs.Network.Client.HostInitalizeConnectedEventArgs e) =>
 			{
-				var symmetricKey = Guid.NewGuid().ToString().Replace("-", string.Empty);
-
-				Manager.Manager.SaveHostPublicKey(e.HostSystemId, e.HostPublicKey);
-				Manager.Manager.SaveSymmetricKey(e.HostSystemId, symmetricKey);
-
 				Network.Messages.Connection.Request.HostConnectionMessage ms = new Network.Messages.Connection.Request.HostConnectionMessage();
 				ms.HostSystemId = e.HostSystemId;
 				ms.ClientSystemId = e.ClientSystemId;
 				ms.Password = Manager.Manager.Encode(e.HostSystemId, this.password);
-				ms.SymmetricKey = Manager.Manager.Encode(e.HostSystemId, symmetricKey);
+				ms.SymmetricKey = Manager.Manager.Encode(e.HostSystemId, Manager.Manager.getSymmetricKeyForRemoteId(e.HostSystemId));
 
 				Manager.Manager.sendMessage(ms);
 
@@ -56,12 +51,13 @@ namespace MacGuiClient
 			Manager.ClientListener.onPeerDisconnected += ClientListener_onPeerDisconnected;
 			Manager.ClientListener.OnOnlineCheckReceived += ClientListener_OnOnlineCheckReceived;
 
-			Manager.Start();
+
 		}
 
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			Manager.Start();
 		}
 
 		public override NSObject RepresentedObject

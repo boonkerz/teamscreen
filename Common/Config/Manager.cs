@@ -11,12 +11,19 @@ namespace Common.Config
 
 		public Host HostConfig { get; set; }
 		public Client ClientConfig { get; set; }
+		public Common.Utils.Env Env { get; set; }
 
 		public Manager()
 		{
+			Env = new Common.Utils.Env();
 			HostConfig = new Host();
 			ClientConfig = new Client();
-			ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			if(Env.OperatingSystem == Utils.Env.OS.Mac) {
+				ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			}else{
+				ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+			}
+
 			ConfigPath += Path.DirectorySeparatorChar + "teamscreen" + Path.DirectorySeparatorChar;
 
 			loadConfig();
