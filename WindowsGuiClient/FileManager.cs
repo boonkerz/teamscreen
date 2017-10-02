@@ -106,6 +106,24 @@ namespace WindowsGuiClient
         {
             var folder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             PopulateListLocal(new DirectoryInfo(folder));
+            PopulateMyDrives(Path.GetPathRoot(folder));
+        }
+
+        private void PopulateMyDrives(String selectedDisk)
+        {
+            DriveInfo[] allDrives = DriveInfo.GetDrives();
+            this.selectMyDrives.Items.Clear();
+            foreach (DriveInfo d in allDrives)
+            {
+                if (d.IsReady == true)
+                {
+                    this.selectMyDrives.Items.Add(d);
+                    if(selectedDisk == d.Name)
+                    {
+                        this.selectMyDrives.SelectedItem = d;
+                    }
+                }
+            }
         }
 
         public void PopulateListLocal(DirectoryInfo info)
@@ -212,10 +230,6 @@ namespace WindowsGuiClient
                 hash = Guid.NewGuid().ToString().Replace("-", string.Empty);
 
                 Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
-                msg.Hash = hash;
-                msg.Fragement = 0;
-                msg.TotalFragments = (ushort)totalPackets;
-                msg.Data = new byte[maxLength];
                 msg.ClientSystemId = Manager.Manager.SystemId;
                 msg.HostSystemId = this.SystemId;
                 msg.Data = buff;

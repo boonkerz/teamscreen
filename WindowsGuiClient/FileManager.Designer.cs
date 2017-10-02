@@ -38,7 +38,6 @@
             this.lastModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button4 = new System.Windows.Forms.Button();
             this.btnCopyToRemote = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.listRemote = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +46,8 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
             this.btnCopyFromRemote = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.selectMyDrives = new System.Windows.Forms.ComboBox();
+            this.selectRemoteDrives = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,24 +68,24 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.selectMyDrives);
             this.splitContainer1.Panel1.Controls.Add(this.listLocal);
             this.splitContainer1.Panel1.Controls.Add(this.button4);
             this.splitContainer1.Panel1.Controls.Add(this.btnCopyToRemote);
-            this.splitContainer1.Panel1.Controls.Add(this.textBox2);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.selectRemoteDrives);
             this.splitContainer1.Panel2.Controls.Add(this.listRemote);
             this.splitContainer1.Panel2.Controls.Add(this.button2);
             this.splitContainer1.Panel2.Controls.Add(this.btnCopyFromRemote);
-            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
             this.splitContainer1.Size = new System.Drawing.Size(676, 354);
-            this.splitContainer1.SplitterDistance = 332;
+            this.splitContainer1.SplitterDistance = 345;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -102,10 +102,10 @@
             this.lastModified});
             this.listLocal.FullRowSelect = true;
             this.listLocal.Location = new System.Drawing.Point(2, 56);
-            this.listLocal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listLocal.Margin = new System.Windows.Forms.Padding(2);
             this.listLocal.MultiSelect = false;
             this.listLocal.Name = "listLocal";
-            this.listLocal.Size = new System.Drawing.Size(330, 298);
+            this.listLocal.Size = new System.Drawing.Size(343, 298);
             this.listLocal.TabIndex = 4;
             this.listLocal.UseCompatibleStateImageBehavior = false;
             this.listLocal.View = System.Windows.Forms.View.Details;
@@ -135,8 +135,8 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(292, 32);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Location = new System.Drawing.Point(303, 33);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(38, 21);
             this.button4.TabIndex = 3;
@@ -145,22 +145,14 @@
             // 
             // btnCopyToRemote
             // 
-            this.btnCopyToRemote.Location = new System.Drawing.Point(278, 7);
-            this.btnCopyToRemote.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCopyToRemote.Location = new System.Drawing.Point(289, 5);
+            this.btnCopyToRemote.Margin = new System.Windows.Forms.Padding(2);
             this.btnCopyToRemote.Name = "btnCopyToRemote";
             this.btnCopyToRemote.Size = new System.Drawing.Size(52, 22);
             this.btnCopyToRemote.TabIndex = 1;
             this.btnCopyToRemote.Text = ">>";
             this.btnCopyToRemote.UseVisualStyleBackColor = true;
             this.btnCopyToRemote.Click += new System.EventHandler(this.btnCopyToRemote_Click);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(2, 32);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(286, 20);
-            this.textBox2.TabIndex = 1;
             // 
             // listRemote
             // 
@@ -175,10 +167,10 @@
             this.columnHeader5});
             this.listRemote.FullRowSelect = true;
             this.listRemote.Location = new System.Drawing.Point(2, 56);
-            this.listRemote.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listRemote.Margin = new System.Windows.Forms.Padding(2);
             this.listRemote.MultiSelect = false;
             this.listRemote.Name = "listRemote";
-            this.listRemote.Size = new System.Drawing.Size(340, 298);
+            this.listRemote.Size = new System.Drawing.Size(329, 298);
             this.listRemote.TabIndex = 4;
             this.listRemote.UseCompatibleStateImageBehavior = false;
             this.listRemote.View = System.Windows.Forms.View.Details;
@@ -208,8 +200,8 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(303, 33);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Location = new System.Drawing.Point(289, 33);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(38, 20);
             this.button2.TabIndex = 3;
@@ -218,8 +210,8 @@
             // 
             // btnCopyFromRemote
             // 
-            this.btnCopyFromRemote.Location = new System.Drawing.Point(2, 7);
-            this.btnCopyFromRemote.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCopyFromRemote.Location = new System.Drawing.Point(2, 4);
+            this.btnCopyFromRemote.Margin = new System.Windows.Forms.Padding(2);
             this.btnCopyFromRemote.Name = "btnCopyFromRemote";
             this.btnCopyFromRemote.Size = new System.Drawing.Size(54, 23);
             this.btnCopyFromRemote.TabIndex = 2;
@@ -227,13 +219,21 @@
             this.btnCopyFromRemote.UseVisualStyleBackColor = true;
             this.btnCopyFromRemote.Click += new System.EventHandler(this.btnCopyFromRemote_Click);
             // 
-            // textBox1
+            // selectMyDrives
             // 
-            this.textBox1.Location = new System.Drawing.Point(2, 33);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(286, 20);
-            this.textBox1.TabIndex = 1;
+            this.selectMyDrives.FormattingEnabled = true;
+            this.selectMyDrives.Location = new System.Drawing.Point(3, 32);
+            this.selectMyDrives.Name = "selectMyDrives";
+            this.selectMyDrives.Size = new System.Drawing.Size(295, 21);
+            this.selectMyDrives.TabIndex = 6;
+            // 
+            // selectRemoteDrives
+            // 
+            this.selectRemoteDrives.FormattingEnabled = true;
+            this.selectRemoteDrives.Location = new System.Drawing.Point(4, 32);
+            this.selectRemoteDrives.Name = "selectRemoteDrives";
+            this.selectRemoteDrives.Size = new System.Drawing.Size(280, 21);
+            this.selectRemoteDrives.TabIndex = 5;
             // 
             // FileManager
             // 
@@ -242,13 +242,11 @@
             this.ClientSize = new System.Drawing.Size(676, 376);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FileManager";
             this.Text = "FileManager";
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -260,10 +258,8 @@
 
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnCopyToRemote;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnCopyFromRemote;
         private System.Windows.Forms.ListView listLocal;
@@ -278,5 +274,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ComboBox selectMyDrives;
+        private System.Windows.Forms.ComboBox selectRemoteDrives;
     }
 }
