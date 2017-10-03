@@ -51,18 +51,19 @@ namespace Driver.Windows.Simple
 
         public override void SendScreenshot(Boolean fullscreen)
         {
-            //byte[] image = new byte[] { };
+            SwitchToInputDesktop();
+            byte[] image = new byte[] { };
 
             var bmpScreenshot = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width,
                                System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height,
                                PixelFormat.Format32bppArgb);
-            SwitchToInputDesktop();
+            
             // Create a graphics object from the bitmap.
-            var img = _ScreenCapture.GetScreen(new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
+            //var img = _ScreenCapture.GetScreen(new Size(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height));
 
-            //var gfxScreenshot = Graphics.FromImage(img.Data);
+            var gfxScreenshot = Graphics.FromImage(bmpScreenshot);
 
-            /*// Take the screenshot from the upper left corner to the right bottom corner.
+            // Take the screenshot from the upper left corner to the right bottom corner.
             gfxScreenshot.CopyFromScreen(System.Windows.Forms.Screen.PrimaryScreen.Bounds.X,
                                         System.Windows.Forms.Screen.PrimaryScreen.Bounds.Y,
                                         0,
@@ -71,13 +72,13 @@ namespace Driver.Windows.Simple
                                         CopyPixelOperation.SourceCopy);
 
             var stream = new MemoryStream();
-            bmpScreenshot.Save(stream, ImageFormat.Png);*/
+            bmpScreenshot.Save(stream, ImageFormat.Png);
 
             ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
             rs.Bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             rs.Fullscreen = true;
             rs.HostSystemId = HostManager.SystemId;
-            using (var msout = new MemoryStream())
+            /*using (var msout = new MemoryStream())
             {
                 unsafe
                 {
@@ -91,7 +92,8 @@ namespace Driver.Windows.Simple
                         }
                     }
                 }
-            }
+            }*/
+            rs.Image = stream.ToArray();
            
             foreach (var ID in ConnectedClients)
             {

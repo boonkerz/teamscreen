@@ -61,21 +61,11 @@ namespace Driver.Windows
         {
             if (_RunningAsService && (DateTime.Now - LastDeskSwitch).TotalMilliseconds > 1000)
             {//only a program running as under the account     nt authority\system       is allowed to switch desktops
-                /*var d = _DesktopInfo.GetActiveDesktop();
-                //make sure to release any handles before switching
-                f.WriteLine("Current Desktop" + _DesktopInfo.Current_Desktop);
-                f.WriteLine("Active Desktop" + d);
-                if (d != _DesktopInfo.Current_Desktop)
-                {
-                    Driver.Clear();
-                    f.WriteLine("Switch Desktop" + d);
-                    _DesktopInfo.SwitchDesktop(d);
-                }*/
-                
+                //Driver.Clear();
+                _DesktopInfo.SwitchToInputDesktop();
+
                 LastDeskSwitch = DateTime.Now;
             }
-            Driver.Clear();
-            _DesktopInfo.SwitchToInputDesktop();
             Driver.RequestScreenshot(e, fullscreen);
         }
 

@@ -46,11 +46,20 @@ namespace Driver.Windows.Screen
         {
             Dispose();
         }
+
+        public void SwitchToInputDesktop()
+        {
+            var s = PInvoke.OpenInputDesktop(0, false, PInvoke.ACCESS_MASK.MAXIMUM_ALLOWED);
+            bool success = PInvoke.SetThreadDesktop(s);
+            //PInvoke.CloseDesktop(s);
+        }
+
         public RawImage GetScreen(Size sz)
         {
             
             try
             {
+                SwitchToInputDesktop();
                 var dt = DateTime.Now;
 
                 if (nDesk == IntPtr.Zero)
