@@ -8,6 +8,7 @@ namespace Common.EventArgs.FileTransfer
         public String ClientSystemId { get; set; }
         public String HostSystemId { get; set; }
         public String Folder { get; set; }
+        public String Name { get; set; }
         public byte[] Data {get;set;}
 	}
 }

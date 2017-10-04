@@ -11,5 +11,6 @@ namespace Common.EventArgs.FileTransfer
         public List<Model.Listing> Entrys {get;set;}
         public Boolean Parent { get; set; }
         public String ParentPath { get; set; }
-	}
+        public String ActFolder { get; set; }
+    }
 }

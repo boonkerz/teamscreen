@@ -11,6 +11,7 @@ namespace Network.Messages.FileTransfer.Response
 
         public Boolean Parent { get; set; }
         public String ParentPath { get; set; }
+        public String ActFolder { get; set; }
 
         public List<Model.Listing> Entrys = new List<Model.Listing>();
 
@@ -24,6 +25,7 @@ namespace Network.Messages.FileTransfer.Response
 			base.WritePayload(message);
             message.Put(Parent);
             message.Put(ParentPath);
+            message.Put(ActFolder);
             message.Put(Entrys.Count);
             foreach (var entry in Entrys)
             {
@@ -36,6 +38,7 @@ namespace Network.Messages.FileTransfer.Response
 			base.ReadPayload(message);
             Parent = message.GetBool();
             ParentPath = message.GetString(300);
+            ActFolder = message.GetString(300);
             int count = message.GetInt();
 
             for (int i = 0; i < count; i++)

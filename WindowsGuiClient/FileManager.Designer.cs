@@ -30,6 +30,7 @@
         {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.selectMyDrives = new System.Windows.Forms.ComboBox();
             this.listLocal = new System.Windows.Forms.ListView();
             this.icon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -38,6 +39,7 @@
             this.lastModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button4 = new System.Windows.Forms.Button();
             this.btnCopyToRemote = new System.Windows.Forms.Button();
+            this.selectRemoteDrives = new System.Windows.Forms.ComboBox();
             this.listRemote = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,8 +48,6 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
             this.btnCopyFromRemote = new System.Windows.Forms.Button();
-            this.selectMyDrives = new System.Windows.Forms.ComboBox();
-            this.selectRemoteDrives = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,6 +89,15 @@
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
             // 
+            // selectMyDrives
+            // 
+            this.selectMyDrives.FormattingEnabled = true;
+            this.selectMyDrives.Location = new System.Drawing.Point(3, 32);
+            this.selectMyDrives.Name = "selectMyDrives";
+            this.selectMyDrives.Size = new System.Drawing.Size(295, 21);
+            this.selectMyDrives.TabIndex = 6;
+            this.selectMyDrives.SelectedIndexChanged += new System.EventHandler(this.selectMyDrives_SelectedIndexChanged);
+            // 
             // listLocal
             // 
             this.listLocal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -106,6 +115,7 @@
             this.listLocal.MultiSelect = false;
             this.listLocal.Name = "listLocal";
             this.listLocal.Size = new System.Drawing.Size(343, 298);
+            this.listLocal.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listLocal.TabIndex = 4;
             this.listLocal.UseCompatibleStateImageBehavior = false;
             this.listLocal.View = System.Windows.Forms.View.Details;
@@ -154,6 +164,15 @@
             this.btnCopyToRemote.UseVisualStyleBackColor = true;
             this.btnCopyToRemote.Click += new System.EventHandler(this.btnCopyToRemote_Click);
             // 
+            // selectRemoteDrives
+            // 
+            this.selectRemoteDrives.FormattingEnabled = true;
+            this.selectRemoteDrives.Location = new System.Drawing.Point(4, 32);
+            this.selectRemoteDrives.Name = "selectRemoteDrives";
+            this.selectRemoteDrives.Size = new System.Drawing.Size(280, 21);
+            this.selectRemoteDrives.TabIndex = 5;
+            this.selectRemoteDrives.SelectedIndexChanged += new System.EventHandler(this.selectRemoteDrives_SelectedIndexChanged);
+            // 
             // listRemote
             // 
             this.listRemote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -170,7 +189,8 @@
             this.listRemote.Margin = new System.Windows.Forms.Padding(2);
             this.listRemote.MultiSelect = false;
             this.listRemote.Name = "listRemote";
-            this.listRemote.Size = new System.Drawing.Size(329, 298);
+            this.listRemote.Size = new System.Drawing.Size(331, 298);
+            this.listRemote.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listRemote.TabIndex = 4;
             this.listRemote.UseCompatibleStateImageBehavior = false;
             this.listRemote.View = System.Windows.Forms.View.Details;
@@ -218,22 +238,6 @@
             this.btnCopyFromRemote.Text = "<<";
             this.btnCopyFromRemote.UseVisualStyleBackColor = true;
             this.btnCopyFromRemote.Click += new System.EventHandler(this.btnCopyFromRemote_Click);
-            // 
-            // selectMyDrives
-            // 
-            this.selectMyDrives.FormattingEnabled = true;
-            this.selectMyDrives.Location = new System.Drawing.Point(3, 32);
-            this.selectMyDrives.Name = "selectMyDrives";
-            this.selectMyDrives.Size = new System.Drawing.Size(295, 21);
-            this.selectMyDrives.TabIndex = 6;
-            // 
-            // selectRemoteDrives
-            // 
-            this.selectRemoteDrives.FormattingEnabled = true;
-            this.selectRemoteDrives.Location = new System.Drawing.Point(4, 32);
-            this.selectRemoteDrives.Name = "selectRemoteDrives";
-            this.selectRemoteDrives.Size = new System.Drawing.Size(280, 21);
-            this.selectRemoteDrives.TabIndex = 5;
             // 
             // FileManager
             // 

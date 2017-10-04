@@ -85,7 +85,7 @@ namespace Common.Listener
         private void handleCopyMessage(NetPeer peer, CopyMessage msg)
         {
             if (OnFileTransferCopy != null)
-                OnFileTransferCopy(this, new FileTransferCopyEventArgs { HostSystemId = msg.HostSystemId, ClientSystemId = msg.ClientSystemId, Folder = msg.Folder, Data = msg.Data });
+                OnFileTransferCopy(this, new FileTransferCopyEventArgs { HostSystemId = msg.HostSystemId, ClientSystemId = msg.ClientSystemId, Folder = msg.Folder, Data = msg.Data, Name = msg.Name });
         }
 
         public void handleListing(NetPeer peer, Network.Messages.FileTransfer.Request.ListingMessage message)

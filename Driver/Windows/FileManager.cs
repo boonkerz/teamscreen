@@ -25,12 +25,32 @@ namespace Driver.Windows
             ActFolder = new DirectoryInfo(folder);
         }
 
-        public List<Listing> getList()
+        public string GetActFolder()
+        {
+            return this.ActFolder.ToString();
+        }
+
+        public List<DriveInfo> GetAllDrives()
+        {
+            DriveInfo[] allDrives = DriveInfo.GetDrives();
+            List<DriveInfo> data = new List<DriveInfo>();
+            foreach (DriveInfo d in allDrives)
+            {
+                if (d.IsReady == true)
+                {
+                    data.Add(d);
+                }
+            }
+
+            return data;
+        }
+
+        public List<Listing> GetList()
         {
             return populateListLocal(ActFolder);
         }
 
-        public bool getParent()
+        public bool GetParent()
         {
             
             if(ActFolder.Parent == null)
@@ -40,7 +60,7 @@ namespace Driver.Windows
             return true;
         }
 
-        public String getParentPath()
+        public String GetParentPath()
         {
 
             if (ActFolder.Parent == null)

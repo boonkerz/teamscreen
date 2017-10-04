@@ -73,13 +73,13 @@ namespace Common.Listener
 
         public void handleFileCopy(NetPeer peer, Network.Messages.FileTransfer.Request.CopyMessage message)
         {
-            Console.WriteLine("Segment: " + message.Fragement + " Totals: " + message.TotalFragments);
+            
         }
 
         public void handleFileResponseListing(NetPeer peer, Network.Messages.FileTransfer.Response.ListingMessage message)
         {
             if (OnFileTransferListing != null)
-                OnFileTransferListing(this, new FileTransferListingEventArgs() { Parent = message.Parent, ParentPath = message.ParentPath, HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, Entrys = message.Entrys });
+                OnFileTransferListing(this, new FileTransferListingEventArgs() { Parent = message.Parent, ParentPath = message.ParentPath, HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId, Entrys = message.Entrys, ActFolder = message.ActFolder });
         }
 
         public void handleCheckOnline(NetPeer peer, Network.Messages.Connection.ResponseCheckOnlineMessage message)

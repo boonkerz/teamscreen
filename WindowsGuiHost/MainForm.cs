@@ -157,7 +157,7 @@ namespace WindowsGuiHost
 
         private void HostListener_OnFileTransferCopy(object sender, Common.EventArgs.FileTransfer.FileTransferCopyEventArgs e)
         {
-            File.WriteAllBytes("Foo.txt", e.Data);
+            File.WriteAllBytes(e.Folder + "\\" + e.Name, e.Data);
         }
 
         private void HostListener_OnFileTransferListing(object sender, Common.EventArgs.FileTransfer.FileTransferListingEventArgs e)
@@ -167,9 +167,10 @@ namespace WindowsGuiHost
             rs.HostSystemId = Manager.Manager.SystemId;
             rs.ClientSystemId = e.ClientSystemId;
             FileManager.BrowseTo(e.Folder);
-            rs.Entrys = FileManager.getList();
-            rs.Parent = FileManager.getParent();
-            rs.ParentPath = FileManager.getParentPath();
+            rs.ActFolder = FileManager.GetActFolder();
+            rs.Entrys = FileManager.GetList();
+            rs.Parent = FileManager.GetParent();
+            rs.ParentPath = FileManager.GetParentPath();
 
             Manager.Manager.sendMessage(rs);
         }

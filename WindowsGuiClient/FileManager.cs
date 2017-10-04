@@ -19,7 +19,9 @@ namespace WindowsGuiClient
 
         protected String SystemId;
 
-        delegate void fillListRemoteCallback(Boolean parent, String parentPath, List<Model.Listing> entrys);
+        protected String remoteFolder;
+
+        delegate void fillListRemoteCallback(String actFolder, Boolean parent, String parentPath, List<Model.Listing> entrys);
 
         public FileManager(String systemId)
         {
@@ -29,8 +31,9 @@ namespace WindowsGuiClient
 
         protected List<FileInfo> copyToRemote = new List<FileInfo>();
 
-        protected void fillListRemote(Boolean parent, String parentPath, List<Model.Listing> entrys)
+        protected void fillListRemote(String actFolder, Boolean parent, String parentPath, List<Model.Listing> entrys)
         {
+            this.remoteFolder = actFolder;
             this.listRemote.Items.Clear();
 
             if (parent)
@@ -74,11 +77,11 @@ namespace WindowsGuiClient
                 if (this.InvokeRequired)
                 {
                     fillListRemoteCallback d = new fillListRemoteCallback(fillListRemote);
-                    this.Invoke(d, new object[] { e.Parent, e.ParentPath, e.Entrys });
+                    this.Invoke(d, new object[] { e.ActFolder, e.Parent, e.ParentPath, e.Entrys });
                 }
                 else
                 {
-                    fillListRemote(e.Parent, e.ParentPath, e.Entrys);
+                    fillListRemote(e.ActFolder, e.Parent, e.ParentPath, e.Entrys);
                 }
             }
         }
@@ -218,25 +221,30 @@ namespace WindowsGuiClient
 
         private void startCopyToRemote() {
 
-            int maxLength = 1024;
-            String hash = "";
             foreach (var file in this.copyToRemote)
             {
                 byte[] buff = File.ReadAllBytes(file.FullName);
-
-                int fullPacketsCount = buff.Length / maxLength;
-                int lastPacketSize = buff.Length % maxLength;
-                int totalPackets = fullPacketsCount + (lastPacketSize == 0 ? 0 : 1);
-                hash = Guid.NewGuid().ToString().Replace("-", string.Empty);
 
                 Network.Messages.FileTransfer.Request.CopyMessage msg = new Network.Messages.FileTransfer.Request.CopyMessage();
                 msg.ClientSystemId = Manager.Manager.SystemId;
                 msg.HostSystemId = this.SystemId;
                 msg.Data = buff;
+                msg.Name = file.Name;
+                msg.Folder = this.remoteFolder;
                 
                 Manager.Manager.sendMessage(msg);
                 
             }
+        }
+
+        private void selectMyDrives_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void selectRemoteDrives_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
