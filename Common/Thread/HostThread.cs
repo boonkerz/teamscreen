@@ -68,6 +68,11 @@ namespace Common.Thread
             _Running = true;
         }
 
+        public bool IsRunning()
+        {
+            return this._Running;
+        }
+
         public void Loop()
 		{
             while(_Running) {

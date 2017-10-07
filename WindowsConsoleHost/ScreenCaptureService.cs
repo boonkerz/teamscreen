@@ -165,13 +165,17 @@ namespace WindowsConsoleHost
             Manager.HostListener.onNetworkError += HostListener_onNetworkError;
 
             Manager.Start();
-            Manager.Loop();
         }
 
         public void OnStop()
         {
-
+            connectionStatus.Stop();
             Manager.Stop();
+        }
+
+        public bool IsRunning()
+        {
+            return Manager.IsRunning();
         }
 
         private void HostListener_OnScreenshotRequest(object sender, ScreenshotRequestEventArgs e)
