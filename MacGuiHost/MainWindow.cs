@@ -163,9 +163,9 @@ public partial class MainWindow : Gtk.Window
 		rs.HostSystemId = Manager.Manager.SystemId;
 		rs.ClientSystemId = e.ClientSystemId;
 		FileManager.BrowseTo(e.Folder);
-		rs.Entrys = FileManager.getList();
-		rs.Parent = FileManager.getParent();
-		rs.ParentPath = FileManager.getParentPath();
+		rs.Entrys = FileManager.GetList();
+		rs.Parent = FileManager.GetParent();
+		rs.ParentPath = FileManager.GetParentPath();
 
 		Manager.Manager.sendMessage(rs);
 	}

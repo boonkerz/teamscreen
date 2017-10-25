@@ -158,11 +158,10 @@ namespace MacGuiClient
 			if (e.PasswordOk)
 			{
 
-				//RemoteViewController rm = new RemoteViewController();
-				//rm.setManager(Manager);
-				//rm.view();
-
 				SetLabelStatus("Passwort Ok Verbunden mit: " + e.SystemId);
+				this.InvokeOnMainThread(() => {
+					PerformSegue("test", this);
+				});
 
 			}
 			else
@@ -180,7 +179,7 @@ namespace MacGuiClient
 				new Network.Messages.Connection.Request.InitalizeHostConnectionMessage
 				{
 					ClientSystemId = Manager.Manager.SystemId,
-					HostSystemId = this.password,
+					HostSystemId = this.txtUserfield.StringValue,
 					ClientPublicKey = pair.PublicKey
 				}
 			);
@@ -201,6 +200,7 @@ namespace MacGuiClient
 			if (remoteViewController != null)
 			{
 				remoteViewController.setManager(Manager);
+				remoteViewController.SystemId = this.txtUserfield.StringValue;
 			}
 		}
 	}

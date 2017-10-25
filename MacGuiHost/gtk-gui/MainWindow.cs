@@ -37,10 +37,10 @@ public partial class MainWindow
 		// Widget MainWindow
 		this.UIManager = new global::Gtk.UIManager();
 		global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup("Default");
-		this.AppAction = new global::Gtk.Action("AppAction", global::Mono.Unix.Catalog.GetString("&App"), null, null);
+		this.AppAction = new global::Gtk.Action("AppAction", global::Mono.Unix.Catalog.GetString("App"), null, null);
 		this.AppAction.ShortLabel = global::Mono.Unix.Catalog.GetString("&App");
 		w1.Add(this.AppAction, null);
-		this.CloseAction = new global::Gtk.Action("CloseAction", global::Mono.Unix.Catalog.GetString("&Close"), null, null);
+		this.CloseAction = new global::Gtk.Action("CloseAction", global::Mono.Unix.Catalog.GetString("Close"), null, null);
 		this.CloseAction.ShortLabel = global::Mono.Unix.Catalog.GetString("&Close");
 		w1.Add(this.CloseAction, null);
 		this.UIManager.InsertActionGroup(w1, 0);

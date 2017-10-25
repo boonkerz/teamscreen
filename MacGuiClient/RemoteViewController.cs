@@ -16,13 +16,18 @@ namespace MacGuiClient
 		public ClientThread Manager;
 		//System.Drawing.Rectangle Bounds;
 		float Ratio;
-		String SystemId { get; set; }
+		public String SystemId { get; set; }
 		String Password { get; set; }
 
 		protected Common.Config.Manager ConfigManager;
 
 		public RemoteViewController (IntPtr handle) : base (handle)
 		{
+		}
+
+		public override void ViewDidLoad()
+		{
+			base.ViewDidLoad();
 			Manager.ClientListener.OnScreenshotReceived += OnScreenshotReceive;
 
 			Manager.Manager.sendMessage(new RequestScreenshotMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId, Fullscreen = true });

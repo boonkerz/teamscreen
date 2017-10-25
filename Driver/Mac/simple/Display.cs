@@ -2,52 +2,93 @@
 using Network;
 using Network.Messages.Connection;
 using System;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
+using System.Diagnostics;
+
 namespace Driver.Mac.Simple
 {
 	public class Display : BaseDisplay
 	{
 
-		/*Gdk.Window window;
+		System.Drawing.Rectangle bounds;
 
 		public Display()
 		{
-			window = Gdk.Global.DefaultRootWindow;
+			bounds = System.Windows.Forms.Screen.GetBounds(System.Drawing.Point.Empty);
 		}
 
 		public int getScreenHeight()
 		{
-			return window.Screen.Height;
+			return bounds.Height;
 		}
 
 		public int getScreenWidth()
 		{
-			return window.Screen.Width;
+			return bounds.Width;
 		}
 
 		public override void SendScreenshot(Boolean fullscreen)
 		{
-			byte[] image = new byte[] { };
-            
-			if (window != null)
+
+			Image im = OsXCapture(true);
+
+			ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
+			rs.Bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+			rs.Fullscreen = true;
+			rs.HostSystemId = HostManager.SystemId;
+			var msout = new MemoryStream();
+			im.Save(msout, ImageFormat.Png);
+			rs.Image = msout.ToArray();
+			
+			foreach (var ID in ConnectedClients)
 			{
-				Gdk.Pixbuf pixBuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, false, 8,
-									   window.Screen.Width, window.Screen.Height);
-				pixBuf.GetFromDrawable(window, Gdk.Colormap.System, 0, 0, 0, 0,
-									   window.Screen.Width, window.Screen.Height);
+				rs.ClientSystemId = ID;
+				HostManager.sendMessage(rs);
+			}
+		}
 
+		private static Image OsXCapture(bool onlyPrimaryScreen)
+		{
+			var data = ExecuteCaptureProcess(
+				"screencapture",
+				string.Format("{0} -T0 -tpng -S -x", onlyPrimaryScreen ? "-m" : ""));
+			
+			return data;
+		}
 
-				ResponseScreenshotMessage rs = new ResponseScreenshotMessage();
-				rs.Bounds = new System.Drawing.Rectangle(0, 0, this.getScreenWidth(), this.getScreenHeight());
-				rs.Fullscreen = true;
-				rs.HostSystemId = HostManager.SystemId;
-				rs.Image = pixBuf.SaveToBuffer("jpeg");
+		private static Image ExecuteCaptureProcess(string execModule, string parameters)
+		{
+			var imageFileName = Path.Combine(Path.GetTempPath(), string.Format("screenshot_{0}.jpg", Guid.NewGuid()));
 
-				foreach (var ID in ConnectedClients)
-				{
-					rs.ClientSystemId = ID;
-					HostManager.sendMessage(rs);
-				}
-			}*
-		}*/
+			var process = Process.Start(execModule, string.Format("{0} {1}", parameters, imageFileName));
+			if (process == null)
+			{
+				throw new InvalidOperationException(string.Format("Executable of '{0}' was not found", execModule));
+			}
+			process.WaitForExit();
+
+			if (!File.Exists(imageFileName))
+			{
+				throw new InvalidOperationException(string.Format("Failed to capture screenshot using {0}", execModule));
+			}
+
+			Image img = null;
+
+			try
+			{
+				img = Image.FromFile(imageFileName);
+			}
+			catch (Exception e) {
+				throw new InvalidOperationException(e.Message);
+			}
+			finally
+			{
+				File.Delete(imageFileName);
+			}
+
+			return img;
+		}
 	}
 }
