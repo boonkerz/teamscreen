@@ -18,7 +18,7 @@ namespace Driver.BaseDriver
 
 		public Display()
 		{
-			refreshThread = new System.Timers.Timer(6000);
+            refreshThread = new System.Timers.Timer(6000);
 			refreshThread.Elapsed += RefreshThread_Elapsed;
 		}
 
@@ -60,6 +60,17 @@ namespace Driver.BaseDriver
 			refreshThread.Start();
 		}
 
+		public void StopScreenSharing(string clientSystemId)
+		{
 
+			if (this.ConnectedClients.Contains(new ClientListItem(clientSystemId)))
+			{
+				this.ConnectedClients.Remove(new ClientListItem(clientSystemId));
+			}
+
+			if(this.ConnectedClients.Count == 0) {
+				refreshThread.Stop();
+			}
+		}
 	}
 }

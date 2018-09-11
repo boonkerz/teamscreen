@@ -34,6 +34,14 @@ namespace TeamScreenClient
 
 		}
 
+		public override void ViewWillDisappear()
+		{
+			base.ViewWillDisappear();
+			Manager.Events.OnScreenshotReceived -= OnScreenshotReceive;
+
+			Manager.Manager.sendMessage(new StopScreenSharingMessage { SymmetricKey = Manager.Manager.getSymmetricKeyForRemoteId(this.SystemId), HostSystemId = this.SystemId, ClientSystemId = Manager.Manager.SystemId });
+		}
+
 		public void setManager(ClientThread manager)
 		{
 			this.Manager = manager;

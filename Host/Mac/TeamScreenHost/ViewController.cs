@@ -48,7 +48,8 @@ namespace TeamScreenHost
 
 			Manager.Events.onPeerConnected += HostListener_onPeerConnected;
 			Manager.Events.onPeerDisconnected += HostListener_onPeerDisconnected;
-			Manager.Events.OnStartScreenSharing += Events_OnStartScreenSharing;;
+			Manager.Events.OnStartScreenSharing += Events_OnStartScreenSharing;
+			Manager.Events.OnStopScreenSharing += Events_OnStopScreenSharing;;
 			Manager.Start();
 		}
 
@@ -109,6 +110,11 @@ namespace TeamScreenHost
 		void Events_OnStartScreenSharing(object sender, StartScreenSharingEventArgs e)
 		{
 			display.StartScreenSharing(e.ClientSystemId);
+		}
+
+		void Events_OnStopScreenSharing(object sender, StopScreenSharingEventArgs e)
+		{
+			display.StopScreenSharing(e.ClientSystemId);
 		}
 
 

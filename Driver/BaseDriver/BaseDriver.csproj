@@ -3,10 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Interface\" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Messages\Messages.csproj" />
     <ProjectReference Include="..\..\Core\Network\Network.csproj" />

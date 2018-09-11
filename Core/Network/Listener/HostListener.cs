@@ -22,6 +22,7 @@ namespace Network.Listener
         public event EventHandler<ClientCloseEventArgs> OnClientClose;
         public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
 		public event EventHandler<StartScreenSharingEventArgs> OnStartScreenSharing;
+		public event EventHandler<StopScreenSharingEventArgs> OnStopScreenSharing;
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 		public event EventHandler<KeyEventArgs> OnKey;
@@ -58,6 +59,9 @@ namespace Network.Listener
 					break;
 				case (ushort)Messages.Connection.CustomMessageType.StartScreenSharing:
 					handleStartScreenSharing(peer, (Messages.Connection.StartScreenSharingMessage)msg);
+					break;
+				case (ushort)Messages.Connection.CustomMessageType.StopScreenSharing:
+					handleStopScreenSharing(peer, (Messages.Connection.StopScreenSharingMessage)msg);
 					break;
 				case (ushort)Messages.Connection.CustomMessageType.MouseMove:
 					handleMouseMove(peer, (Messages.Connection.OneWay.MouseMoveMessage)msg);
@@ -145,6 +149,13 @@ namespace Network.Listener
 		{
 			if (OnStartScreenSharing != null)
 				OnStartScreenSharing(this, new StartScreenSharingEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
+
+		}
+
+		public void handleStopScreenSharing(NetPeer peer, Messages.Connection.StopScreenSharingMessage message)
+		{
+			if (OnStopScreenSharing != null)
+				OnStopScreenSharing(this, new StopScreenSharingEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
 
 		}
 

@@ -24,20 +24,20 @@ namespace TeamScreen.Broker.ConsoleApp
 
 			Application.Init();
 			var top = Application.Top;
-
-			// Creates the top-level window to show
-			var win = new Window(new Rect(0, 1, top.Frame.Width, top.Frame.Height - 1), "TeamScreen Broker");
-			top.Add(win);
-
+            
 			var menu = new MenuBar(new MenuBarItem[] {
 			new MenuBarItem ("_File", new MenuItem [] {
 				new MenuItem ("_Quit", "", () => { if (Quit ()) top.Running = false; })
 				})
 			});
 
-			win.Add(ml);
+            top.Add(menu);
 
-			Application.Run();
+            var win = new Window(new Rect(0, 1, top.Frame.Width, top.Frame.Height - 1), "TeamScreen Broker");
+            top.Add(win);
+            win.Add(ml);
+
+            Application.Run();
 
         }
 

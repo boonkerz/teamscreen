@@ -64,6 +64,9 @@ namespace Network.Listener
 				case (ushort)Messages.Connection.CustomMessageType.StartScreenSharing:
 					handleStartScreenSharing(peer, (Messages.Connection.StartScreenSharingMessage)msg);
 					break;
+				case (ushort)Messages.Connection.CustomMessageType.StopScreenSharing:
+					handleStopScreenSharing(peer, (Messages.Connection.StopScreenSharingMessage)msg);
+					break;
 				case (ushort)Messages.Connection.CustomMessageType.ResponseScreenshot:
 					handleResponseScreenshot(peer, (Messages.Connection.ResponseScreenshotMessage)msg);
 					break;
@@ -233,6 +236,15 @@ namespace Network.Listener
 		}
 
 		public void handleStartScreenSharing(NetPeer peer, Messages.Connection.StartScreenSharingMessage message)
+		{
+			NetPeer wpeer;
+			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
+			{
+				wpeer.Send(_messageHandler.encodeMessage(message), SendOptions.Unreliable);
+			}
+		}
+
+		public void handleStopScreenSharing(NetPeer peer, Messages.Connection.StopScreenSharingMessage message)
 		{
 			NetPeer wpeer;
 			if (_hostPeers.TryGetValue(message.HostSystemId, out wpeer))
