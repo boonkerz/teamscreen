@@ -22,7 +22,8 @@ namespace Network.Listener
         public event EventHandler<ClientCloseEventArgs> OnClientClose;
         public event EventHandler<ScreenshotRequestEventArgs> OnScreenshotRequest;
 		public event EventHandler<StartScreenSharingEventArgs> OnStartScreenSharing;
-		public event EventHandler<StopScreenSharingEventArgs> OnStopScreenSharing;
+        public event EventHandler<ClientAliveEventArgs> OnClientAlive;
+        public event EventHandler<StopScreenSharingEventArgs> OnStopScreenSharing;
 		public event EventHandler<MouseMoveEventArgs> OnMouseMove;
 		public event EventHandler<MouseClickEventArgs> OnMouseClick;
 		public event EventHandler<KeyEventArgs> OnKey;
@@ -60,7 +61,10 @@ namespace Network.Listener
 				case (ushort)Messages.Connection.CustomMessageType.StartScreenSharing:
 					handleStartScreenSharing(peer, (Messages.Connection.StartScreenSharingMessage)msg);
 					break;
-				case (ushort)Messages.Connection.CustomMessageType.StopScreenSharing:
+                case (ushort)Messages.Connection.CustomMessageType.ClientAlive:
+                    handleClientAlive(peer, (Messages.Connection.ClientAliveMessage)msg);
+                    break;
+                case (ushort)Messages.Connection.CustomMessageType.StopScreenSharing:
 					handleStopScreenSharing(peer, (Messages.Connection.StopScreenSharingMessage)msg);
 					break;
 				case (ushort)Messages.Connection.CustomMessageType.MouseMove:
@@ -152,7 +156,14 @@ namespace Network.Listener
 
 		}
 
-		public void handleStopScreenSharing(NetPeer peer, Messages.Connection.StopScreenSharingMessage message)
+        public void handleClientAlive(NetPeer peer, Messages.Connection.ClientAliveMessage message)
+        {
+            if (OnClientAlive != null)
+                OnClientAlive(this, new ClientAliveEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });
+
+        }
+
+        public void handleStopScreenSharing(NetPeer peer, Messages.Connection.StopScreenSharingMessage message)
 		{
 			if (OnStopScreenSharing != null)
 				OnStopScreenSharing(this, new StopScreenSharingEventArgs() { HostSystemId = message.HostSystemId, ClientSystemId = message.ClientSystemId });

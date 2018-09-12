@@ -23,6 +23,7 @@ namespace Messages.Connection
         ResponseCloseHostConnection,
         DisconnectFromIntroducer,
 		StartScreenSharing,
-		StopScreenSharing
+		StopScreenSharing,
+        ClientAlive
     }
 }

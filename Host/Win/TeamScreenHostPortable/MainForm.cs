@@ -68,9 +68,105 @@ namespace TeamScreenHostPortable
             hostThread.Events.OnStartScreenSharing += Events_OnStartScreenSharing;
             hostThread.Events.OnStopScreenSharing += Events_OnStopScreenSharing;
 
+            hostThread.Events.OnMouseMove += Events_OnMouseMove;
+            hostThread.Events.OnMouseClick += Events_OnMouseClick;
+            hostThread.Events.OnKey += Events_OnKey;
+            hostThread.Events.OnClientAlive += Events_OnClientAlive;
+
             display.SetHostManager(hostThread.Manager);
 
             hostThread.Start();
+        }
+
+        private void Events_OnClientAlive(object sender, ClientAliveEventArgs e)
+        {
+            display.AliveScreenSharing(e.ClientSystemId);
+        }
+
+        private void Events_OnKey(object sender, Messages.EventArgs.Network.KeyEventArgs e)
+        {
+            if (e.Mode == Messages.Connection.OneWay.KeyMessage.KeyMode.Down)
+            {
+                keyboard.Down(e.Key);
+            }
+            else
+            {
+                keyboard.Up(e.Key);
+            }
+        }
+
+        private void Events_OnMouseClick(object sender, MouseClickEventArgs e)
+        {
+            if (e.DoubleClick)
+            {
+                switch (e.Button)
+                {
+                    case MouseClickEventArgs.ButtonType.Left:
+                        mouse.DoubleClickLeft((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Middle:
+                        mouse.DoubleClickMiddle((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Right:
+                        mouse.DoubleClickRight((int)e.X, (int)e.Y);
+                        break;
+                }
+
+                return;
+            }
+            if (e.Down)
+            {
+                switch (e.Button)
+                {
+                    case MouseClickEventArgs.ButtonType.Left:
+                        mouse.ClickDownLeft((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Middle:
+                        mouse.ClickDownMiddle((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Right:
+                        mouse.ClickDownRight((int)e.X, (int)e.Y);
+                        break;
+                }
+
+                return;
+            }
+            if (e.Up)
+            {
+                switch (e.Button)
+                {
+                    case MouseClickEventArgs.ButtonType.Left:
+                        mouse.ClickUpLeft((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Middle:
+                        mouse.ClickUpMiddle((int)e.X, (int)e.Y);
+                        break;
+                    case MouseClickEventArgs.ButtonType.Right:
+                        mouse.ClickUpRight((int)e.X, (int)e.Y);
+                        break;
+                }
+
+                return;
+            }
+
+
+            switch (e.Button)
+            {
+                case MouseClickEventArgs.ButtonType.Left:
+                    mouse.ClickLeft((int)e.X, (int)e.Y);
+                    break;
+                case MouseClickEventArgs.ButtonType.Middle:
+                    mouse.ClickMiddle((int)e.X, (int)e.Y);
+                    break;
+                case MouseClickEventArgs.ButtonType.Right:
+                    mouse.ClickRight((int)e.X, (int)e.Y);
+                    break;
+            }
+        }
+
+        private void Events_OnMouseMove(object sender, MouseMoveEventArgs e)
+        {
+            mouse.Move((int)e.X, (int)e.Y);
         }
 
         private void Events_OnStopScreenSharing(object sender, StopScreenSharingEventArgs e)
@@ -90,7 +186,6 @@ namespace TeamScreenHostPortable
 
         private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            //Display.RemoveAllClients();
             hostThread.Reconnect();
         }
 
@@ -147,6 +242,8 @@ namespace TeamScreenHostPortable
         private void btnSave_Click(object sender, EventArgs e)
         {
             saveSettingsInConfig();
+            hostThread.Manager.SystemId = this.txtSystemId.Text;
+            hostThread.Manager.Password = this.txtPassword.Text;
             hostThread.Reconnect();
         }
     }

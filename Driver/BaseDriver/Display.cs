@@ -18,7 +18,7 @@ namespace Driver.BaseDriver
 
 		public Display()
 		{
-            refreshThread = new System.Timers.Timer(6000);
+            refreshThread = new System.Timers.Timer(2000);
 			refreshThread.Elapsed += RefreshThread_Elapsed;
 		}
 
@@ -72,5 +72,30 @@ namespace Driver.BaseDriver
 				refreshThread.Stop();
 			}
 		}
-	}
+
+        public void AliveScreenSharing(string clientSystemId)
+        {
+
+            if (this.ConnectedClients.Contains(new ClientListItem(clientSystemId)))
+            {
+                this.ConnectedClients.Remove(new ClientListItem(clientSystemId));
+                this.ConnectedClients.Add(new ClientListItem(clientSystemId));
+            }
+
+        }
+
+        public void CleanUp()
+        {
+            TimeSpan span;
+            foreach (var ID in ConnectedClients)
+            {
+                span = ID.LastSeen.Subtract(DateTime.Now);
+
+                if (span.TotalSeconds > 40)
+                {
+                    ConnectedClients.Remove(ID);
+                }
+            }
+        }
+    }
 }
