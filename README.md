@@ -4,6 +4,13 @@ It should be an Teamviewer/Vnc/Something replacement
 
 Communication is secured by private/public and symmetric encryption
 
+## ToDo
+- Installer
+- Windows Service Host
+- better Screencapture (capture only what is changed)
+- FileManager
+- Gui (looks ugly right now)
+
 ## Connection Flow
 
 Host and Client are connected to the Introducer
