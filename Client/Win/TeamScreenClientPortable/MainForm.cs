@@ -15,7 +15,13 @@ namespace TeamScreenClientPortable
     public partial class MainForm : Form
     {
 
-        public ClientThread clientThread { get { return Network.Instance.Client.Instance.Thread; } }        protected Utils.Config.Manager ConfigManager;        protected System.Timers.Timer connectionStatus;        System.Timers.Timer onlineCheckTimer;
+        public ClientThread clientThread { get { return Network.Instance.Client.Instance.Thread; } }
+
+        protected Utils.Config.Manager ConfigManager;
+
+        protected System.Timers.Timer connectionStatus;
+
+        System.Timers.Timer onlineCheckTimer;
 
         public delegate void ShowFormCallback(String systemId);
 
@@ -31,7 +37,10 @@ namespace TeamScreenClientPortable
 
             clientThread.Events.OnHostInitalizeConnected += Events_OnHostInitalizeConnected;
             clientThread.Events.OnClientConnected += ClientListener_OnClientConnected;
-            clientThread.Events.onNetworkError += ClientListener_onNetworkError;            clientThread.Events.onPeerConnected += ClientListener_onPeerConnected;            clientThread.Events.onPeerDisconnected += ClientListener_onPeerDisconnected;            //clientThread.Events.OnOnlineCheckReceived += ClientListener_OnOnlineCheckReceived;
+            clientThread.Events.onNetworkError += ClientListener_onNetworkError;
+            clientThread.Events.onPeerConnected += ClientListener_onPeerConnected;
+            clientThread.Events.onPeerDisconnected += ClientListener_onPeerDisconnected;
+            //clientThread.Events.OnOnlineCheckReceived += ClientListener_OnOnlineCheckReceived;
 
             this.txtServer.Text = ConfigManager.ClientConfig.ServerName;
             this.txtServerPort.Text = ConfigManager.ClientConfig.ServerPort.ToString();
@@ -50,7 +59,24 @@ namespace TeamScreenClientPortable
             clientThread.Manager.sendMessage(ms);
         }
 
-        private void ClientListener_onPeerDisconnected(object sender, EventArgs e)        {            this.lblStatus.Text = "Broker Disconnected";            connectionStatus.Start();        }        private void ClientListener_onPeerConnected(object sender, EventArgs e)        {            this.lblStatus.Text = "Broker Connected";            connectionStatus.Stop();            //onlineCheckTimer.Start();        }        private void ClientListener_onNetworkError(object sender, EventArgs e)        {            this.lblStatus.Text = "Network Error";            connectionStatus.Start();        }
+        private void ClientListener_onPeerDisconnected(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Broker Disconnected";
+            connectionStatus.Start();
+        }
+
+        private void ClientListener_onPeerConnected(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Broker Connected";
+            connectionStatus.Stop();
+            //onlineCheckTimer.Start();
+        }
+
+        private void ClientListener_onNetworkError(object sender, EventArgs e)
+        {
+            this.lblStatus.Text = "Network Error";
+            connectionStatus.Start();
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -72,16 +98,46 @@ namespace TeamScreenClientPortable
             );
         }
 
-        private void openForm(String systemId)        {            RemoteForm rm = new RemoteForm(systemId, this.txtPassword.Text);            rm.Name = "Host: " + systemId;            rm.setThread(clientThread);            rm.Show();            rm.Start();        }
+        private void openForm(String systemId)
+        {
+            RemoteForm rm = new RemoteForm(systemId, this.txtPassword.Text);
+            rm.Name = "Host: " + systemId;
+            rm.setThread(clientThread);
+            rm.Show();
+            rm.Start();
+        }
 
-        private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)        {            clientThread.Reconnect();        }
+        private void Connection_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            clientThread.Reconnect();
+        }
 
-        private void ClientListener_OnClientConnected(object sender, ClientConnectedEventArgs e)        {            if (e.PasswordOk)            {
+        private void ClientListener_OnClientConnected(object sender, ClientConnectedEventArgs e)
+        {
+            if (e.PasswordOk)
+            {
 
-                if (this.InvokeRequired)                {                    ShowFormCallback d = new ShowFormCallback(openForm);                    this.Invoke(d, new object[] { e.SystemId });                }                else                {                    RemoteForm rm = new RemoteForm(e.SystemId, this.txtPassword.Text);                    rm.Name = "Host: " + e.SystemId;                    rm.setThread(clientThread);                    rm.Show();                    rm.Start();                }
+                if (this.InvokeRequired)
+                {
+                    ShowFormCallback d = new ShowFormCallback(openForm);
+                    this.Invoke(d, new object[] { e.SystemId });
+                }
+                else
+                {
+                    RemoteForm rm = new RemoteForm(e.SystemId, this.txtPassword.Text);
+                    rm.Name = "Host: " + e.SystemId;
+                    rm.setThread(clientThread);
+                    rm.Show();
+                    rm.Start();
+                }
 
                 this.lblStatus.Text = "Passwort Ok Verbunden mit: " + e.SystemId;
 
-            }            else            {                this.lblStatus.Text = "Passwort Falsch Verbindung abgebrochen von: " + e.SystemId;            }        }
+            }
+            else
+            {
+                this.lblStatus.Text = "Passwort Falsch Verbindung abgebrochen von: " + e.SystemId;
+            }
+        }
     }
 }

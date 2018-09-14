@@ -25,11 +25,19 @@ namespace TeamScreenHostConsole
                     p.OnStart();
                     argss.Response = "1";
                 }
-                if (argss.Request == "serviceStatus")
+                if (argss.Request == "getServiceStatus")
                 {
                     TeamScreenCommon.IPC.Status status = new TeamScreenCommon.IPC.Status();
                     status.ServiceRunning = p.IsRunning();
                     argss.Response = JsonConvert.SerializeObject(status);
+                }
+                if (argss.Request == "getHostConfig")
+                {
+                    argss.Response = JsonConvert.SerializeObject(p.hostThread.ConfigManager.HostConfig);
+                }
+                if (argss.Request == "restartService")
+                {
+                    p.hostThread.Reconnect();
                 }
                 if (argss.Request == "serviceStop")
                 {

@@ -19,27 +19,14 @@ namespace TeamScreenHostConsole
         protected Driver.Win.Keyboard keyboard = new Driver.Win.Keyboard();
         protected Driver.Win.Display display = new Driver.Win.Display();
 
-        
-        private StreamWriter f = new StreamWriter(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\service.txt", true);
-
         protected System.Timers.Timer connectionStatus;
 
         public void OnStart()
         {
-            f.AutoFlush = true;
-            f.WriteLine("Start");
-            
-
-            f.WriteLine("Screen");
-
-
             connectionStatus = new System.Timers.Timer(1000);
           //  connectionStatus.Elapsed += Connection_Elapsed;
 
             ConfigManager = new Utils.Config.Manager();
-
-            f.WriteLine("Server" + ConfigManager.HostConfig.ServerName);
-            f.WriteLine("Configpath" + ConfigManager.ConfigPath);
 
             hostThread.Events.OnConnected += new EventHandler<ConnectedEventArgs>(Network_OnConnected);
 
@@ -56,17 +43,6 @@ namespace TeamScreenHostConsole
                 hostThread.Manager.sendMessage(rs);
             };
 
-            hostThread.Events.OnClientConnected += (object sender, ClientConnectedEventArgs e) =>
-            {
-                if (e.PasswordOk)
-                {
-                    f.WriteLine("Passwort Ok Verbunden mit: " + e.SystemId);
-                }
-                else
-                {
-                    f.WriteLine("Passwort Falsch Verbindung abgebrochen von: " + e.SystemId);
-                }
-            };
             hostThread.Events.OnMouseMove += (object sender, MouseMoveEventArgs e) =>
             {
                 mouse.Move((int)e.X, (int)e.Y);
@@ -160,8 +136,14 @@ namespace TeamScreenHostConsole
 
             hostThread.Events.OnStartScreenSharing += Events_OnStartScreenSharing;
             hostThread.Events.OnStopScreenSharing += Events_OnStopScreenSharing;
+            hostThread.Events.OnClientAlive += Events_OnClientAlive;
 
             hostThread.Start();
+        }
+
+        private void Events_OnClientAlive(object sender, ClientAliveEventArgs e)
+        {
+            display.AliveScreenSharing(e.ClientSystemId);
         }
 
         private void Events_OnStopScreenSharing(object sender, StopScreenSharingEventArgs e)
@@ -188,25 +170,22 @@ namespace TeamScreenHostConsole
        
         private void HostListener_onNetworkError(object sender, EventArgs e)
         {
-            f.WriteLine("Network Error");
             connectionStatus.Start();
         }
 
         private void HostListener_onPeerDisconnected(object sender, EventArgs e)
         {
-            f.WriteLine("Introducer Disconnected");
             connectionStatus.Start();
         }
 
         private void HostListener_onPeerConnected(object sender, EventArgs e)
         {
-            f.WriteLine("Introducer Connected");
             connectionStatus.Stop();
         }
 
         void Network_OnConnected(object sender, ConnectedEventArgs e)
         {
-            f.WriteLine("SystemId: " + e.SystemId + " Password:" + hostThread.Manager.Password);
+            
         }
     }
 }

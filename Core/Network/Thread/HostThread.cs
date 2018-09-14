@@ -83,16 +83,8 @@ namespace Network.Thread
 
         public void Reconnect()
         {
-            Manager.Connect(ConfigManager.HostConfig.ServerName, ConfigManager.HostConfig.ServerPort);
-
-            if (ConfigManager.HostConfig.SystemId == "")
-            {
-                Manager.sendMessage(new RequestHostIntroducerRegistrationMessage());
-            }
-            else
-            {
-                Manager.sendMessage(new RequestHostIntroducerRegistrationMessage { SystemId = ConfigManager.HostConfig.SystemId });
-            }
+            Stop();
+            Start();
         }
     }
 }

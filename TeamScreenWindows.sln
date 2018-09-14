@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamScreenService", "Host\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamScreenCommon", "Host\Win\TeamScreenCommon\TeamScreenCommon.csproj", "{16164AA5-3C25-42A1-A52B-E42FFF18B020}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamScreenHostNotify", "Host\Win\TeamScreenHostNotify\TeamScreenHostNotify.csproj", "{FC21411E-7F13-4A99-895A-341350FC5149}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,10 @@ Global
 		{16164AA5-3C25-42A1-A52B-E42FFF18B020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16164AA5-3C25-42A1-A52B-E42FFF18B020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16164AA5-3C25-42A1-A52B-E42FFF18B020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC21411E-7F13-4A99-895A-341350FC5149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC21411E-7F13-4A99-895A-341350FC5149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC21411E-7F13-4A99-895A-341350FC5149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC21411E-7F13-4A99-895A-341350FC5149}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,7 @@ Global
 		{48AA105B-B77C-4189-B527-80FEF86C04F4} = {089909B6-40DF-4186-B3FF-354F6B7FAFEF}
 		{672BEFE4-2BC7-4EB7-B85D-7D8CEFE27B7B} = {089909B6-40DF-4186-B3FF-354F6B7FAFEF}
 		{16164AA5-3C25-42A1-A52B-E42FFF18B020} = {089909B6-40DF-4186-B3FF-354F6B7FAFEF}
+		{FC21411E-7F13-4A99-895A-341350FC5149} = {089909B6-40DF-4186-B3FF-354F6B7FAFEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CED699A7-C41E-4227-8EA4-8869F8A64769}

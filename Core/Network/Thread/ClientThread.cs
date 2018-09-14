@@ -33,8 +33,8 @@ namespace Network.Thread
 
         public void Reconnect()
         {
+            ConfigManager.Reload();
             Manager.Connect(ConfigManager.ClientConfig.ServerName, ConfigManager.ClientConfig.ServerPort);
-
             Manager.sendMessage(new RequestClientIntroducerRegistrationMessage());
         }
 
