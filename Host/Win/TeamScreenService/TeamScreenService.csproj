@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{672BEFE4-2BC7-4EB7-B85D-7D8CEFE27B7B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TeamScreenClient</RootNamespace>
-    <AssemblyName>TeamScreenClient</AssemblyName>
+    <RootNamespace>TeamScreenService</RootNamespace>
+    <AssemblyName>TeamScreenService</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,33 +52,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="TeamScreen.cs">
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TeamScreen.Designer.cs">
-      <DependentUpon>TeamScreen.cs</DependentUpon>
+    <Compile Include="Service1.Designer.cs">
+      <DependentUpon>Service1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Toolkit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TeamScreen.resx">
-      <DependentUpon>TeamScreen.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Messages\Messages.csproj">
@@ -101,6 +93,14 @@
       <Project>{56a9740a-92ae-47fb-b915-b2bc64d2cce8}</Project>
       <Name>Win</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service1.resx">
+      <DependentUpon>Service1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

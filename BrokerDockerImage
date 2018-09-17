@@ -1,0 +1,19 @@
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
+COPY Broker /app/Broker
+COPY packages /app/packages
+COPY Core /app/Core
+
+
+RUN dotnet restore Broker/ConsoleApp
+RUN dotnet publish -c Release -o out Broker/ConsoleApp
+
+
+# Build runtime image
+FROM microsoft/dotnet:runtime
+WORKDIR /app
+COPY --from=build-env /app/Broker/ConsoleApp/out .
+
+ENTRYPOINT ["dotnet", "ConsoleApp.dll"]
+
+EXPOSE 9050

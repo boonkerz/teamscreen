@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace TeamScreenService
 {
-    public partial class TeamScreen : ServiceBase
+    partial class Service1 : ServiceBase
     {
-        public TeamScreen()
+        public Service1()
         {
             InitializeComponent();
         }

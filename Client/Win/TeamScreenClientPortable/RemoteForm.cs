@@ -31,6 +31,8 @@ namespace TeamScreenClientPortable
         delegate void setTransferedCallback(String text);
         delegate void CloseRemoteWindowCallback();
 
+        System.Timers.Timer onlineCheckTimer;
+
         public RemoteForm(String remoteId, String password)
         {
             this.SystemId = remoteId;
@@ -38,6 +40,14 @@ namespace TeamScreenClientPortable
 
             InitializeComponent();
             ConfigManager = new Utils.Config.Manager();
+
+            onlineCheckTimer = new System.Timers.Timer(5000);
+            onlineCheckTimer.Elapsed += OnlineCheckTimer_Elapsed; ;
+        }
+
+        private void OnlineCheckTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            clientThread.Manager.sendMessage(new ClientAliveMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), HostSystemId = this.SystemId, ClientSystemId = clientThread.Manager.SystemId });
         }
 
         public void setThread(ClientThread clientThread)
@@ -52,7 +62,7 @@ namespace TeamScreenClientPortable
             //clientThread.Events.OnReceive += ClientListener_OnReceive;
 
             clientThread.Manager.sendMessage(new StartScreenSharingMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), HostSystemId = this.SystemId, ClientSystemId = clientThread.Manager.SystemId });
-
+            onlineCheckTimer.Start();
         }
 
         private void Events_OnScreenshotReceived(object sender, Messages.EventArgs.Network.ScreenshotReceivedEventArgs e)
@@ -135,32 +145,71 @@ namespace TeamScreenClientPortable
 
         private void RemoteForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            onlineCheckTimer.Stop();
             clientThread.Manager.sendMessage(new StopScreenSharingMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), HostSystemId = this.SystemId, ClientSystemId = clientThread.Manager.SystemId });
-        }
-
-        private void drawingArea1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void drawingArea1_DoubleClick(object sender, EventArgs e)
-        {
-
         }
 
         private void drawingArea1_MouseDown(object sender, MouseEventArgs e)
         {
-
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Down = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+                case MouseButtons.Middle:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Down = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+                case MouseButtons.Right:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Down = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+            }
         }
 
         private void drawingArea1_MouseUp(object sender, MouseEventArgs e)
         {
-
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Up = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+                case MouseButtons.Middle:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Up = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+                case MouseButtons.Right:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Up = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+            }
         }
 
         private void drawingArea1_MouseMove(object sender, MouseEventArgs e)
         {
+            clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseMoveMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (e.X / Ratio), Y = (e.Y / Ratio) });
+        }
 
+        private void drawingArea1_KeyUp(object sender, KeyEventArgs e)
+        {
+            clientThread.Manager.sendMessage(new Messages.Connection.OneWay.KeyMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Key = (uint)e.KeyValue, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, Alt = e.Alt, Control = e.Control, Shift = e.Shift, Mode = Messages.Connection.OneWay.KeyMessage.KeyMode.Up });
+        }
+
+        private void drawingArea1_KeyDown(object sender, KeyEventArgs e)
+        {
+            clientThread.Manager.sendMessage(new Messages.Connection.OneWay.KeyMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Key = (uint)e.KeyValue, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, Alt = e.Alt, Control = e.Control, Shift = e.Shift, Mode = Messages.Connection.OneWay.KeyMessage.KeyMode.Down });
+        }
+
+        private void drawingArea1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), DoubleClick = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Left, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+                case MouseButtons.Middle:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), DoubleClick = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Middle, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+                case MouseButtons.Right:
+                    clientThread.Manager.sendMessage(new Messages.Connection.OneWay.MouseClickMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), DoubleClick = true, Button = Messages.Connection.OneWay.MouseClickMessage.ButtonType.Right, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, X = (int)(e.X / Ratio), Y = (int)(e.Y / Ratio) });
+                    break;
+            }
         }
     }
 }

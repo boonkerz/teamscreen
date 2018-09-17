@@ -8,8 +8,4 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Network\Network.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Terminal.Gui" Version="0.16.0" />
-    </ItemGroup>
 </Project>

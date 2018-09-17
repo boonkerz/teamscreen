@@ -17,7 +17,7 @@ namespace TeamScreenService
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new TeamScreen()
+                new Service1()
             };
             ServiceBase.Run(ServicesToRun);
         }

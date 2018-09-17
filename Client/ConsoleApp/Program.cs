@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using Network.Thread;
 
 namespace ConsoleApp
@@ -28,6 +28,7 @@ namespace ConsoleApp
                         break;
                     }
                 }
+                System.Threading.Thread.Sleep(10);
             }
         }
     }

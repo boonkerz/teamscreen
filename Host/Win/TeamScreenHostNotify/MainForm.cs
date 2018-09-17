@@ -38,9 +38,9 @@ namespace TeamScreenHostNotify
             foreach (ServiceController AvailableService in AvailableServices)
             {
                 //Check the service name for IIS.
-                if (AvailableService.ServiceName == "TeamScreen")
+                if (AvailableService.ServiceName == "TeamScreen Host")
                 {
-                    WSController.ServiceName = "TeamScreen";
+                    WSController.ServiceName = "TeamScreen Host";
                     ShowStatus();
                     return;
                 }

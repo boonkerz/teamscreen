@@ -1,6 +1,6 @@
 ﻿namespace TeamScreenService
 {
-    partial class TeamScreen
+    partial class Service1
     {
         /// <summary> 
         /// Erforderliche Designervariable.
@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.projectInstaller1 = new TeamScreenService.ProjectInstaller();
             // 
-            // TeamScreen
+            // Service1
             // 
-            this.ServiceName = "TeamScreen";
+            this.ServiceName = "TeamScreen Host";
 
         }
 
         #endregion
+
+        private ProjectInstaller projectInstaller1;
     }
 }
