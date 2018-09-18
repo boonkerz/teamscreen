@@ -5,11 +5,16 @@ It should be an Teamviewer/Vnc/Something replacement
 Communication is secured by private/public and symmetric encryption
 
 ## ToDo
-- Installer
+- ~~Installer~~
 - ~~Windows Service Host~~
 - better Screencapture (capture only what is changed)
 - FileManager
 - Gui (looks ugly right now)
+
+## Broker
+unzip broker.zip
+cd into folder
+and run "dotnet ConsoleApp.dll"
 
 ## Connection Flow
 
