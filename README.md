@@ -6,7 +6,7 @@ Communication is secured by private/public and symmetric encryption
 
 ## ToDo
 - Installer
-- Windows Service Host
+- ~~Windows Service Host~~
 - better Screencapture (capture only what is changed)
 - FileManager
 - Gui (looks ugly right now)

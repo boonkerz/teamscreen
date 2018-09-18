@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZetaIpc.Runtime.Client;
@@ -87,6 +88,10 @@ namespace TeamScreenHostNotify
             ConfigManager.saveHostConfig();
 
             c.Send("restartService");
+
+            Thread.Sleep(300);
+
+            ShowStatus();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

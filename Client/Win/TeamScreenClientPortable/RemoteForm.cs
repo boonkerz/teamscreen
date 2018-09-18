@@ -104,8 +104,7 @@ namespace TeamScreenClientPortable
                     {
                         drawImage(image, e.Bounds);
                     }
-
-
+                    
                 }
             }
         }
