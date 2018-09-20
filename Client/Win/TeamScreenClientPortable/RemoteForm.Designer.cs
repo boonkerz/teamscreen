@@ -30,6 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.drawingArea1 = new TeamScreenClientPortable.Controls.DrawingArea();
+            this.btnCtrlAltDel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -59,11 +60,22 @@
             this.drawingArea1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseMove);
             this.drawingArea1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.drawingArea1_MouseUp);
             // 
+            // btnCtrlAltDel
+            // 
+            this.btnCtrlAltDel.Location = new System.Drawing.Point(599, 12);
+            this.btnCtrlAltDel.Name = "btnCtrlAltDel";
+            this.btnCtrlAltDel.Size = new System.Drawing.Size(105, 23);
+            this.btnCtrlAltDel.TabIndex = 2;
+            this.btnCtrlAltDel.Text = "CTRL+ALT+DEL";
+            this.btnCtrlAltDel.UseVisualStyleBackColor = true;
+            this.btnCtrlAltDel.Click += new System.EventHandler(this.btnCtrlAltDel_Click);
+            // 
             // RemoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 533);
+            this.Controls.Add(this.btnCtrlAltDel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.drawingArea1);
             this.Name = "RemoteForm";
@@ -77,5 +89,6 @@
 
         private Controls.DrawingArea drawingArea1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnCtrlAltDel;
     }
 }

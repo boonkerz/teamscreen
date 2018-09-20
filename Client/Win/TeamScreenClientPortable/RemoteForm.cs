@@ -210,5 +210,11 @@ namespace TeamScreenClientPortable
                     break;
             }
         }
+
+        private void btnCtrlAltDel_Click(object sender, EventArgs e)
+        {
+            clientThread.Manager.sendMessage(new Messages.Connection.OneWay.KeyMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Key = (uint)46, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, Alt = true, Control = true, Shift = false, Mode = Messages.Connection.OneWay.KeyMessage.KeyMode.Down });
+            clientThread.Manager.sendMessage(new Messages.Connection.OneWay.KeyMessage { SymmetricKey = clientThread.Manager.getSymmetricKeyForRemoteId(this.SystemId), Key = (uint)46, ClientSystemId = clientThread.Manager.SystemId, HostSystemId = this.SystemId, Alt = true, Control = true, Shift = false, Mode = Messages.Connection.OneWay.KeyMessage.KeyMode.Up });
+        }
     }
 }

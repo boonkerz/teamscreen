@@ -1,4 +1,6 @@
-﻿using Messages.EventArgs.Network;
+﻿using Messages.Connection.OneWay;
+using Messages.Connection.Request;
+using Messages.EventArgs.Network;
 using Network.Thread;
 using System;
 using System.Collections.Generic;
@@ -138,6 +140,11 @@ namespace TeamScreenClientPortable
             {
                 this.lblStatus.Text = "Passwort Falsch Verbindung abgebrochen von: " + e.SystemId;
             }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            clientThread.Manager.sendMessage(new DisconnectFromIntroducerMessage() { SystemId = clientThread.Manager.SystemId});
         }
     }
 }

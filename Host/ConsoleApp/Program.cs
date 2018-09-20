@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteNetLib;
 using Network.Thread;
 
 namespace ConsoleApp
@@ -6,16 +7,16 @@ namespace ConsoleApp
     class Program
     {
         
-        public static HostThread Manager { get { return Network.Instance.Host.Instance.Thread; } }
+        public static HostThread thread { get { return Network.Instance.Host.Instance.Thread; } }
         
         static void Main(string[] args)
         {
-            Manager.Events.onPeerConnected += delegate(object sender, EventArgs eventArgs)
+            thread.Events.onPeerConnected += delegate(object sender, EventArgs eventArgs)
             {
-                Console.WriteLine("Host Connected");
+                Console.WriteLine("Host Connected: " + thread.Manager.SystemId + " Password: " + thread.Manager.Password);
             };
-            
-            Manager.Start();
+
+            thread.Start();
             
             Console.WriteLine("Host started ...");
 
